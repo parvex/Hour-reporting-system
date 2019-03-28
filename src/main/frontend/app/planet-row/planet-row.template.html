@@ -1,0 +1,40 @@
+<tbody>
+  <tr>
+    <td>{{ index }}</td>
+    <td>
+      <input
+        name="planetName"
+        ng-show="editMode"
+        type="text"
+        ng-model="name"
+        required
+        minlength="3"
+      />
+      <span ng-show="!editMode">{{ name }}</span>
+    </td>
+    <td>
+      <input
+        name="planetRadius"
+        ng-show="editMode"
+        type="number"
+        ng-model="radius"
+        min="1000"
+        required
+        ng-change="plrCtrl.radiusUpdated()"
+      />
+      <span ng-show="!editMode">{{ radius }}</span>
+    </td>
+    <td>
+      <input
+        ng-model="postalCode"
+        postal-code-input
+        name="postalCode"
+        ng-show="editMode"
+        type="text"
+        required
+      />
+      <span ng-show="!editMode">{{ postalCode }}</span>
+    </td>
+    <td><button ng-show="editMode" ng-click="remove()">Delete</button></td>
+  </tr>
+</tbody>

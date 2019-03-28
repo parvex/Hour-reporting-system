@@ -73,7 +73,7 @@
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <configuration>
-                            <nodeVersion>v7.10.0</nodeVersion>
+                            <nodeVersion>v10.15.2</nodeVersion>
                         </configuration>
                     </execution>
 
@@ -88,15 +88,28 @@
                     </execution>
 
                     <execution>
-                        <id>gulp</id>
+                        <id>bower install</id>
+                        <goals>
+                            <goal>bower</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>gulp build</id>
                         <goals>
                             <goal>gulp</goal>
                         </goals>
                         <configuration>
-                            <arguments>default --envName ${environment.name}</arguments>
+                            <arguments>build</arguments>
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <workingDirectory>src/main/frontend</workingDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
