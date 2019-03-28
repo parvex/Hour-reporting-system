@@ -1,1 +1,1 @@
-angular.module("planetRow", ["postalCode"]);
+angular.module("planetRow", []);

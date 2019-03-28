@@ -4,8 +4,10 @@ const plugins = require("gulp-load-plugins")();
 const { paths } = require("./config");
 
 function clean(path) {
-  return function() {
-    return src(path, { read: false, allowEmpty: true }).pipe(plugins.clean());
+  return function clean() {
+    return src(path, { read: false, allowEmpty: true }).pipe(
+      plugins.clean({ force: true })
+    );
   };
 }
 

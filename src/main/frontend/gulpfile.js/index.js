@@ -6,3 +6,5 @@ const { serve } = require("./serve");
 exports.build = series(cleanProd, buildProd);
 exports.buildDev = series(cleanDev, buildDev);
 exports.serve = serve;
+
+//TODO: fix serve

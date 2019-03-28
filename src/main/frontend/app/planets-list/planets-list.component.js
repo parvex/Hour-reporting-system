@@ -9,9 +9,9 @@ angular
     var plCtrl = this;
 
     plCtrl.planets = [
-      { name: "Earth", radius: 6371, postalCode: "62-200" },
-      { name: "Mars", radius: 3390, postalCode: "00-950" },
-      { name: "Wenus", radius: 6052, postalCode: "00-001" }
+      { name: "Earth", radius: 6371 },
+      { name: "Mars", radius: 3390 },
+      { name: "Wenus", radius: 6052 }
     ];
 
     plCtrl.addPlanet = function() {

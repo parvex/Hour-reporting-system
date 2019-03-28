@@ -10,8 +10,11 @@ function buildVendorScriptsDev() {
 }
 
 function buildVendorScriptsProd() {
+  const scriptFilter = plugins.filter("**/*.js");
+
   return src(paths.bowerJson)
     .pipe(plugins.mainBowerFiles())
+    .pipe(scriptFilter)
     .pipe(plugins.concat("vendors.min.js"))
     .pipe(plugins.terser().on("error", errorHandler("Terser")))
     .pipe(plugins.rev())

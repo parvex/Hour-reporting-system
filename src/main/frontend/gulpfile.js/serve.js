@@ -1,23 +1,28 @@
-const { src, watch, series } = require("gulp");
-const plugins = require("gulp-load-plugins")();
+const { watch, series } = require("gulp");
+const browserSync = require("browser-sync").create();
 
 const { paths } = require("./config");
 const { buildDev } = require("./build");
 
 function watchSrc() {
-  watch(paths.app, buildDev);
+  watch(
+    paths.app,
+    { ignoreInitial: false },
+    series(buildDev, function(done) {
+      browserSync.reload();
+      done();
+    })
+  );
 }
 
 function serve() {
-  watchSrc();
+  browserSync.init({
+    server: {
+      baseDir: paths.tmp
+    }
+  });
 
-  return src(paths.tmp).pipe(
-    plugins.webserver({
-      port: 3000,
-      livereload: true,
-      open: true
-    })
-  );
+  watchSrc();
 }
 
 exports.serve = serve;

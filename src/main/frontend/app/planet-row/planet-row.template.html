@@ -24,17 +24,6 @@
       />
       <span ng-show="!editMode">{{ radius }}</span>
     </td>
-    <td>
-      <input
-        ng-model="postalCode"
-        postal-code-input
-        name="postalCode"
-        ng-show="editMode"
-        type="text"
-        required
-      />
-      <span ng-show="!editMode">{{ postalCode }}</span>
-    </td>
     <td><button ng-show="editMode" ng-click="remove()">Delete</button></td>
   </tr>
 </tbody>

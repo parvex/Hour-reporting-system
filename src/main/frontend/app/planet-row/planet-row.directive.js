@@ -8,7 +8,6 @@ angular
         index: "=",
         name: "=",
         radius: "=",
-        postalCode: "=",
         remove: "&",
         editMode: "="
       },
