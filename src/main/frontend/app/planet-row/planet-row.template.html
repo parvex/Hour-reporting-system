@@ -1,29 +1,27 @@
-<tbody>
-  <tr>
-    <td>{{ index }}</td>
-    <td>
-      <input
-        name="planetName"
-        ng-show="editMode"
-        type="text"
-        ng-model="name"
-        required
-        minlength="3"
-      />
-      <span ng-show="!editMode">{{ name }}</span>
-    </td>
-    <td>
-      <input
-        name="planetRadius"
-        ng-show="editMode"
-        type="number"
-        ng-model="radius"
-        min="1000"
-        required
-        ng-change="plrCtrl.radiusUpdated()"
-      />
-      <span ng-show="!editMode">{{ radius }}</span>
-    </td>
-    <td><button ng-show="editMode" ng-click="remove()">Delete</button></td>
-  </tr>
-</tbody>
+<tr>
+  <td>{{ index }}</td>
+  <td>
+    <input
+      name="planetName"
+      ng-show="editMode"
+      type="text"
+      ng-model="name"
+      required
+      minlength="3"
+    />
+    <span ng-show="!editMode">{{ name }}</span>
+  </td>
+  <td>
+    <input
+      name="planetRadius"
+      ng-show="editMode"
+      type="number"
+      ng-model="radius"
+      min="1000"
+      required
+      ng-change="plrCtrl.radiusUpdated()"
+    />
+    <span ng-show="!editMode">{{ radius }}</span>
+  </td>
+  <td><button ng-show="editMode" ng-click="remove()">Delete</button></td>
+</tr>

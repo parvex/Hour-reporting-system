@@ -17,12 +17,13 @@ function validateScripts() {
 
 function buildScripsDev() {
   return validateScripts()
+    .pipe(plugins.ngAnnotate())
     .pipe(plugins.angularFilesort())
     .pipe(dest(paths.tmp));
 }
 
 function buildScripsProd() {
-  const appScripts = validateScripts();
+  const appScripts = validateScripts().pipe(plugins.ngAnnotate());
   const partialScript = buildPartialsToScript();
 
   return merge(appScripts, partialScript)
