@@ -3,6 +3,7 @@ const browserSync = require("browser-sync").create();
 
 const { paths } = require("./config");
 const { buildDev } = require("./build");
+const proxyMiddleware = require("http-proxy-middleware");
 
 function watchSrc() {
   watch(
@@ -15,14 +16,19 @@ function watchSrc() {
   );
 }
 
-function serve() {
+function serve(done) {
   browserSync.init({
     server: {
-      baseDir: paths.tmp
+      baseDir: paths.tmp,
+      middleware: proxyMiddleware("/api", {
+        target: "http://localhost:8080",
+        changeOrigin: true
+      })
     }
   });
 
   watchSrc();
+  done();
 }
 
 exports.serve = serve;
