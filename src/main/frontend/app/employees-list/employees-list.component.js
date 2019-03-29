@@ -5,6 +5,6 @@ angular
     controller: "EmployeesListCtrl",
     controllerAs: "elCtrl"
   })
-  .controller("EmployeesListCtrl", function() {
+  .controller("EmployeesListCtrl", function($scope, EmployeesService) {
     const elCtrl = this;
   });

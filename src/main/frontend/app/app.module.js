@@ -1,5 +1,5 @@
 angular
-  .module("reportingApp", ["ui.bootstrap", "ui.router"])
+  .module("reportingApp", ["ui.bootstrap", "ui.router", "ngTable"])
   .config(function($stateProvider) {
     $stateProvider
       .state({

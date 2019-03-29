@@ -5,7 +5,7 @@ angular
     controller: "EmployeeDetailsCtrl",
     controllerAs: "edCtrl"
   })
-  .controller("EmployeeDetailsCtrl", function($state) {
+  .controller("EmployeeDetailsCtrl", function($scope, $state) {
     const edCtrl = this;
     console.log("employeeId", $state.params.employeeId);
   });
