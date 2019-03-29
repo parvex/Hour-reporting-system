@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="planetsApp">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>Planets App</title>
@@ -9,8 +9,10 @@
     <!-- inject:css -->
     <!-- endinject -->
   </head>
-  <body>
-    <planets-list></planets-list>
+  <body ng-app="reportingApp">
+    <a ui-sref="employees" ui-sref-active="active">About</a>
+
+    <ui-view></ui-view>
 
     <!-- bower:js -->
     <!-- endinject -->
