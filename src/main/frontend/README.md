@@ -1,4 +1,4 @@
-## Project setup
+### Project setup :wrench:
 
 Project requires [Node.js](https://nodejs.org/) v10.15.2 and npm 6.9.0 to run.
 
@@ -9,7 +9,7 @@ $ npm install gulp -g
 $ bower install
 ```
 
-## Gulp tasks
+### Gulp tasks :arrow_forward:
 
 1. Build minified and concatenated production files.
    `$ gulp build`
