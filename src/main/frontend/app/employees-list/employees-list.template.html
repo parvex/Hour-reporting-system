@@ -1,1 +1,30 @@
-<h2>employees list</h2>
+<section>
+  <div>
+    <button>Add Employee</button>
+  </div>
+  <ng-form name="elCtrl.employeesSearchForm">
+    <input type="text" name="name" placeholder="name" />
+    <input type="text" name="surname" placeholder="surname" />
+    <input type="email" name="email" placeholder="email" />
+  </ng-form>
+  <table>
+    <thead>
+      <th>Index</th>
+      <th>Name</th>
+      <th>Surname</th>
+      <th>Email</th>
+      <th>Manager</th>
+      <th>Projects</th>
+    </thead>
+  </table>
+  <tbody>
+    <tr ng-repeat="employee in elCtrl.employees">
+      <td>{{ $index }}</td>
+      <td>{{ employee.name }}</td>
+      <td>{{ employee.surname }}</td>
+      <td>{{ employee.email }}</td>
+      <td>{{ employee.manager }}</td>
+      <td-ul list="employee.projects"></td-ul>
+    </tr>
+  </tbody>
+</section>

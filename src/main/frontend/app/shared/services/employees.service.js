@@ -3,7 +3,7 @@ angular.module("reportingApp").factory("EmployeesService", function($http) {
   service.getEmployees = getEmployees;
 
   function getEmployees(request) {
-    return $http.$post("/api/employees", request).then(function(response) {
+    return $http.post("/api/employees", request).then(function(response) {
       return response.data;
     });
   }
