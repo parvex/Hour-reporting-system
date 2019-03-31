@@ -1,15 +1,39 @@
-<section>
-  <div>
-    <button>Add Employee</button>
+<section class="container">
+  <div class="row">
+    <div class="col-12">
+      <button class="btn btn-primary float-right">Add Employee</button>
+    </div>
   </div>
-  <ng-form name="elCtrl.employeesSearchForm">
-    <input type="text" name="name" placeholder="name" />
-    <input type="text" name="surname" placeholder="surname" />
-    <input type="email" name="email" placeholder="email" />
+  <ng-form
+    name="elCtrl.employeesSearchForm"
+    class="form-row margin-top margin-bottom"
+  >
+    <div class="col">
+      <input type="text" class="form-control" name="name" placeholder="name" />
+    </div>
+    <div class="col">
+      <input
+        type="text"
+        class="form-control"
+        name="surname"
+        placeholder="surname"
+      />
+    </div>
+    <div class="col">
+      <input
+        type="email"
+        class="form-control"
+        name="email"
+        placeholder="email"
+      />
+    </div>
+    <div class="col">
+      <button class="btn btn-info">Search</button>
+    </div>
   </ng-form>
-  <table>
+  <table class="table table-striped margin-top margin-bottom">
     <thead>
-      <th>Index</th>
+      <th>#</th>
       <th>Name</th>
       <th>Surname</th>
       <th>Email</th>
