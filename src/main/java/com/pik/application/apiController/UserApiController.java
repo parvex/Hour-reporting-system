@@ -1,4 +1,4 @@
-package com.pik.application.controller;
+package com.pik.application.apiController;
 
 import com.pik.application.domain.User;
 import com.pik.application.repository.UserRepository;
