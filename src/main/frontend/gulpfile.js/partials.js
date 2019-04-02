@@ -26,7 +26,7 @@ function buildPartialsToScript() {
     )
     .pipe(
       plugins.ngHtml2js({
-        moduleName: "planetsApp"
+        moduleName: "reportingApp"
       })
     );
 }
