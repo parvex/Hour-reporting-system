@@ -1,5 +1,6 @@
 package com.pik.application.domain;
 
+import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -7,7 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -30,10 +31,32 @@ public class User {
     @NotBlank
     private String passwordHash;
 
+
+    @NotNull
+    private SystemRole systemRole;
+
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date registeredAt;
+
+    @OneToOne
+    private User supervisor;
+
+    @ManyToMany
+    private Set<Project> projects = new HashSet<Project>();
+
+    public Set<Project> getProjects() { return projects; }
+
+    public void setProjects(Set<Project> projects) { this.projects = projects;}
+
+    public User getSupervisor() { return supervisor; }
+
+    public void setSupervisor(User supervisor) { this.supervisor = supervisor; }
+
+    public SystemRole getSystemRole() {return systemRole; }
+
+    public void setSystemRole(SystemRole systemRole) { this.systemRole = systemRole; }
 
     public Long getId() {
         return id;
@@ -71,9 +94,7 @@ public class User {
         return registeredAt;
     }
 
-    public void setRegisteredAt(Date registeredAt) {
-        this.registeredAt = registeredAt;
-    }
+    public void setRegisteredAt(Date registeredAt) { this.registeredAt = registeredAt; }
 
     public String getPasswordHash() {
         return passwordHash;
