@@ -23,10 +23,11 @@ function buildScripsDev() {
 }
 
 function buildScripsProd() {
-  const appScripts = validateScripts().pipe(plugins.ngAnnotate());
+  const appScripts = validateScripts();
   const partialScript = buildPartialsToScript();
 
   return merge(appScripts, partialScript)
+    .pipe(plugins.ngAnnotate())
     .pipe(plugins.angularFilesort())
     .pipe(plugins.sourcemaps.init())
     .pipe(plugins.concat("app.min.js"))
