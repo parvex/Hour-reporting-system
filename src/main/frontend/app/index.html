@@ -10,11 +10,15 @@
     <!-- endinject -->
   </head>
   <body ng-app="reportingApp">
-    <ul class="nav">
-      <li class="nav-item">
-        <a ui-sref="employees" ui-sref-active="active">Employees</a>
-      </li>
-    </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a ui-sref="employees" ui-sref-active="active" class="nav-link"
+            >Employees</a
+          >
+        </li>
+      </ul>
+    </nav>
 
     <ui-view></ui-view>
 
