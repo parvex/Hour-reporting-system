@@ -1,9 +1,7 @@
 <section class="container">
   <div class="row">
     <div class="col-12">
-      <button class="btn btn-primary float-right margin-top margin-bottom">
-        Add Employee
-      </button>
+      <button class="btn btn-primary float-right">Add Employee</button>
     </div>
   </div>
   <ng-form
@@ -51,8 +49,8 @@
     </div>
   </ng-form>
   <table
-    class="table table-bordered table-striped table-condensed"
     ng-table="elCtrl.employeesTable"
+    class="table table-striped margin-top margin-bottom"
     template-pagination="custom/pager"
   >
     <thead>
@@ -77,7 +75,7 @@
         <td class="text-center">
           <button
             class="btn btn-info"
-            ng-click="elCtrl.openEmployeeModal(employee.id)"
+            ng-clik="elCtrl.openEmployeeModal(employee.id)"
           >
             Edit
           </button>
