@@ -1,6 +1,6 @@
 angular.module("reportingApp").directive("tdUl", function() {
   return {
-    restrict: "E",
+    restrict: "A",
     scope: {
       list: "="
     },

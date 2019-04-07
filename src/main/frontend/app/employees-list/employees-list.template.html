@@ -1,9 +1,7 @@
 <section class="container">
   <div class="row">
     <div class="col-12">
-      <button class="btn btn-primary float-right margin-top margin-bottom">
-        Add Employee
-      </button>
+      <button class="btn btn-primary float-right">Add Employee</button>
     </div>
   </div>
   <ng-form
@@ -11,7 +9,13 @@
     class="form-row margin-top margin-bottom"
   >
     <div class="col">
-      <input type="text" class="form-control" name="name" placeholder="name" />
+      <input
+        type="text"
+        class="form-control"
+        name="name"
+        placeholder="name"
+        ng-model="elCtrl.employeesNameFilter"
+      />
     </div>
     <div class="col">
       <input
@@ -19,6 +23,7 @@
         class="form-control"
         name="surname"
         placeholder="surname"
+        ng-model="elCtrl.employeesSurnameFilter"
       />
     </div>
     <div class="col">
@@ -27,13 +32,27 @@
         class="form-control"
         name="email"
         placeholder="email"
+        ng-model="elCtrl.employeesEmailFilter"
       />
     </div>
     <div class="col">
-      <button class="btn btn-info">Search</button>
+      <input
+        type="text"
+        class="form-control"
+        name="manager"
+        placeholder="manager"
+        ng-model="elCtrl.employeesManagerFilter"
+      />
+    </div>
+    <div class="col">
+      <button class="btn btn-primary" ng-click="elCtrl.search()">Search</button>
     </div>
   </ng-form>
-  <table class="table table-striped margin-top margin-bottom">
+  <table
+    ng-table="elCtrl.employeesTable"
+    class="table table-striped margin-top margin-bottom"
+    template-pagination="custom/pager"
+  >
     <thead>
       <th>#</th>
       <th>Name</th>
@@ -41,16 +60,32 @@
       <th>Email</th>
       <th>Manager</th>
       <th>Projects</th>
+      <th>Actions</th>
     </thead>
+    <tbody ng-show="$data.length == 0">
+      <tr>
+        <td colspan="7">No data available.</td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr ng-repeat="employee in $data">
+        <td class="text-center">
+          {{ (params.page() - 1) * params.count() + $index + 1 }}
+        </td>
+        <td>{{ employee.name }}</td>
+        <td>{{ employee.surname }}</td>
+        <td>{{ employee.email }}</td>
+        <td>{{ employee.manager }}</td>
+        <td td-ul list="employee.projects"></td>
+        <td class="text-center">
+          <button
+            class="btn btn-info"
+            ng-clik="elCtrl.openEmployeeModal(employee.id)"
+          >
+            Edit
+          </button>
+        </td>
+      </tr>
+    </tbody>
   </table>
-  <tbody>
-    <tr ng-repeat="employee in elCtrl.employees">
-      <td>{{ $index }}</td>
-      <td>{{ employee.name }}</td>
-      <td>{{ employee.surname }}</td>
-      <td>{{ employee.email }}</td>
-      <td>{{ employee.manager }}</td>
-      <td-ul list="employee.projects"></td-ul>
-    </tr>
-  </tbody>
 </section>

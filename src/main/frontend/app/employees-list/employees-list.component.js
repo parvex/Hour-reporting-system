@@ -5,20 +5,50 @@ angular
     controller: "EmployeesListCtrl",
     controllerAs: "elCtrl"
   })
-  .controller("EmployeesListCtrl", function(EmployeesService) {
+  .controller("EmployeesListCtrl", function(EmployeesService, NgTableParams) {
     const elCtrl = this;
+    elCtrl.search = search;
+    elCtrl.openEmployeeModal = openEmployeeModal;
 
-    loadEmployees();
+    elCtrl.employeesTable = new NgTableParams(
+      {},
+      {
+        getData: function(params) {
+          const request = generateLoadEmploeesRequest(params);
 
-    function loadEmployees() {
-      const request = generateLoadEmploeesRequest();
+          return EmployeesService.getEmployees(request).then(function(
+            response
+          ) {
+            const employeesList = response.list;
 
-      EmployeesService.getEmployees(request).then(function(response) {
-        elCtrl.employees = response.list;
-      });
+            params.total(employeesList.length);
+            return employeesList;
+          });
+        }
+      }
+    );
+
+    function generateLoadEmploeesRequest(params) {
+      const criteria = {
+        name: elCtrl.employeesNameFilter,
+        surname: elCtrl.employeesSurnameFilter,
+        email: elCtrl.employeesEmailFilter,
+        manager: elCtrl.employeesManagerFilter
+      };
+
+      return {
+        page: params.page() - 1,
+        count: params.count(),
+        criteria: criteria
+      };
     }
 
-    function generateLoadEmploeesRequest() {
-      return {};
+    function search() {
+      elCtrl.employeesTable.reload();
+    }
+
+    function openEmployeeModal(employeeId) {
+      //TODO: open modal
+      //TODO: pass employeeId to modal
     }
   });
