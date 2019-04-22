@@ -1,0 +1,18 @@
+<ui-select
+  ng-model="selectedItem.model"
+  theme="bootstrap"
+  ng-disabled="disabled"
+  on-select="onSelected($item)"
+  class="item-select"
+>
+  <ui-select-match placeholder="{{ placeholder }}">{{
+    $select.selected.name
+  }}</ui-select-match>
+  <ui-select-choices
+    repeat="item in itemsList | filter: $select.search"
+    refresh-delay="500"
+    refresh="loadItemsList($select.search)"
+  >
+    <span ng-bind-html="item.name | highlight: $select.search"></span>
+  </ui-select-choices>
+</ui-select>

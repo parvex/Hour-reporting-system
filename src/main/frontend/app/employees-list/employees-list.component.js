@@ -5,10 +5,17 @@ angular
     controller: "EmployeesListCtrl",
     controllerAs: "elCtrl"
   })
-  .controller("EmployeesListCtrl", function(EmployeesService, NgTableParams) {
+  .controller("EmployeesListCtrl", function(
+    EmployeesService,
+    NgTableParams,
+    ProjectsService
+  ) {
     const elCtrl = this;
     elCtrl.search = search;
     elCtrl.openEmployeeModal = openEmployeeModal;
+
+    elCtrl.provideManagers = provideManagers;
+    elCtrl.provideProjects = provideProjects;
 
     elCtrl.employeesTable = new NgTableParams(
       {},
@@ -32,8 +39,7 @@ angular
       const criteria = {
         name: elCtrl.employeesNameFilter,
         surname: elCtrl.employeesSurnameFilter,
-        email: elCtrl.employeesEmailFilter,
-        manager: elCtrl.employeesManagerFilter
+        email: elCtrl.employeesEmailFilter
       };
 
       return {
@@ -50,5 +56,13 @@ angular
     function openEmployeeModal(employeeId) {
       //TODO: open modal
       //TODO: pass employeeId to modal
+    }
+
+    function provideManagers(request) {
+      return EmployeesService.getManagers(request);
+    }
+
+    function provideProjects(request) {
+      return ProjectsService.getProjects(request);
     }
   });

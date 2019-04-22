@@ -36,13 +36,21 @@
       />
     </div>
     <div class="col">
-      <input
-        type="text"
-        class="form-control"
-        name="manager"
+      <item-select
+        model="elCtrl.employeesManagerNameFilter"
+        model-id="elCtrl.employeesManagerIdFilter"
         placeholder="manager"
-        ng-model="elCtrl.employeesManagerFilter"
-      />
+        provider="elCtrl.provideManagers(request)"
+      >
+      </item-select>
+    </div>
+    <div class="col">
+      <multi-item-select
+        model="elCtrl.projectsFilter"
+        placeholder="projects"
+        provider="elCtrl.provideProjects(request)"
+      >
+      </multi-item-select>
     </div>
     <div class="col">
       <button class="btn btn-primary" ng-click="elCtrl.search()">Search</button>

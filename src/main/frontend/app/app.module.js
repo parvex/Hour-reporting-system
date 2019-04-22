@@ -1,5 +1,11 @@
 angular
-  .module("reportingApp", ["ui.bootstrap", "ui.router", "ngTable", "ui.select"])
+  .module("reportingApp", [
+    "ui.bootstrap",
+    "ui.router",
+    "ngTable",
+    "ui.select",
+    "ngSanitize"
+  ])
   .config(function($stateProvider) {
     $stateProvider
       .state({

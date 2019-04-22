@@ -2,7 +2,7 @@ angular.module("reportingApp").directive("multiItemSelect", function() {
   return {
     restrict: "E",
     scope: {
-      chosenItems: "=items",
+      chosenItems: "=model",
       placeholder: "@",
       disabled: "=?",
       provider: "&"
@@ -14,9 +14,15 @@ angular.module("reportingApp").directive("multiItemSelect", function() {
       scope.onSelected = onSelected;
       scope.deleteItem = deleteItem;
 
+      scope.selectedItem = {};
+
       scope.$watch(
         "chosenItems",
         function() {
+          if (!scope.chosenItems) {
+            scope.chosenItems = [];
+          }
+
           scope.chosenIds = scope.chosenItems.map(function(item) {
             return item.id;
           });
@@ -32,13 +38,14 @@ angular.module("reportingApp").directive("multiItemSelect", function() {
           chosenIds: scope.chosenIds
         };
 
-        return provider({ request: request }).then(function(response) {
+        scope.provider({ request: request }).then(function(response) {
           scope.itemsList = response.list;
         });
       }
 
       function onSelected(item) {
-        scope.chosenItems.push(item);
+        scope.chosenItems.push(angular.copy(item));
+        scope.selectedItem.model = null;
       }
 
       function deleteItem(index) {
