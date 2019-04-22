@@ -36,11 +36,34 @@ angular
     );
 
     function generateLoadEmploeesRequest(params) {
-      const criteria = {
-        name: elCtrl.employeesNameFilter,
-        surname: elCtrl.employeesSurnameFilter,
-        email: elCtrl.employeesEmailFilter
-      };
+      const criteria = {};
+
+      let projects = [];
+      if (angular.isArray(elCtrl.projectsFilter)) {
+        projects = elCtrl.projectsFilter.map(project => {
+          return { id: project.id };
+        });
+      }
+
+      if (projects.length > 0) {
+        criteria.projects = projects;
+      }
+
+      if (elCtrl.employeesNameFilter) {
+        criteria.name = elCtrl.employeesNameFilter;
+      }
+
+      if (elCtrl.employeesSurnameFilter) {
+        criteria.surname = elCtrl.employeesSurnameFilter;
+      }
+
+      if (elCtrl.employeesEmailFilter) {
+        criteria.email = elCtrl.employeesEmailFilter;
+      }
+
+      if (elCtrl.employeesManagerIdFilter) {
+        criteria.manager = elCtrl.employeesManagerIdFilter;
+      }
 
       return {
         page: params.page() - 1,
