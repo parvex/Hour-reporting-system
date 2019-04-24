@@ -32,7 +32,40 @@ public class WorkReport
     @OneToOne
     private User user;
 
+    @ManyToOne
+    private Project project;
+
     private String comment;
 
+    public Long getId() { return id; }
 
+    public void setId(Long id) { this.id = id; }
+
+    public Date getDate() { return date; }
+
+    public void setDate(Date date) { this.date = date; }
+
+    public Date getReportedAt() { return reportedAt; }
+
+    public void setReportedAt(Date reportedAt) { this.reportedAt = reportedAt; }
+
+    public int getHours() { return hours; }
+
+    public void setHours(int hours) { this.hours = hours; }
+
+    public boolean isAccepted() { return accepted; }
+
+    public void setAccepted(boolean accepted) { this.accepted = accepted; }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
+
+    public String getComment() { return comment; }
+
+    public void setComment(String comment) { this.comment = comment; }
+
+    public Project getProject() { return project; }
+
+    public void setProject(Project project) { this.project = project; }
 }
