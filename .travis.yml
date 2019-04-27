@@ -6,5 +6,7 @@ jdk:
 before_install:
  - chmod +x mvnw
 
-script:
- - mvn test
+after_success:
+ - bash <(curl -s https://codecov.io/bash)
+
+script: "mvn cobertura:cobertura"
