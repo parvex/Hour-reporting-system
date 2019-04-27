@@ -9,4 +9,5 @@ before_install:
 after_success:
  - bash <(curl -s https://codecov.io/bash)
 
-script: "mvn cobertura:cobertura"
+script:
+ - mvn test
