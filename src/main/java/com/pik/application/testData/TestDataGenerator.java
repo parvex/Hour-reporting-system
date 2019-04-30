@@ -14,7 +14,6 @@ import org.springframework.context.event.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
 import java.util.*;
 
 @Component
@@ -44,9 +43,16 @@ public class TestDataGenerator
     @EventListener
     public void seed(ContextRefreshedEvent event)
     {
-        seedProject();
-        seedUser();
-        seedWorkReport();
+        List<User> users1 = userRepository.findAll();
+        List<Project> projects1 = projectRepository.findAll();
+        List<WorkReport> wr = workReportRepository.findAll();
+
+        if(users1.isEmpty())
+            seedProject();
+        if(projects1.isEmpty())
+            seedUser();
+        if(wr.isEmpty())
+            seedWorkReport();
     }
 
     private void seedUser()
@@ -111,6 +117,8 @@ public class TestDataGenerator
             userRepository.save(user);
         }
 
+        List<User> test = userRepository.findAll();
+        log.info("Number of added users: " + test.size());
         log.info("Seeded Users.");
     }
 
