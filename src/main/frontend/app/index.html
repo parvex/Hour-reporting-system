@@ -9,88 +9,22 @@
     <!-- inject:css -->
     <!-- endinject -->
 
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css"
-    />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   </head>
   <body ng-app="reportingApp">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a ui-sref="employees" ui-sref-active="active" class="nav-link"
-            >Employees</a
-          >
-        </li>
-      </ul>
-    </nav>
 
-    <ui-view></ui-view>
+  <!-- View for adding the navigation bar -->
+  <div ui-view="nav"></div>
 
-    <script type="text/ng-template" id="custom/pager">
-      <div class="container margin-top margin-bottom pager ng-cloak">
-          <div class="row">
-            <div class="col-sm text-center">
-              <div class="btn-group">
-                <button
-                  type="button"
-                  ng-class="{'active':params.count() == 10}"
-                  ng-click="params.count(10)"
-                  class="btn btn-secondary"
-                >
-                  10
-                </button>
-                <button
-                  type="button"
-                  ng-class="{'active':params.count() == 25}"
-                  ng-click="params.count(25)"
-                  class="btn btn-secondary"
-                >
-                  25
-                </button>
-                <button
-                  type="button"
-                  ng-class="{'active':params.count() == 50}"
-                  ng-click="params.count(50)"
-                  class="btn btn-secondary"
-                >
-                  50
-                </button>
-                <button
-                  type="button"
-                  ng-class="{'active':params.count() == 100}"
-                  ng-click="params.count(100)"
-                  class="btn btn-secondary"
-                >
-                  100
-                </button>
-              </div>
-            </div>
-            <div class="col-sm text-center">
-              <button
-              ng-repeat="page in pages"
-                ng-click="params.page(page.number)"
-                class="btn btn-secondary"
-                ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
-                ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type"
-              >
-                <span ng-switch-when="prev">&laquo; Previous</span>
-                <span ng-switch-when="next">Next &raquo;</span>
-              </button>
-            </div>
-          </div>
-        </div>
-    </script>
+  <div class="container">
+    <!-- Main view for showing all views -->
+    <div ui-view="content"></div>
+  </div>
 
     <!-- bower:js -->
     <!-- endinject -->
     <!-- inject:js -->
     <!-- endinject -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </body>
 </html>

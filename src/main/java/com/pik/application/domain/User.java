@@ -1,9 +1,15 @@
 package com.pik.application.domain;
 
-import org.hibernate.annotations.ManyToAny;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -13,7 +19,7 @@ import java.util.*;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "user_tbl")
-public class User {
+public class User  implements UserDetails {
 
     @Id
     @GeneratedValue
@@ -23,6 +29,10 @@ public class User {
     private String name;
 
     @NotBlank
+    @Column(unique = true)
+    private String username;
+
+    @NotBlank
     private String surname;
 
     @NotBlank
@@ -30,11 +40,11 @@ public class User {
     private String email;
 
     @NotBlank
-    private String passwordHash;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
 
-
-    @NotNull
-    private SystemRole systemRole;
+    @ElementCollection
+    private List<String> roles = new ArrayList<>();
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
@@ -43,6 +53,50 @@ public class User {
 
     @OneToOne
     private User supervisor;
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        for (String role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
+        return authorities;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     @ManyToMany
     private Set<Project> projects = new HashSet<Project>();
@@ -54,10 +108,6 @@ public class User {
     public User getSupervisor() { return supervisor; }
 
     public void setSupervisor(User supervisor) { this.supervisor = supervisor; }
-
-    public SystemRole getSystemRole() {return systemRole; }
-
-    public void setSystemRole(SystemRole systemRole) { this.systemRole = systemRole; }
 
     public Long getId() {
         return id;
@@ -97,12 +147,17 @@ public class User {
 
     public void setRegisteredAt(Date registeredAt) { this.registeredAt = registeredAt; }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

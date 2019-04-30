@@ -1,7 +1,6 @@
 package com.pik.application.testData;
 
 import com.pik.application.domain.Project;
-import com.pik.application.domain.SystemRole;
 import com.pik.application.domain.User;
 import com.pik.application.domain.WorkReport;
 import com.pik.application.repository.ProjectRepository;
@@ -14,6 +13,7 @@ import org.springframework.context.event.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
 import java.util.*;
 
 @Component
@@ -43,9 +43,11 @@ public class TestDataGenerator
     @EventListener
     public void seed(ContextRefreshedEvent event)
     {
-        List<User> users1 = userRepository.findAll();
-        List<Project> projects1 = projectRepository.findAll();
-        List<WorkReport> wr = workReportRepository.findAll();
+
+
+        Optional<User> users1 = userRepository.getFirst();
+        Optional<Project> projects1 = projectRepository.getFirst();
+        Optional<WorkReport> wr = workReportRepository.getFirst();
 
         if(users1.isEmpty())
             seedProject();
@@ -62,12 +64,15 @@ public class TestDataGenerator
         Date maxSupDate = df.getDate(2016, 1, 1);
         Date maxDate = new Date();
 
+        int index = 0;
+
         User boss = new User();
         boss.setName(df.getFirstName());
         boss.setSurname(df.getLastName());
+        boss.setUsername(df.getRandomWord() + index);
         boss.setEmail(df.getEmailAddress());
-        boss.setPasswordHash(df.getRandomWord());
-        boss.setSystemRole(SystemRole.SUPERVISOR);
+        boss.setPassword("password");
+        boss.setRoles( Arrays.asList("SUPERVISOR" , "USER"));
         boss.setRegisteredAt(minDate);
         boss.setSupervisor(null);
         userRepository.save(boss);
@@ -78,12 +83,15 @@ public class TestDataGenerator
 
         for(int i = 0; i < 25; i++)
         {
+            ++index;
             user = new User();
             user.setName(df.getFirstName());
             user.setSurname(df.getLastName());
             user.setEmail(df.getEmailAddress());
-            user.setPasswordHash(df.getRandomWord());
-            user.setSystemRole(SystemRole.SUPERVISOR);
+            user.setUsername(df.getRandomWord() + index);
+
+            user.setPassword("password");
+            user.setRoles( Arrays.asList("SUPERVISOR" , "USER"));
             user.setRegisteredAt(df.getDateBetween(minDate, maxSupDate));
             user.setSupervisor(boss);
 
@@ -100,12 +108,15 @@ public class TestDataGenerator
 
         for(int i = 0; i < 250; i++)
         {
+            ++index;
             user = new User();
             user.setName(df.getFirstName());
             user.setSurname(df.getLastName());
             user.setEmail(df.getEmailAddress());
-            user.setPasswordHash(df.getRandomWord());
-            user.setSystemRole(SystemRole.EMPLOYEE);
+            user.setPassword("password");
+            user.setRoles( Arrays.asList("USER"));
+            user.setUsername(df.getRandomWord() + index);
+
             user.setRegisteredAt(df.getDateBetween(minDate,maxDate));
             user.setSupervisor(supervisors.get(df.getNumberUpTo(supervisors.size())));
 
@@ -117,8 +128,6 @@ public class TestDataGenerator
             userRepository.save(user);
         }
 
-        List<User> test = userRepository.findAll();
-        log.info("Number of added users: " + test.size());
         log.info("Seeded Users.");
     }
 
