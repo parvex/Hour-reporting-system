@@ -9,6 +9,7 @@ import java.util.Date;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "work_report")
 public class WorkReport
 {
     @Id
@@ -26,7 +27,7 @@ public class WorkReport
     @NotNull
     private int hours;
 
-    @Column(name = "accepted", nullable = false, columnDefinition = "boolean default false")
+    @Column(name = "accepted", nullable = false)
     private boolean accepted;
 
     @OneToOne

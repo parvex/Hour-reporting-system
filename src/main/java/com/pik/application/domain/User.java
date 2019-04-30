@@ -12,6 +12,7 @@ import java.util.*;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "user_tbl")
 public class User {
 
     @Id
