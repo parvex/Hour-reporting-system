@@ -2,25 +2,25 @@ angular.module('reportingApp')
 .controller('LoginController', function($http, $scope, $state, AuthService, $rootScope) {
 	$scope.login = function() {
 		$http({
-			url : 'authenticate',
+			url : 'api/authenticate',
 			method : "POST",
 			params : {
 				username : $scope.username,
 				password : $scope.password
 			}
-		}).success(function(res) {
+		}).then(function(res) {
 			$scope.password = null;
-			if (res.token) {
+			if (res.data.token) {
 				$scope.message = '';
-				$http.defaults.headers.common['Authorization'] = 'Bearer ' + res.token;
+				$http.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
 
-				AuthService.user = res.user;
+				AuthService.user = res.data.user;
 				$rootScope.$broadcast('LoginSuccessful');
 				$state.go('home');
 			} else {
 				$scope.message = 'Authetication Failed !';
 			}
-		}).error(function(error) {
+		}, function(error) {
 			$scope.message = 'Authetication Failed !';
 		});
 	};
