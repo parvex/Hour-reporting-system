@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class UserRestController {
 	@Autowired
 	private UserRepository userRepository;
+
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -76,5 +78,4 @@ public class UserRestController {
 		}
 		return userRepository.save(user);
 	}
-
 }

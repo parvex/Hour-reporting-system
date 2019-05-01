@@ -9,8 +9,9 @@ angular
   ])
     .run(function(AuthService, $rootScope, $state, $transitions) {
 
-        $transitions.onBefore({}, function(transition) {
+        //consider adding Interceptors in case getting 401 - unauthorized - maybe session has expired or someone has no authorization - should be moven to login page
 
+        $transitions.onBefore({}, function(transition) {
             if (!AuthService.isLogged()) {
                 if (transition.to().name !== 'login') {
                     return transition.router.stateService.target('login');
