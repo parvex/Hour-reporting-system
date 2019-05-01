@@ -4,13 +4,14 @@ angular
     "ui.router",
     "ngTable",
     "ui.select",
-    "ngSanitize"
+    "ngSanitize",
+    "ngCookies"
   ])
     .run(function(AuthService, $rootScope, $state, $transitions) {
 
         $transitions.onBefore({}, function(transition) {
 
-            if (!AuthService.user) {
+            if (!AuthService.isLogged()) {
                 if (transition.to().name !== 'login') {
                     return transition.router.stateService.target('login');
                 }
