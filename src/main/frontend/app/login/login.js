@@ -14,7 +14,7 @@ angular.module('reportingApp')
 				$scope.message = '';
 				$http.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
 
-				AuthService.user = res.data.user;
+				AuthService.setUser(res.data.user);
 				$rootScope.$broadcast('LoginSuccessful');
 				$state.go('home');
 			} else {

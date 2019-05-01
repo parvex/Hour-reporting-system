@@ -3,15 +3,16 @@ angular.module('reportingApp')
 	var edit = false;
 	$scope.buttonText = 'Create';
 	var init = function() {
-		$http.get('api/users').success(function(res) {
-			$scope.users = res;
+		$scope.userForm = null;
+		$http.get('api/users').then(function(res) {
+			$scope.users = res.data;
 			
 			$scope.userForm.$setPristine();
 			$scope.message='';
 			$scope.appUser = null;
 			$scope.buttonText = 'Create';
 			
-		}).error(function(error) {
+		}, function(error) {
 			$scope.message = error.message;
 		});
 	};
@@ -29,32 +30,32 @@ angular.module('reportingApp')
 		$scope.buttonText = 'Create';
 	};
 	$scope.deleteUser = function(appUser) {
-		$http.delete('api/users/'+appUser.id).success(function(res) {
+		$http.delete('api/users/'+appUser.id).then(function(res) {
 			$scope.deleteMessage ="Success!";
 			init();
-		}).error(function(error) {
+		}, function(error) {
 			$scope.deleteMessage = error.message;
 		});
 	};
 	var editUser = function(){
-		$http.put('api/users', $scope.appUser).success(function(res) {
+		$http.put('api/users', $scope.appUser).then(function(res) {
 			$scope.appUser = null;
 			$scope.confirmPassword = null;
 			$scope.userForm.$setPristine();
 			$scope.message = "Editting Success";
 			init();
-		}).error(function(error) {
+		}, function(error) {
 			$scope.message =error.message;
 		});
 	};
 	var addUser = function(){
-		$http.post('api/users', $scope.appUser).success(function(res) {
+		$http.post('api/users', $scope.appUser).then(function(res) {
 			$scope.appUser = null;
 			$scope.confirmPassword = null;
 			$scope.userForm.$setPristine();
 			$scope.message = "User Created";
 			init();
-		}).error(function(error) {
+		}, function(error) {
 			$scope.message = error.message;
 		});
 	};

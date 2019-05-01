@@ -1,4 +1,4 @@
 angular.module('reportingApp')
 .controller('HomeController', function($http, $scope, AuthService) {
-	$scope.user = AuthService.user;
+	$scope.user = AuthService.getUser();
 });

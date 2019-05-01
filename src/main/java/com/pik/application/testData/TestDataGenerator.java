@@ -43,8 +43,6 @@ public class TestDataGenerator
     @EventListener
     public void seed(ContextRefreshedEvent event)
     {
-
-
         Optional<User> users1 = userRepository.getFirst();
         Optional<Project> projects1 = projectRepository.getFirst();
         Optional<WorkReport> wr = workReportRepository.getFirst();
@@ -67,12 +65,12 @@ public class TestDataGenerator
         int index = 0;
 
         User boss = new User();
-        boss.setName(df.getFirstName());
-        boss.setSurname(df.getLastName());
-        boss.setUsername(df.getRandomWord() + index);
-        boss.setEmail(df.getEmailAddress());
-        boss.setPassword("password");
-        boss.setRoles( Arrays.asList("SUPERVISOR" , "USER"));
+        boss.setName("admin");
+        boss.setSurname("admin");
+        boss.setUsername("admin");
+        boss.setEmail("admin@admin.admin");
+        boss.setPassword("admin");
+        boss.setRoles( Arrays.asList("SUPERVISOR" , "USER", "ADMIN"));
         boss.setRegisteredAt(minDate);
         boss.setSupervisor(null);
         userRepository.save(boss);

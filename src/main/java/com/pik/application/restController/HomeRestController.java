@@ -23,18 +23,6 @@ public class HomeRestController {
 	private UserRepository userRepository;
 
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<User> createUser(@RequestBody User user) {
-		if (userRepository.findOneByUsername(user.getUsername()) != null) {
-			throw new RuntimeException("Username already exist");
-		}
-		List<String> roles = new ArrayList<>();
-		roles.add("USER");
-		user.setRoles(roles);
-		return new ResponseEntity<User>(userRepository.save(user), HttpStatus.CREATED);
-	}
-
-
 	@RequestMapping("/user")
 	public User user(Principal principal) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
