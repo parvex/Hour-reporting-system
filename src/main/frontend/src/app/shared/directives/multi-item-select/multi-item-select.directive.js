@@ -8,7 +8,7 @@ angular.module("hourReportingSystem").directive("multiItemSelect", function() {
       provider: "&"
     },
     templateUrl:
-      "shared/directives/multi-item-select/multi-item-select.template.html",
+      "app/shared/directives/multi-item-select/multi-item-select.template.html",
     link: function(scope) {
       scope.loadItemsList = loadItemsList;
       scope.onSelected = onSelected;
