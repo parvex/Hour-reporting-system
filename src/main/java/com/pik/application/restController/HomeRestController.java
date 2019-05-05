@@ -18,6 +18,7 @@ import java.util.*;
 
 
 @RestController
+@RequestMapping("/api")
 public class HomeRestController {
 	@Autowired
 	private UserRepository userRepository;
