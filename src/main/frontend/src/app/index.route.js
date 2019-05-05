@@ -87,8 +87,7 @@
         url: "/employees",
         views: {
           "content@": {
-            templateUrl: "app/employees-list/employees-list.template.html",
-            controller: "EmployeesListCtrl"
+            component: "employeesList"
           }
         }
       })
@@ -97,8 +96,7 @@
         url: "/employees/{employeeId}",
         views: {
           "content@": {
-            templateUrl: "app/employee-details/employee-details.template.html",
-            controller: "EmployeeDetailsCtrl"
+            component: "employeeDetails"
           }
         }
       });

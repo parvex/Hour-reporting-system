@@ -1,7 +1,7 @@
 angular
   .module("hourReportingSystem")
   .component("employeesList", {
-    templateUrl: "employees-list/employees-list.template.html",
+    templateUrl: "app/employees-list/employees-list.template.html",
     controller: "EmployeesListCtrl",
     controllerAs: "elCtrl"
   })
