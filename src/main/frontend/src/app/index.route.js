@@ -99,6 +99,15 @@
             component: "employeeDetails"
           }
         }
-      });
+      })
+      .state("calendar", {
+        parent: "nav",
+        url: "/calendar",
+        views: {
+          "content@": {
+            component: "logCalendar"
+          }
+        }
+      })
   }
 })();
