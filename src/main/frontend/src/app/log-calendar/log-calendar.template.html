@@ -1,1 +1,74 @@
-<h1>callendar view</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <p class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          uib-datepicker-popup
+          ng-model="lcCtrl.fliterCriteria.dateFrom"
+          is-open="lcCtrl.dateFromPickerOpened"
+          datepicker-options="lcCtrl.dateOptions"
+          close-text="Close"
+          placeholder="date from"
+        />
+        <span class="input-group-btn">
+          <button
+            type="button"
+            class="btn btn-default"
+            ng-click="lcCtrl.openDateFromPickerModal()"
+          >
+            <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </p>
+    </div>
+    <div class="col-md-3">
+      <p class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          uib-datepicker-popup
+          ng-model="lcCtrl.fliterCriteria.dateTo"
+          is-open="lcCtrl.dateToPickerOpened"
+          datepicker-options="lcCtrl.dateOptions"
+          close-text="Close"
+          placeholder="date to"
+        />
+        <span class="input-group-btn">
+          <button
+            type="button"
+            class="btn btn-default"
+            ng-click="lcCtrl.openDateToPickerModal()"
+          >
+            <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </p>
+    </div>
+    <div class="col-md-6">
+      <!-- TODO: employees select -->
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-3">
+    <button class="btn btn-primary">Log work time</button>
+  </div>
+  <div class="col-lg-9">
+    <div class="btn-group btn-group-justified" role="group">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default">Calendar</button>
+      </div>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default">List</button>
+      </div>
+    </div>
+    <div
+      ui-calendar="uiConfig.calendar"
+      class="span8 calendar"
+      ng-model="eventSources"
+    ></div>
+  </div>
+</div>
