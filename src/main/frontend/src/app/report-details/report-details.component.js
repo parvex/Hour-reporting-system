@@ -15,6 +15,7 @@ angular
     const rdCtrl = this;
     rdCtrl.reportId = reportId;
 
+    rdCtrl.isProjectSelected = isProjectSelected;
     rdCtrl.openDatePickerModal = openDatePickerModal;
 
     rdCtrl.provideProjects = provideProjects;
@@ -47,6 +48,12 @@ angular
       var date = data.date,
         mode = data.mode;
       return mode === "day" && (date.getDay() === 0 || date.getDay() === 6);
+    }
+
+    function isProjectSelected() {
+      return (
+        rdCtrl.report && rdCtrl.report.projectName && rdCtrl.report.projectId
+      );
     }
 
     function openDatePickerModal() {
