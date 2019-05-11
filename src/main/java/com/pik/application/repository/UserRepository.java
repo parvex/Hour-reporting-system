@@ -27,8 +27,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where :role MEMBER OF u.roles")
     List<User> findByRoles(@Param("role") String role);
 
-    @Query("SELECT u.id, u.name, u.surname FROM User u WHERE upper(u.name) LIKE CONCAT('%',upper(:phrase),'%')" +
-            "OR upper(u.surname) LIKE CONCAT('%',upper(:phrase),'%') AND u.id NOT IN :chosenId AND u.supervisor.id = :supervisorId")
+    @Query("SELECT u.id, u.name, u.surname FROM User u WHERE (upper(u.name) LIKE CONCAT('%',upper(:phrase),'%')" +
+            "OR upper(u.surname) LIKE CONCAT('%',upper(:phrase),'%')) AND u.id NOT IN :chosenId AND u.supervisor.id = :supervisorId")
     List<User> findByUsernameLike(String phrase, List<Long> chosenId, Long supervisorId, Pageable pageable);
 
 }

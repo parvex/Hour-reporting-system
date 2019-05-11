@@ -52,9 +52,11 @@ public class UserRestController {
 		return userService.findByRoles("Supervisor");
 	}
 
-	@PostMapping(value = "/available-employees")
+	@GetMapping(value = "/available-employees")
 	public List<User> getAvailableEmployees(@RequestParam(value="phrase") String phrase,
 											@RequestParam List<Long> chosenId){
+
+		chosenId.forEach(item->System.out.println("item: " + item));
 		return userService.getAvailableEmployees(phrase, chosenId);
 	}
 }

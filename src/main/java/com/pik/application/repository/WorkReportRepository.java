@@ -8,10 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
@@ -37,5 +34,6 @@ public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
             " w.user.id in :employeesId AND w.project.id in :projectsId AND w.user.supervisor.id = :supervisorId ORDER BY w.date DESC")
     List<WorkReport> findByDateBetweenOrderByDateAsc(Date dateFrom, Date dateTo, @Nullable List<Long> employeesId,
                                                      @Nullable List<Long> projectsId, Long supervisorId);
+
 
 }

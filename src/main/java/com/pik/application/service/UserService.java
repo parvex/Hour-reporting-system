@@ -81,6 +81,7 @@ public class UserService {
     public List<User> getAvailableEmployees(String phrase, List<Long> chosenId) {
         Pageable page = PageRequest.of(0, 10);
         User loggedUser = getLoggedUser();
-        return userRepository.findByUsernameLike(phrase, chosenId, loggedUser.getId(), page);
+        Long loggedId = loggedUser.getId();
+        return userRepository.findByUsernameLike(phrase, chosenId, 1811l, page);
     }
 }
