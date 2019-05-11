@@ -1,9 +1,14 @@
 package com.pik.application.restController;
 
 import com.pik.application.domain.Project;
+import com.pik.application.domain.User;
 import com.pik.application.repository.ProjectRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -60,4 +65,17 @@ public class ProjectRestController {
             return new ResponseEntity<>(project.get(), HttpStatus.OK);
         }
     }
+
+    @PostMapping(value = "/projects")
+    public List<Project> getProjectsByPhrase(@RequestParam(value="phrase") String phrase,
+                                             @RequestParam List<Long> chosenId){
+        Pageable page = PageRequest.of(0, 10);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String loggedUsername = auth.getName();
+
+        return projectRepository.findByPhrase(phrase, chosenId, loggedUsername, page);
+
+    }
+
 }
