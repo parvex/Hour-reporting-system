@@ -23,7 +23,7 @@ public class UserRestController {
 	@Autowired
 	private UserRepository userRepository;
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
 	public ResponseEntity<User> userById(@PathVariable Long id) {
 		Optional<User> user = userRepository.findById(id);
@@ -34,7 +34,7 @@ public class UserRestController {
 		}
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<User> deleteUser(@PathVariable Long id) {
 		Optional<User> user = userRepository.findById(id);
@@ -51,9 +51,10 @@ public class UserRestController {
 
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	public ResponseEntity<User> createUser(@RequestBody User user) {
+
 		if (userRepository.findOneByUsername(user.getUsername()) != null) {
 			throw new RuntimeException("Username already exist");
 		}
@@ -62,7 +63,7 @@ public class UserRestController {
 		return new ResponseEntity<User>(userRepository.save(user), HttpStatus.CREATED);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@RequestMapping(value = "/users", method = RequestMethod.PUT)
 	public User updateUser(@RequestBody User user) {
 		if (userRepository.findOneByUsername(user.getUsername()) != null
