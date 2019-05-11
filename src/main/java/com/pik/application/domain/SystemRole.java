@@ -4,5 +4,5 @@ public enum SystemRole
 {
     EMPLOYEE,
     SUPERVISOR,
-    SUPERUSER
+    ADMIN
 }
