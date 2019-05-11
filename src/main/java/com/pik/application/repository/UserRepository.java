@@ -26,14 +26,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
                 .stream()
                 .findFirst();
     }
-    @Query("SELECT  u FROM User u WHERE SUPERVISOR MEMBER OF u.roles")
-    ResponseEntity<User> getSupervisors();
 
     @Query("select u from User u where :role MEMBER OF u.roles")
     List<User> findByRoles(@Param("role") String role);
 
     @Query("SELECT u.id, u.name, u.surname FROM User u WHERE upper(u.name) LIKE CONCAT('%',upper(:phrase),'%')" +
-            "OR upper(u.surname) LIKE CONCAT('%',upper(:phrase),'%') AND u.id NOT IN :chosenId")
-    List<User> findByUsernameLike(String phrase, List<Long> chosenId, Pageable pageable);
+            "OR upper(u.surname) LIKE CONCAT('%',upper(:phrase),'%') AND u.id NOT IN :chosenId AND u.supervisor = :supervisor")
+    List<User> findByUsernameLike(String phrase, List<Long> chosenId, User supervisor, Pageable pageable);
 
 }

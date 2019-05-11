@@ -3,6 +3,8 @@ package com.pik.application.restController;
 import com.pik.application.domain.SystemRole;
 import com.pik.application.domain.User;
 import com.pik.application.repository.UserRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -95,6 +97,11 @@ public class UserRestController {
 	public List<User> getAvailableEmployees(@RequestParam(value="phrase") String phrase,
 											@RequestParam List<Long> chosenId){
 		Pageable page = PageRequest.of(0, 10);
-		return userRepository.findByUsernameLike(phrase, chosenId, page);
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String loggedUsername = auth.getName();
+		User loggedUser = userRepository.findOneByUsername(loggedUsername);
+
+		return userRepository.findByUsernameLike(phrase, chosenId, loggedUser, page);
 	}
 }

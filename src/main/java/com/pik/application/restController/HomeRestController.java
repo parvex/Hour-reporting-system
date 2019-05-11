@@ -22,7 +22,7 @@ import java.util.*;
 public class HomeRestController {
 	@Autowired
 	private UserRepository userRepository;
-
+	private User userSaved;
 
 	@RequestMapping("/user")
 	public User user(Principal principal) {
@@ -31,12 +31,12 @@ public class HomeRestController {
 		return userRepository.findOneByUsername(loggedUsername);
 	}
 
-
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> login(@RequestParam String username, @RequestParam String password,
                                                      HttpServletResponse response) throws IOException {
 		String token = null;
 		User user = userRepository.findOneByUsername(username);
+		userSaved = user;
 		Map<String, Object> tokenMap = new HashMap<String, Object>();
 		if (user != null && user.getPassword().equals(password)) {
 			token = Jwts.builder().setSubject(username).claim("roles", user.getRoles()).setIssuedAt(new Date())
@@ -48,6 +48,9 @@ public class HomeRestController {
 			tokenMap.put("token", null);
 			return new ResponseEntity<Map<String, Object>>(tokenMap, HttpStatus.UNAUTHORIZED);
 		}
+	}
 
+	public User getUser(){
+		return userSaved;
 	}
 }
