@@ -5,12 +5,18 @@ angular
     controller: "LogCalendarCtrl",
     controllerAs: "lcCtrl"
   })
-  .controller("LogCalendarCtrl", function(ReportsService, ProjectsService) {
+  .controller("LogCalendarCtrl", function(
+    ReportsService,
+    ProjectsService,
+    $uibModal
+  ) {
     const lcCtrl = this;
     lcCtrl.fliterCriteria = new Object();
 
     lcCtrl.openDateFromPickerModal = openDateFromPickerModal;
     lcCtrl.openDateToPickerModal = openDateToPickerModal;
+
+    lcCtrl.openReportModal = openReportModal;
 
     lcCtrl.toggleListViewActive = toggleListViewActive;
 
@@ -48,5 +54,22 @@ angular
 
     function provideProjects(request) {
       return ProjectsService.getProjects(request);
+    }
+
+    function openReportModal(reportId) {
+      const modalInstance = $uibModal.open({
+        templateUrl: "app/report-details/report-details.template.html",
+        controller: "ReporteDetailsCtrl",
+        controllerAs: "rdCtrl",
+        resolve: {
+          reportId: function() {
+            return reportId;
+          }
+        }
+      });
+
+      modalInstance.result.then(function() {
+        //TODO: refresh reports list
+      });
     }
   });
