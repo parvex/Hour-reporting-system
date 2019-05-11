@@ -3,14 +3,12 @@ package com.pik.application.restController;
 import com.pik.application.domain.WorkReport;
 import com.pik.application.repository.WorkReportRepository;
 import com.pik.application.util.ProjectHoursWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +20,8 @@ public class EmpDataRestController
     @Autowired
     WorkReportRepository workReportRepository;
 
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     @RequestMapping(value = "/getProjects", method = RequestMethod.POST)
     public ResponseEntity<List<ProjectHoursWrapper>> getProjects(@RequestParam String username)
     {
@@ -29,21 +29,26 @@ public class EmpDataRestController
 
         List<WorkReport> workReportList = workReportRepository.findWorkReportsByUserOrderByProjectAsc(username);
 
+        for(WorkReport report: workReportList)
+        {
+            log.info(report.getUser().getUsername());
+        }
+
         for(WorkReport wr: workReportList)
         {
             if(projectList.size() == 0)
             {
                 ProjectHoursWrapper wrapper = new ProjectHoursWrapper();
-                wrapper.setProject(wr.getProject());
+                wrapper.setName(wr.getProject().getName());
                 wrapper.setHours(wr.getHours());
 
                 projectList.add(wrapper);
             }
 
-            if(projectList.get(projectList.size() - 1).getProject() != wr.getProject())
+            if(projectList.get(projectList.size() - 1).getName().equals(wr.getProject().getName()))
             {
                 ProjectHoursWrapper wrapper = new ProjectHoursWrapper();
-                wrapper.setProject(wr.getProject());
+                wrapper.setName(wr.getProject().getName());
                 wrapper.setHours(wr.getHours());
 
                 projectList.add(wrapper);
@@ -54,6 +59,13 @@ public class EmpDataRestController
             }
         }
 
-        return new ResponseEntity<List<ProjectHoursWrapper>>(projectList, HttpStatus.OK);
+        if(projectList.isEmpty())
+        {
+            return new ResponseEntity<List<ProjectHoursWrapper>>(HttpStatus.NO_CONTENT);
+        }
+        else
+        {
+            return new ResponseEntity<List<ProjectHoursWrapper>>(projectList, HttpStatus.OK);
+        }
     }
 }

@@ -3,15 +3,15 @@ package com.pik.application.util;
 import com.pik.application.domain.Project;
 
 public class ProjectHoursWrapper {
-    private Project project;
+    private String name;
     private int hours;
 
-    public Project getProject() {
-        return project;
+    public String getName() {
+        return name;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getHours() {

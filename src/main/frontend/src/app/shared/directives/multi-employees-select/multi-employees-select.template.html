@@ -1,17 +1,17 @@
 <section class="multi-item-select-input">
   <div
-    ng-repeat="item in chosenItems | orderBy: 'name'"
+    ng-repeat="employee in chosenEmployees | orderBy: 'name'"
     class="margin-top margin-bottom"
   >
-    <span>{{ item.name }} </span>
+    <span>{{ employee.name }} </span>
     <i
       class="glyphicon glyphicon-remove"
-      ng-click="deleteItem($index, $model)"
-      uib-tooltip="Delete item"
+      ng-click="deleteEmployee($index, $model)"
+      uib-tooltip="Delete employee"
     ></i>
   </div>
   <ui-select
-    ng-model="selectedItem.model"
+    ng-model="selectedEmployee.model"
     theme="bootstrap"
     ng-disabled="disabled"
     on-select="onSelected($item, $model)"
@@ -21,11 +21,12 @@
       {{ $select.selected.name }}</ui-select-match
     >
     <ui-select-choices
-      repeat="item in itemsList | filter: $select.search"
+      repeat="employee in employeesList | filter: $select.search"
       refresh-delay="500"
-      refresh="loadItemsList($select.search)"
+      refresh="loadEmployeesList($select.search)"
     >
-      <span ng-bind-html="item.name | highlight: $select.search"></span>
+      <span ng-bind-html="employee.name | highlight: $select.search"></span>
+      <small ng-show="isEmployeeMe(employee)">(me)</small>
     </ui-select-choices>
   </ui-select>
 </section>

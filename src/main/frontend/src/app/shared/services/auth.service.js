@@ -7,9 +7,11 @@ angular
     service.getUser = getUser;
     service.isLogged = isLogged;
     service.logout = logout;
+    service.hasRole = hasRole;
 
     function setUser(user) {
       var obj = {
+        id: user.id,
         name: user.name,
         surname: user.surname,
         username: user.username,
@@ -31,4 +33,19 @@ angular
     function logout() {
       $cookies.remove("user");
     }
+
+    //returns true if user has false, otherwise and if he's not logged
+    function hasRole(role) {
+      var user = $cookies.getObject("user");
+      if(user === null || user === undefined)
+        return false;
+      for (var i = 0; i < user.roles.length; i++) {
+        var userRole = user.roles[i];
+        if (role === userRole) {
+          return true;
+        }
+      }
+      return false;
+    }
+
   });
