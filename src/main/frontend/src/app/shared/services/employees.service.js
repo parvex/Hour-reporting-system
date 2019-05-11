@@ -3,19 +3,24 @@ angular
   .factory("EmployeesService", function($http) {
     const service = this;
     service.getEmployees = getEmployees;
+    service.getAvailableEmployees = getAvailableEmployees;
     service.getManagers = getManagers;
 
     function getEmployees(request) {
-      return Promise.resolve({ list: [] });
-
       return $http.post("/api/employees", request).then(function(response) {
         return response.data;
       });
     }
 
-    function getManagers(request) {
-      return Promise.resolve({ list: [] });
+    function getAvailableEmployees(request) {
+      return $http
+        .post("/api/available-employees", request)
+        .then(function(response) {
+          return response.data;
+        });
+    }
 
+    function getManagers(request) {
       return $http.post("/api/managers", request).then(function(response) {
         return response.data;
       });

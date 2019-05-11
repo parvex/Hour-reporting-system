@@ -27,11 +27,11 @@ angular
             $rootScope.$broadcast("LoginSuccessful");
             $state.go("home");
           } else {
-            $scope.message = "Authetication Failed !";
+            $scope.message = "Authetication Failed!";
           }
         },
         function(error) {
-          $scope.message = "Authetication Failed !";
+          $scope.message = "Authetication Failed!";
         }
       );
     };

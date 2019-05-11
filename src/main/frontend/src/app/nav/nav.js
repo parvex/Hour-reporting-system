@@ -8,6 +8,7 @@ angular
     $rootScope
   ) {
     $scope.user = AuthService.getUser();
+    $scope.AuthService = AuthService;
     $scope.$on("LoginSuccessful", function() {
       $scope.user = AuthService.getUser();
     });

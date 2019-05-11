@@ -12,6 +12,7 @@
     "ui.bootstrap",
     "toastr",
     "ngTable",
-    "ui.select"
+    "ui.select",
+    "ui.calendar"
   ]);
 })();
