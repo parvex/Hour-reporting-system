@@ -79,4 +79,9 @@ public class UserRestController {
 		}
 		return userRepository.save(user);
 	}
+
+//	@GetMapping(value="/supervisors")
+//	public ResponseEntity<User> supervisors(){
+//		return userRepository.getSupervisors();
+//	}
 }

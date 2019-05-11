@@ -49,7 +49,7 @@ angular
           $scope.appUser = null;
           $scope.confirmPassword = null;
           $scope.userForm.$setPristine();
-          $scope.message = "Editting Success";
+          $scope.message = "Editing Success";
           init();
         },
         function(error) {

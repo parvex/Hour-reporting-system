@@ -13,6 +13,8 @@ import java.util.Optional;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
+    Project findOneByName(String name);
+
     @Query("SELECT p FROM Project p")
     List<Project> getLimited(Pageable page);
 
@@ -21,4 +23,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
                 .stream()
                 .findFirst();
     }
+
+    // get reports for project
 }

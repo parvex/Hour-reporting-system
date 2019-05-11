@@ -21,4 +21,8 @@ public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
                 .stream()
                 .findFirst();
     }
+
+    WorkReport findOneByComment(String comment);
+
+    // get User that added report
 }

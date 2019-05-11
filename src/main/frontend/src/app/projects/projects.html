@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-md-6 col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">Projects</div>
+      <div class="panel-body">
+        <div class="alert alert-info margin-top-5" ng-show="deleteMessage">{{deleteMessage}}</div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="project in projects"
+                ng-style="{'background-color': $index == selectedIndex ? 'lightgray' : ''}"
+                ng-click="selectProject($index)">
+              <td>{{$index+1}}</td>
+              <td>{{project.name}}</td>
+              <td>{{project.description}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">Work reports</div>
+      <div class="panel-body">
+        <div class="alert alert-info margin-top-5" ng-show="deleteMessage">{{deleteMessage}}</div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Comment</th>
+              <th>Date</th>
+              <th>Hours</th>
+<!--              <th>Username</th>-->
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="report in reports"
+                ng-style="{'background-color': $index == selectedIndex ? 'lightgray' : ''}"
+                ng-click="selectProject($index)">
+              <td>{{$index+1}}</td>
+              <td>{{project.name}}</td>
+              <td>{{project.description}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,7 +7,7 @@ angular
           $scope.appUser = null;
           $scope.confirmPassword = null;
           $scope.userForm.$setPristine();
-          $scope.message = "Registration successfull !";
+          $scope.message = "Registration successful !";
         },
         function(error) {
           $scope.message = error.message;

@@ -8,7 +8,7 @@
     /*
       consider adding Interceptors in case getting 401 - unauthorized -
       maybe session has expired or someone has no authorization -
-      should be moven to login page
+      should be moved to login page
     */
 
     $transitions.onBefore({}, function(transition) {
