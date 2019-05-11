@@ -29,19 +29,6 @@
           }
         }
       })
-      .state("users", {
-        parent: "nav",
-        url: "/users",
-        data: {
-          role: "ADMIN"
-        },
-        views: {
-          "content@": {
-            templateUrl: "app/users/users.html",
-            controller: "UsersController"
-          }
-        }
-      })
       .state("home", {
         parent: "nav",
         url: "/",
