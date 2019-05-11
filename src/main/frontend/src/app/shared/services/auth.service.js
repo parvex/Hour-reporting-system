@@ -10,6 +10,7 @@ angular
 
     function setUser(user) {
       var obj = {
+        id: user.id,
         name: user.name,
         surname: user.surname,
         username: user.username,

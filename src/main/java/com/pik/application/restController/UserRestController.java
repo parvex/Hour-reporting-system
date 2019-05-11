@@ -22,14 +22,6 @@ public class UserRestController {
 	@Autowired
 	private UserRepository userRepository;
 
-
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public List<User> users() {
-		return userRepository.findAll();
-	}
-
-
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
 	public ResponseEntity<User> userById(@PathVariable Long id) {
@@ -40,7 +32,6 @@ public class UserRestController {
 			return new ResponseEntity<User>(user.get(), HttpStatus.OK);
 		}
 	}
-
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
@@ -59,7 +50,6 @@ public class UserRestController {
 
 	}
 
-
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -68,7 +58,6 @@ public class UserRestController {
 		}
 		return new ResponseEntity<User>(userRepository.save(user), HttpStatus.CREATED);
 	}
-
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/users", method = RequestMethod.PUT)
