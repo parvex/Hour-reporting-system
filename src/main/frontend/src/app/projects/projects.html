@@ -3,7 +3,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">Projects</div>
       <div class="panel-body">
-        <div class="alert alert-info margin-top-5" ng-show="deleteMessage">{{deleteMessage}}</div>
+        <div class="alert alert-info margin-top-5" ng-show="message">{{message}}</div>
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -15,7 +15,7 @@
           <tbody>
             <tr ng-repeat="project in projects"
                 ng-style="{'background-color': $index == selectedIndex ? 'lightgray' : ''}"
-                ng-click="selectProject($index)">
+                ng-click="selectProject(project, $index)">
               <td>{{$index+1}}</td>
               <td>{{project.name}}</td>
               <td>{{project.description}}</td>
@@ -41,12 +41,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="report in reports"
-                ng-style="{'background-color': $index == selectedIndex ? 'lightgray' : ''}"
-                ng-click="selectProject($index)">
+            <tr ng-repeat="report in reports">
               <td>{{$index+1}}</td>
-              <td>{{project.name}}</td>
-              <td>{{project.description}}</td>
+              <td>{{report.comment}}</td>
+              <td>{{report.date}}</td>
+              <td>{{report.hours}}</td>
             </tr>
           </tbody>
         </table>
