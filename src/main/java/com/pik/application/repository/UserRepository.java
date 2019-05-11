@@ -1,6 +1,5 @@
 package com.pik.application.repository;
 
-import com.pik.application.domain.Project;
 import com.pik.application.domain.User;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
