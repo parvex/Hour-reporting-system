@@ -1,35 +1,31 @@
-<div
-  ng-repeat="item in chosenItems | orderBy: 'name'"
-  class="margin-top margin-bottom"
->
-  <div class="row">
-    <div class="col-8">
-      <span>{{ item.name }}</span>
-    </div>
-    <div class="col-4 text-center">
-      <i
-        class="far fa-trash-alt"
-        ng-click="deleteItem($index, $model)"
-        uib-tooltip="Delete item"
-      ></i>
-    </div>
+<section class="multi-item-select-input">
+  <div
+    ng-repeat="item in chosenItems | orderBy: 'name'"
+    class="margin-top margin-bottom"
+  >
+    <span>{{ item.name }} </span>
+    <i
+      class="glyphicon glyphicon-remove"
+      ng-click="deleteItem($index, $model)"
+      uib-tooltip="Delete item"
+    ></i>
   </div>
-</div>
-<ui-select
-  ng-model="selectedItem.model"
-  theme="bootstrap"
-  ng-disabled="disabled"
-  on-select="onSelected($item, $model)"
-  class="multi-item-select"
->
-  <ui-select-match placeholder="{{ placeholder }}">
-    {{ $select.selected.name }}</ui-select-match
+  <ui-select
+    ng-model="selectedItem.model"
+    theme="bootstrap"
+    ng-disabled="disabled"
+    on-select="onSelected($item, $model)"
+    class="multi-item-select"
   >
-  <ui-select-choices
-    repeat="item in itemsList | filter: $select.search"
-    refresh-delay="500"
-    refresh="loadItemsList($select.search)"
-  >
-    <span ng-bind-html="item.name | highlight: $select.search"></span>
-  </ui-select-choices>
-</ui-select>
+    <ui-select-match placeholder="{{ placeholder }}">
+      {{ $select.selected.name }}</ui-select-match
+    >
+    <ui-select-choices
+      repeat="item in itemsList | filter: $select.search"
+      refresh-delay="500"
+      refresh="loadItemsList($select.search)"
+    >
+      <span ng-bind-html="item.name | highlight: $select.search"></span>
+    </ui-select-choices>
+  </ui-select>
+</section>

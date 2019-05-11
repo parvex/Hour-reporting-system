@@ -1,21 +1,14 @@
-<section>
+<section class="multi-item-select-input">
   <div
     ng-repeat="employee in chosenEmployees | orderBy: 'name'"
     class="margin-top margin-bottom"
   >
-    <div class="row">
-      <div class="col-8">
-        <span>{{ employee.name }}</span>
-        <small ng-show="isEmployeeMe(employee)">(me)</small>
-      </div>
-      <div class="col-4 text-center">
-        <i
-          class="far fa-trash-alt"
-          ng-click="deleteEmployee($index, $model)"
-          uib-tooltip="Delete employee"
-        ></i>
-      </div>
-    </div>
+    <span>{{ employee.name }} </span>
+    <i
+      class="glyphicon glyphicon-remove"
+      ng-click="deleteEmployee($index, $model)"
+      uib-tooltip="Delete employee"
+    ></i>
   </div>
   <ui-select
     ng-model="selectedEmployee.model"
