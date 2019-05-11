@@ -13,3 +13,10 @@ after_success:
 
 script:
  - mvn test
+
+ deploy:
+  provider: packagecloud
+  repository: https://packagecloud.io/MatKravi/pik-repository
+  username: MatKravi
+  token: 9db3ae166e953d55c8c1e53b0066e2feb556f6cff7c21e12
+  dist: ubuntu/disco
