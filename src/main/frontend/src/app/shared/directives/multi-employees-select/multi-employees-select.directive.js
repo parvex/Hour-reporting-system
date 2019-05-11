@@ -19,8 +19,6 @@ angular
         scope.selectedEmployee = new Object();
         scope.me = AuthService.getUser();
 
-        console.log("multiEmployeesSelect");
-
         scope.$watch(
           "chosenEmployees",
           function() {
