@@ -1,107 +1,60 @@
 package com.pik.application.restController;
 
-import com.pik.application.domain.SystemRole;
 import com.pik.application.domain.User;
-import com.pik.application.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
+import com.pik.application.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-
-import static com.pik.application.domain.SystemRole.SUPERVISOR;
-
 
 @RestController
 @RequestMapping("/api")
 public class UserRestController {
-	@Autowired
-	private UserRepository userRepository;
 
+	private final UserService userService;
+
+	public UserRestController(UserService userService) {
+		this.userService = userService;
+	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/users", method = RequestMethod.GET)
+	@GetMapping(value = "/users")
 	public List<User> users() {
-		return userRepository.findAll();
+		return userService.findAll();
 	}
 
-
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/users/{id}")
 	public ResponseEntity<User> userById(@PathVariable Long id) {
-		Optional<User> user = userRepository.findById(id);
-		if (user.isEmpty()) {
-			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-		} else {
-			return new ResponseEntity<User>(user.get(), HttpStatus.OK);
-		}
+		return userService.userById(id);
 	}
 
-
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<User> deleteUser(@PathVariable Long id) {
-		Optional<User> user = userRepository.findById(id);
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String loggedUsername = auth.getName();
-		if (user.isEmpty()) {
-			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-		} else if (user.get().getUsername().equalsIgnoreCase(loggedUsername)) {
-			throw new RuntimeException("You cannot delete your account");
-		} else {
-			userRepository.delete(user.get());
-			return new ResponseEntity<User>(user.get(), HttpStatus.OK);
-		}
-
-	}
-
-
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/users", method = RequestMethod.POST)
+	@PostMapping(value = "/users")
 	public ResponseEntity<User> createUser(@RequestBody User user) {
-		if (userRepository.findOneByUsername(user.getUsername()) != null) {
-			throw new RuntimeException("Username already exist");
-		}
-		return new ResponseEntity<User>(userRepository.save(user), HttpStatus.CREATED);
+		return userService.createUser(user);
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@DeleteMapping(value = "/users/{id}")
+	public ResponseEntity<User> deleteUser(@PathVariable Long id) {
+		return userService.deleteUser(id);
+	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/users", method = RequestMethod.PUT)
+	@PutMapping(value = "/users")
 	public User updateUser(@RequestBody User user) {
-		if (userRepository.findOneByUsername(user.getUsername()) != null
-				&& userRepository.findOneByUsername(user.getUsername()).getId() != user.getId()) {
-			throw new RuntimeException("Username already exist");
-		}
-		return userRepository.save(user);
+		return userService.updateUser(user);
 	}
 
 	@GetMapping(value="/supervisors")
 	public List<User> getSupervisors(){
-		return userRepository.findByRoles("SUPERVISOR");
+		return userService.findByRoles("Supervisor");
 	}
 
 	@PostMapping(value = "/available-employees")
 	public List<User> getAvailableEmployees(@RequestParam(value="phrase") String phrase,
 											@RequestParam List<Long> chosenId){
-		Pageable page = PageRequest.of(0, 10);
-
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String loggedUsername = auth.getName();
-		User loggedUser = userRepository.findOneByUsername(loggedUsername);
-
-		return userRepository.findByUsernameLike(phrase, chosenId, loggedUser.getId(), page);
+		return userService.getAvailableEmployees(phrase, chosenId);
 	}
 }

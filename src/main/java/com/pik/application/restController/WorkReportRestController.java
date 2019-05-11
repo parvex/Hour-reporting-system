@@ -1,82 +1,69 @@
 package com.pik.application.restController;
 
-import com.pik.application.domain.User;
 import com.pik.application.domain.WorkReport;
-import com.pik.application.repository.WorkReportRepository;
-import org.fluttercode.datafactory.impl.DataFactory;
-import org.springframework.http.HttpStatus;
+import com.pik.application.dto.WRepUsrProj;
+import com.pik.application.service.WorkReportService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
 public class WorkReportRestController {
 
-    private final WorkReportRepository workReportRepository;
+    private final WorkReportService workReportService;
 
-    public WorkReportRestController(WorkReportRepository workReportRepositoryl) {
-        this.workReportRepository = workReportRepositoryl;
+    public WorkReportRestController(WorkReportService workReportService) {
+        this.workReportService = workReportService;
     }
 
     @GetMapping(value = "/reports")
-    public List<WorkReport> workReports(){ return workReportRepository.findAll(); }
+    public List<WorkReport> workReports(){
+        return workReportService.findAll();
+    }
 
     @GetMapping(value = "/reports/{id}")
     public ResponseEntity<WorkReport> workReportByID(@PathVariable Long id){
-        Optional<WorkReport> WorkReport = workReportRepository.findById(id);
-        if(WorkReport.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        else{
-            return new ResponseEntity<>(WorkReport.get(), HttpStatus.OK);
-        }
+        return workReportService.findById(id);
     }
 
     @PostMapping(value = "/reports")
     public ResponseEntity<WorkReport> createWorkReport(@RequestBody WorkReport workReport){
-        if(workReportRepository.findOneByComment(workReport.getComment()) != null){
-            throw new RuntimeException("WorkReport name exists");
-        }
-        return new ResponseEntity<>(workReportRepository.save(workReport), HttpStatus.ACCEPTED);
+        return workReportService.createWorkReport(workReport);
     }
 
     @PutMapping(value = "/reports")
     public WorkReport updateWorkReport(@RequestBody WorkReport workReport){
-        if (workReportRepository.findOneByComment(workReport.getComment()) != null
-                && workReportRepository.findOneByComment(workReport.getComment()).getId() != workReport.getId()) {
-            throw new RuntimeException("Work report already exist");
-        }
-        return workReportRepository.save(workReport);
+        return workReportService.updateWorkReport(workReport);
     }
 
     @DeleteMapping(value = "/reports/{id}")
     public ResponseEntity<WorkReport> deleteWorkReport(@PathVariable Long id){
-        Optional<WorkReport> workReport = workReportRepository.findById(id);
-        if(workReport.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        else{
-            workReportRepository.delete(workReport.get());
-            return new ResponseEntity<>(workReport.get(), HttpStatus.OK);
-        }
+        return workReportService.deleteWorkReport(id);
     }
 
     @PostMapping(value = "/work-reports")
-    public List<WorkReport> workReportsByDate(@RequestParam Date dateFrom,
+    public List<WorkReport> getWorkReportsByDate(@RequestParam Date dateFrom,
                                               @RequestParam Date dateTo,
                                               @RequestParam List<Long> employeesId,
                                               @RequestParam List<Long> projectsId){
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String loggedUsername = auth.getName();
+        return workReportService.getWorkReportByDate(dateFrom, dateTo, employeesId, projectsId);
+    }
 
-        return workReportRepository.findByDateBetweenOrderByDateAsc(dateFrom, dateTo, employeesId, projectsId, loggedUsername);
+    @GetMapping(value = "/work-reports/{id}")
+    public ResponseEntity<WRepUsrProj> getWorkReportInfo(@PathVariable Long id){
+        return workReportService.getWorkReportInfo(id);
+    }
+
+    @PostMapping(value = "/work-reports-new")
+    public ResponseEntity<WorkReport> addNewWorkReport(@RequestParam Date date,
+                                              @RequestParam Integer hours,
+                                              @RequestParam Long projectId,
+                                              @RequestParam String projectName,
+                                              @RequestParam String comment){
+
+        return workReportService.addNewWorkReport(date, hours, projectId, projectName, comment);
     }
 }

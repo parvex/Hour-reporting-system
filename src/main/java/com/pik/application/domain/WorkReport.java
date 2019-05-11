@@ -38,6 +38,18 @@ public class WorkReport
 
     private String comment;
 
+    public WorkReport() {}
+
+    public WorkReport(@NotNull Date date, @NotNull Date reportedAt, @NotNull int hours, boolean accepted, User user, Project project, String comment) {
+        this.date = date;
+        this.reportedAt = reportedAt;
+        this.hours = hours;
+        this.accepted = accepted;
+        this.user = user;
+        this.project = project;
+        this.comment = comment;
+    }
+
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }

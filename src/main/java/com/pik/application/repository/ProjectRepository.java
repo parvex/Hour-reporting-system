@@ -25,8 +25,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     }
 
     @Query("SELECT p.id, p.name FROM User u, Project p WHERE p MEMBER OF u.projects AND upper(p.name) LIKE CONCAT('%',upper(:phrase),'%')" +
-            " AND p.id NOT IN :chosenId AND u.username = :loggedUser")
-    List<Project> findByPhrase(String phrase, List<Long> chosenId, String loggedUser, Pageable pageable);
-
+            " AND p.id NOT IN :chosenId AND u.id = :loggedId")
+    List<Project> findByPhrase(String phrase, List<Long> chosenId, Long loggedId, Pageable pageable);
 
 }
