@@ -75,6 +75,16 @@ public class TestDataGenerator
         boss.setSupervisor(null);
         userRepository.save(boss);
 
+        User testUser = new User();
+        testUser.setName("testName");
+        testUser.setSurname("Surname");
+        testUser.setUsername("test");
+        testUser.setEmail("test@test.com");
+        testUser.setRoles(Arrays.asList("USER"));
+        testUser.setRegisteredAt(minDate);
+        testUser.setSupervisor(boss);
+        userRepository.save(testUser);
+
         List<User> supervisors = new LinkedList<User>();
 
         User user;
