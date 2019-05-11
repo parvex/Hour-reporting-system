@@ -102,6 +102,6 @@ public class UserRestController {
 		String loggedUsername = auth.getName();
 		User loggedUser = userRepository.findOneByUsername(loggedUsername);
 
-		return userRepository.findByUsernameLike(phrase, chosenId, loggedUser, page);
+		return userRepository.findByUsernameLike(phrase, chosenId, loggedUser.getId(), page);
 	}
 }

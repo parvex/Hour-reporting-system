@@ -31,7 +31,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByRoles(@Param("role") String role);
 
     @Query("SELECT u.id, u.name, u.surname FROM User u WHERE upper(u.name) LIKE CONCAT('%',upper(:phrase),'%')" +
-            "OR upper(u.surname) LIKE CONCAT('%',upper(:phrase),'%') AND u.id NOT IN :chosenId AND u.supervisor = :supervisor")
-    List<User> findByUsernameLike(String phrase, List<Long> chosenId, User supervisor, Pageable pageable);
+            "OR upper(u.surname) LIKE CONCAT('%',upper(:phrase),'%') AND u.id NOT IN :chosenId AND u.supervisor.id = :supervisorId")
+    List<User> findByUsernameLike(String phrase, List<Long> chosenId, Long supervisorId, Pageable pageable);
 
 }
