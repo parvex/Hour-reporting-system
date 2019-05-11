@@ -1,8 +1,11 @@
 package com.pik.application.restController;
 
+import com.pik.application.domain.SystemRole;
 import com.pik.application.domain.User;
 import com.pik.application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,8 +15,11 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import static com.pik.application.domain.SystemRole.SUPERVISOR;
 
 
 @RestController
@@ -80,8 +86,15 @@ public class UserRestController {
 		return userRepository.save(user);
 	}
 
-//	@GetMapping(value="/supervisors")
-//	public ResponseEntity<User> supervisors(){
-//		return userRepository.getSupervisors();
-//	}
+	@GetMapping(value="/supervisors")
+	public List<User> getSupervisors(){
+		return userRepository.findByRoles("SUPERVISOR");
+	}
+
+	@PostMapping(value = "/available-employees")
+	public List<User> getAvailableEmployees(@RequestParam(value="phrase") String phrase,
+											@RequestParam List<Long> chosenId){
+		Pageable page = PageRequest.of(0, 10);
+		return userRepository.findByUsernameLike(phrase, chosenId, page);
+	}
 }
