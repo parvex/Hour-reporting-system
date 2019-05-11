@@ -30,7 +30,7 @@ public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
     @Query("SELECT w.date, w.hours, w.user.id, w.user.name, w.user.surname, w.comment, w.accepted," +
             " w.project.id, w.project.name" +
             " FROM WorkReport w WHERE w.date BETWEEN :dateFrom AND :dateTo AND" +
-            " w.user.id in :employeesId AND w.project.id in :projectsId AND w.user.supervisor.username = :supervisorName ORDER BY w.date ASC")
+            " w.user.id in :employeesId AND w.project.id in :projectsId AND w.user.supervisor.username = :supervisorName ORDER BY w.date DESC")
     List<WorkReport> findByDateBetweenOrderByDateAsc(Date dateFrom, Date dateTo,
                                                      @Nullable List<Long> employeesId, @Nullable List<Long> projectsId,
                                                      String supervisorName);

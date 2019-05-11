@@ -2,10 +2,8 @@ package com.pik.application.restController;
 
 import com.pik.application.domain.User;
 import com.pik.application.domain.WorkReport;
-import com.pik.application.repository.UserRepository;
 import com.pik.application.repository.WorkReportRepository;
 import org.fluttercode.datafactory.impl.DataFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
