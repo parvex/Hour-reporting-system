@@ -1,7 +1,7 @@
 angular
   .module("hourReportingSystem")
   //Angular Service for storing logged user details
-  .service("AuthService", function($cookies) {
+  .service("AuthService", function($cookies, $state, $injector) {
     const service = this;
     service.setUser = setUser;
     service.getUser = getUser;
@@ -32,6 +32,8 @@ angular
 
     function logout() {
       $cookies.remove("user");
+      $state.go("login");
+      $injector.get("$rootScope").$broadcast("LogoutSuccessful")
     }
 
     //returns true if user has false, otherwise and if he's not logged

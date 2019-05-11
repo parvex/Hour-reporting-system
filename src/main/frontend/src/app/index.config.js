@@ -6,7 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, toastrConfig) {
+  function config($logProvider, $httpProvider, toastrConfig) {
     // Enable log
     $logProvider.debugEnabled(true);
 
@@ -16,6 +16,9 @@
     toastrConfig.positionClass = 'toast-top-right';
     toastrConfig.preventDuplicates = true;
     toastrConfig.progressBar = true;
+
+    //add session stopper
+    $httpProvider.interceptors.push('SessionStopper');
   }
 
 })();
