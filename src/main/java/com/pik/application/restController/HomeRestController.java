@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +39,9 @@ public class HomeRestController {
 		String token = null;
 		User user = userRepository.findOneByUsername(username);
 		Map<String, Object> tokenMap = new HashMap<String, Object>();
-		if (user != null && user.getPassword().equals(password)) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+		if (user != null && passwordEncoder.matches(password, user.getPassword())) {
 			token = Jwts.builder().setSubject(username).claim("roles", user.getRoles()).setIssuedAt(new Date())
 					.signWith(SignatureAlgorithm.HS256, "secretkey").compact();
 			tokenMap.put("token", token);

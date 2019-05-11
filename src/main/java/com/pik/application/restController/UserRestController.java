@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -56,6 +57,8 @@ public class UserRestController {
 		if (userRepository.findOneByUsername(user.getUsername()) != null) {
 			throw new RuntimeException("Username already exist");
 		}
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return new ResponseEntity<User>(userRepository.save(user), HttpStatus.CREATED);
 	}
 

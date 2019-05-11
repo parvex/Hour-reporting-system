@@ -12,6 +12,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -31,6 +32,8 @@ public class TestDataGenerator
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Autowired
     public TestDataGenerator(UserRepository userRepository, ProjectRepository projectRepository,
                              WorkReportRepository workReportRepository)
@@ -38,6 +41,7 @@ public class TestDataGenerator
         this.userRepository = userRepository;
         this.projectRepository = projectRepository;
         this.workReportRepository = workReportRepository;
+        passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @EventListener
@@ -69,7 +73,7 @@ public class TestDataGenerator
         boss.setSurname("admin");
         boss.setUsername("admin");
         boss.setEmail("admin@admin.admin");
-        boss.setPassword("admin");
+        boss.setPassword(passwordEncoder.encode("admin"));
         boss.setRoles( Arrays.asList("SUPERVISOR" , "USER", "ADMIN"));
         boss.setRegisteredAt(minDate);
         boss.setSupervisor(null);
@@ -88,7 +92,7 @@ public class TestDataGenerator
             user.setEmail(df.getEmailAddress());
             user.setUsername(df.getRandomWord() + index);
 
-            user.setPassword("password");
+            user.setPassword(passwordEncoder.encode("password"));
             user.setRoles( Arrays.asList("SUPERVISOR" , "USER"));
             user.setRegisteredAt(df.getDateBetween(minDate, maxSupDate));
             user.setSupervisor(boss);
@@ -111,7 +115,7 @@ public class TestDataGenerator
             user.setName(df.getFirstName());
             user.setSurname(df.getLastName());
             user.setEmail(df.getEmailAddress());
-            user.setPassword("password");
+            user.setPassword(passwordEncoder.encode("password"));
             user.setRoles( Arrays.asList("USER"));
             user.setUsername(df.getRandomWord() + index);
 
