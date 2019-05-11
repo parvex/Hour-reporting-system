@@ -12,6 +12,8 @@ angular
     lcCtrl.openDateFromPickerModal = openDateFromPickerModal;
     lcCtrl.openDateToPickerModal = openDateToPickerModal;
 
+    lcCtrl.toggleListViewActive = toggleListViewActive;
+
     lcCtrl.dateOptions = {
       dateDisabled: disabled,
       minDate: getMinDate(),
@@ -36,5 +38,9 @@ angular
     function getMinDate() {
       //TODO: return min date
       return new Date();
+    }
+
+    function toggleListViewActive() {
+      lcCtrl.listViewActive = !lcCtrl.listViewActive;
     }
   });
