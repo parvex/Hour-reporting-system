@@ -14,6 +14,7 @@ angular
   ) {
     const lcCtrl = this;
     lcCtrl.fliterCriteria = new Object();
+    lcCtrl.listViewItemsPerPage = 6;
 
     lcCtrl.openDateFromPickerModal = openDateFromPickerModal;
     lcCtrl.openDateToPickerModal = openDateToPickerModal;

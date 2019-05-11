@@ -111,11 +111,22 @@
         ng-show="!lcCtrl.listViewActive"
       ></div>
       <div ng-show="lcCtrl.listViewActive">
+        <section>
+          <div
+            ng-repeat="report in lcCtrl.reportsList | limitTo : lcCtrl.listViewItemsPerPage : ((lcCtrl.listViewPage - 1) * lcCtrl.listViewItemsPerPage)"
+          ></div>
+          <div
+            ng-show="!lcCtrl.reportsList || lcCtrl.reportsList.length == 0"
+            class="alert alert-info margin-top"
+          >
+            No reports available.
+          </div>
+        </section>
         <ul
           uib-pager
           total-items="lcCtrl.reportsList.length"
           ng-model="lcCtrl.listViewPage"
-          items-per-page="8"
+          items-per-page="lcCtrl.listViewItemsPerPage"
         ></ul>
       </div>
     </div>
