@@ -11,6 +11,14 @@ angular
       });
     }
 
+    function getAvailableEmployees(request) {
+      return $http
+        .post("/api/available-employees", request)
+        .then(function(response) {
+          return response.data;
+        });
+    }
+
     function getManagers(request) {
       return $http.post("/api/managers", request).then(function(response) {
         return response.data;

@@ -42,7 +42,9 @@ angular
             chosenIds: generateChosenIds()
           };
 
-          EmployeesService.getEmployees(request).then(function(response) {
+          EmployeesService.getAvailableEmployees(request).then(function(
+            response
+          ) {
             scope.employeesList = response.list;
           });
         }
