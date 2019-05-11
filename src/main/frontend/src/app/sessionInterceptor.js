@@ -6,11 +6,14 @@ angular
       // Session has expired
       if (response.status === 401){
         var AuthService = $injector.get('AuthService');
-        var rootScope = $injector.get("$rootScope");
-        var modalService = $injector.get("$uibModal")
-        //logout
-        AuthService.logout();
-        alert("Session Expired!");
+        if(AuthService.isLogged())
+        {
+          var rootScope = $injector.get("$rootScope");
+          var modalService = $injector.get("$uibModal")
+          //logout
+          AuthService.logout();
+          alert("Session Expired!");
+        }
       }
       return $q.reject(response);
     }
