@@ -111,14 +111,12 @@
         ng-show="!lcCtrl.listViewActive"
       ></div>
       <div ng-show="lcCtrl.listViewActive">
-        <ul class="pager">
-          <li class="previous">
-            <button class="btn btn-default"><span>&larr;</span> Newer</button>
-          </li>
-          <li class="next">
-            <button class="btn btn-default">Older <span>&rarr;</span></button>
-          </li>
-        </ul>
+        <ul
+          uib-pager
+          total-items="lcCtrl.reportsList.length"
+          ng-model="lcCtrl.listViewPage"
+          items-per-page="8"
+        ></ul>
       </div>
     </div>
   </div>
