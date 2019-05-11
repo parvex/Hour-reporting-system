@@ -13,8 +13,10 @@ after_success:
 
 script:
  - mvn test
+ - cp .travis.settings.xml $HOME/.m2/settings.xml
+ - mvn deploy
 
-deploy:
- provider: script
- script: "cp .travis.settings.xml $HOME/.m2/settings.xml && mvn deploy"
- skip_cleanup: true
+#deploy:
+# provider: script
+# script: "cp .travis.settings.xml $HOME/.m2/settings.xml && mvn deploy"
+# skip_cleanup: true
