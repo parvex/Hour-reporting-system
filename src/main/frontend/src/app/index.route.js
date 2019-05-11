@@ -62,6 +62,9 @@
       .state("register", {
         parent: "nav",
         url: "/register",
+        data : {
+          role : 'ADMIN'
+        },
         views: {
           "content@": {
             templateUrl: "app/register/register.html",
