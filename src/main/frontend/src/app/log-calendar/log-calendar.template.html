@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row panel panel-default">
     <div class="panel-body">
-      <div class="col-md-3">
+      <div class="col-lg-2 col-md-6">
         <p class="input-group">
           <input
             type="text"
@@ -24,7 +24,7 @@
           </span>
         </p>
       </div>
-      <div class="col-md-3">
+      <div class="col-lg-2 col-md-6">
         <p class="input-group">
           <input
             type="text"
@@ -47,12 +47,20 @@
           </span>
         </p>
       </div>
-      <div class="col-md-6">
+      <div class="col-lg-4 col-md-6">
         <multi-employees-select
           model="lcCtrl.fliterCriteria.employees"
           placeholder="employees"
         >
         </multi-employees-select>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <multi-item-select
+          model="lcCtrl.fliterCriteria.projects"
+          placeholder="projects"
+          provider="lcCtrl.provideProjects(request)"
+        >
+        </multi-item-select>
       </div>
     </div>
   </div>

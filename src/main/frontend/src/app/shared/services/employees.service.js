@@ -3,6 +3,7 @@ angular
   .factory("EmployeesService", function($http) {
     const service = this;
     service.getEmployees = getEmployees;
+    service.getAvailableEmployees = getAvailableEmployees;
     service.getManagers = getManagers;
 
     function getEmployees(request) {

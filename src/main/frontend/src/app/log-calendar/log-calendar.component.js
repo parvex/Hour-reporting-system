@@ -5,7 +5,7 @@ angular
     controller: "LogCalendarCtrl",
     controllerAs: "lcCtrl"
   })
-  .controller("LogCalendarCtrl", function(ReportsService) {
+  .controller("LogCalendarCtrl", function(ReportsService, ProjectsService) {
     const lcCtrl = this;
     lcCtrl.fliterCriteria = new Object();
 
@@ -13,6 +13,8 @@ angular
     lcCtrl.openDateToPickerModal = openDateToPickerModal;
 
     lcCtrl.toggleListViewActive = toggleListViewActive;
+
+    lcCtrl.provideProjects = provideProjects;
 
     lcCtrl.dateOptions = {
       dateDisabled: disabled,
@@ -42,5 +44,9 @@ angular
 
     function toggleListViewActive() {
       lcCtrl.listViewActive = !lcCtrl.listViewActive;
+    }
+
+    function provideProjects(request) {
+      return ProjectsService.getProjects(request);
     }
   });
