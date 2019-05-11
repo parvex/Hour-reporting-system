@@ -5,7 +5,7 @@ angular
     controller: "LogCalendarCtrl",
     controllerAs: "lcCtrl"
   })
-  .controller("LogCalendarCtrl", function($scope) {
+  .controller("LogCalendarCtrl", function(ReportsService) {
     const lcCtrl = this;
     lcCtrl.fliterCriteria = new Object();
 

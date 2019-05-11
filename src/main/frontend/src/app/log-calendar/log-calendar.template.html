@@ -56,41 +56,62 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-lg-3">
-    <button class="btn btn-primary">Log work time</button>
-  </div>
-  <div class="col-lg-9">
-    <div class="btn-group btn-group-justified" role="group">
-      <div class="btn-group" role="group">
+  <div class="row">
+    <div class="col-lg-3 panel panel-default">
+      <div class="panel-body">
         <button
           type="button"
-          class="btn btn-default"
-          ng-class="{'active': !lcCtrl.listViewActive}"
-          ng-click="lcCtrl.toggleListViewActive()"
+          class="btn btn-primary"
+          ng-click="lcCtrl.openNewReportModal()"
         >
-          <span class="toggle-button-margin">Calendar View</span
-          ><small><i class="glyphicon glyphicon-calendar"></i></small>
-        </button>
-      </div>
-      <div class="btn-group" role="group">
-        <button
-          type="button"
-          class="btn btn-default"
-          ng-class="{'active': lcCtrl.listViewActive}"
-          ng-click="lcCtrl.toggleListViewActive()"
-        >
-          <span class="toggle-button-margin">List View</span
-          ><small><i class="glyphicon glyphicon glyphicon-th-list"></i></small>
+          <span>Report work </span>
+          <small><i class="glyphicon glyphicon-plus"></i></small>
         </button>
       </div>
     </div>
-    <div
-      ui-calendar="uiConfig.calendar"
-      class="span8 calendar"
-      ng-model="eventSources"
-      ng-show="!lcCtrl.listViewActive"
-    ></div>
+    <div class="col-lg-9">
+      <div class="btn-group btn-group-justified" role="group">
+        <div class="btn-group" role="group">
+          <button
+            type="button"
+            class="btn btn-default"
+            ng-class="{'active': !lcCtrl.listViewActive}"
+            ng-click="lcCtrl.toggleListViewActive()"
+          >
+            <span class="toggle-button-margin">Calendar View</span
+            ><small><i class="glyphicon glyphicon-calendar"></i></small>
+          </button>
+        </div>
+        <div class="btn-group" role="group">
+          <button
+            type="button"
+            class="btn btn-default"
+            ng-class="{'active': lcCtrl.listViewActive}"
+            ng-click="lcCtrl.toggleListViewActive()"
+          >
+            <span class="toggle-button-margin">List View</span
+            ><small
+              ><i class="glyphicon glyphicon glyphicon-th-list"></i
+            ></small>
+          </button>
+        </div>
+      </div>
+      <div
+        ui-calendar="uiConfig.calendar"
+        class="span8 calendar report-calendar"
+        ng-model="eventSources"
+        ng-show="!lcCtrl.listViewActive"
+      ></div>
+      <div ng-show="lcCtrl.listViewActive">
+        <ul class="pager">
+          <li class="previous">
+            <button class="btn btn-default"><span>&larr;</span> Newer</button>
+          </li>
+          <li class="next">
+            <button class="btn btn-default">Older <span>&rarr;</span></button>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
