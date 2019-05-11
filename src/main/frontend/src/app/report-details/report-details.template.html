@@ -1,0 +1,137 @@
+<section>
+  <div class="modal-header">
+    <h3 class="modal-title" ng-show="!rdCtrl.reportId">New work report</h3>
+    <h3 class="modal-title" ng-show="rdCtrl.reportId">Work preview</h3>
+  </div>
+  <div class="modal-body">
+    <form name="reportForm">
+      <div
+        class="form-group"
+        ng-class="{'has-error': reportForm.date.$touched && reportForm.date.$invalid}"
+      >
+        <label for="date">Date</label>
+        <p class="input-group" ng-show="!rdCtrl.reportId">
+          <input
+            type="text"
+            class="form-control"
+            uib-datepicker-popup
+            ng-model="rdCtrl.report.date"
+            is-open="rdCtrl.datePickerOpened"
+            datepicker-options="rdCtrl.dateOptions"
+            close-text="Close"
+            placeholder="date"
+            name="date"
+            required
+          />
+          <span class="input-group-btn">
+            <button
+              type="button"
+              class="btn btn-default"
+              ng-click="rdCtrl.openDatePickerModal()"
+            >
+              <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+          </span>
+        </p>
+        <span
+          class="help-block"
+          ng-show="reportForm.date.$touched && reportForm.date.$invalid"
+          >Report date is required.</span
+        >
+      </div>
+      <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.date }}</p>
+      <div
+        class="form-group"
+        ng-class="{'has-error': reportForm.hoursNumber.$touched && reportForm.hoursNumber.$invalid}"
+      >
+        <label for="hoursNumber">Hours number</label>
+        <div class="input-group" ng-show="!rdCtrl.reportId">
+          <input
+            type="number"
+            class="form-control"
+            name="hoursNumber"
+            placeholder="hours number"
+            ng-model="rdCtrl.report.hoursNumber"
+            required
+            ng-min="0"
+            ng-max="8"
+          />
+          <span class="input-group-addon">h</span>
+        </div>
+        <span
+          class="help-block"
+          ng-show="reportForm.hoursNumber.$touched && reportForm.hoursNumber.$invalid"
+          >Number of hours is required and needs to be a number between 0 and
+          8.</span
+        >
+      </div>
+      <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.hoursNumber }}</p>
+      <div
+        class="form-group"
+        ng-class="{'has-error': !rdCtrl.isProjectSelected()}"
+      >
+        <label>Project</label>
+        <item-select
+          model="rdCtrl.report.projectName"
+          model-id="rdCtrl.report.projectId"
+          placeholder="project"
+          provider="rdCtrl.provideProjects(request)"
+          disabled="rdCtrl.reportId"
+        >
+        </item-select>
+        <span class="help-block" ng-show="!rdCtrl.isProjectSelected()"
+          >Project is required.</span
+        >
+      </div>
+      <div class="form-group" ng-show="rdCtrl.reportId">
+        <label>Employee</label>
+        <item-select
+          model="rdCtrl.report.employeeName"
+          model-id="rdCtrl.report.employeeId"
+          placeholder="employee"
+          provider="rdCtrl.provideEmployees(request)"
+        >
+        </item-select>
+      </div>
+      <div
+        class="form-group"
+        ng-class="{'has-error': reportForm.comment.$touched && reportForm.comment.$invalid}"
+      >
+        <label for="comment">Comment</label>
+        <textarea
+          class="form-control"
+          rows="3"
+          name="comment"
+          placeholder="describe what you have done"
+          ng-show="!rdCtrl.reportId"
+          ng-model="rdCtrl.report.comment"
+          required
+        ></textarea>
+        <span
+          class="help-block"
+          ng-show="reportForm.comment.$touched && reportForm.comment.$invalid"
+          >Comment is required.</span
+        >
+      </div>
+      <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.comment }}</p>
+      <label ng-show="rdCtrl.reportId">
+        <input type="checkbox" ng-model="rdCtrl.report.accepted" />
+        Accepted
+      </label>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      class="btn btn-primary"
+      type="button"
+      ng-click="rdCtrl.save()"
+      ng-show="!rdCtrl.reportId"
+      ng-disabled="reportForm.$invalid || !rdCtrl.isProjectSelected()"
+    >
+      Save
+    </button>
+    <button class="btn btn-warning" type="button" ng-click="rdCtrl.cancel()">
+      Cancel
+    </button>
+  </div>
+</section>

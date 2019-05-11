@@ -99,26 +99,6 @@
             component: "employeeDetails"
           }
         }
-      })
-      .state("report", {
-        parent: "nav",
-        url: "/report",
-        views: {
-          "content@": {
-            templateUrl: "app/report/report.html",
-            controller: "ReportController"
-          }
-        }
-      })
-      .state("projects", {
-        parent: "nav",
-        url: "/projects",
-        views: {
-          "content@": {
-            templateUrl: "app/projects/projects.html",
-            controller: "ProjectsController"
-          }
-        }
       });
   }
 })();

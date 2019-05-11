@@ -12,6 +12,9 @@ import java.util.*;
 
 @Repository
 public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
+
+    WorkReport findOneByComment(String comment);
+
     @Query("SELECT r FROM WorkReport r")
     List<WorkReport> getLimited(Pageable page);
 
@@ -26,7 +29,7 @@ public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
             "FROM WorkReport w WHERE w.id = :id")
     WRepUsrProj findByIdInfo(Long id);
 
-    WorkReport findOneByComment(String comment);
+
 
     @Query("SELECT w.date, w.hours, w.user.id, w.user.name, w.user.surname, w.comment, w.accepted," +
             " w.project.id, w.project.name" +
