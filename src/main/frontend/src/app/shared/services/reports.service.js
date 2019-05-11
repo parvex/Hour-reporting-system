@@ -4,6 +4,7 @@ angular
     const service = this;
     service.getReport = getReport;
     service.getReports = getReports;
+    service.saveReport = saveReport;
 
     function getReport(reportId) {
       return $http
@@ -14,6 +15,12 @@ angular
     }
 
     function getReports(request) {
+      return $http.post("/api/work-reports", request).then(function(response) {
+        return response.data;
+      });
+    }
+
+    function saveReport(request) {
       return $http.post("/api/work-reports", request).then(function(response) {
         return response.data;
       });

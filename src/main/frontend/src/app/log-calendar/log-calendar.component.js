@@ -8,7 +8,9 @@ angular
   .controller("LogCalendarCtrl", function(
     ReportsService,
     ProjectsService,
-    $uibModal
+    $uibModal,
+    $scope,
+    $timeout
   ) {
     const lcCtrl = this;
     lcCtrl.fliterCriteria = new Object();
@@ -17,7 +19,6 @@ angular
     lcCtrl.openDateToPickerModal = openDateToPickerModal;
 
     lcCtrl.openReportModal = openReportModal;
-
     lcCtrl.toggleListViewActive = toggleListViewActive;
 
     lcCtrl.provideProjects = provideProjects;
@@ -27,6 +28,20 @@ angular
       minDate: getMinDate(),
       startingDay: 1
     };
+
+    $scope.$watch(
+      "lcCtrl.fliterCriteria",
+      function() {
+        if (lcCtrl.reloadReportsPromise) {
+          $timeout.cancel(lcCtrl.reloadReportsPromise);
+        }
+
+        lcCtrl.reloadReportsPromise = $timeout(function() {
+          loadReports();
+        }, 400);
+      },
+      true
+    );
 
     function openDateFromPickerModal() {
       lcCtrl.dateFromPickerOpened = true;
@@ -46,6 +61,25 @@ angular
     function getMinDate() {
       //TODO: return min date
       return new Date();
+    }
+
+    function loadReports() {
+      const request = generateRequest();
+
+      ReportsService.getReports(request).then(function(response) {
+        lcCtrl.reportsList = response.list;
+      });
+    }
+
+    function generateRequest() {
+      const request = {
+        dateFrom: lcCtrl.fliterCriteria.dateFrom,
+        dateTo: lcCtrl.fliterCriteria.dateTo,
+        employeesIds: lcCtrl.fliterCriteria.employees,
+        projectsIds: lcCtrl.fliterCriteria.projects
+      };
+
+      return request;
     }
 
     function toggleListViewActive() {
@@ -69,7 +103,7 @@ angular
       });
 
       modalInstance.result.then(function() {
-        //TODO: refresh reports list
+        loadReports();
       });
     }
   });

@@ -69,7 +69,9 @@ angular
     }
 
     function save() {
-      //TODO: implement this function
+      ReportsService.saveReport(rdCtrl.report).then(function() {
+        $uibModalInstance.close();
+      });
     }
 
     function cancel() {
