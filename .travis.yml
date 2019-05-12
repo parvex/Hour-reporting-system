@@ -8,12 +8,15 @@ jdk:
 before_install:
  - chmod +x mvnw
  - gem install package_cloud
- - package_cloud yank MatKravi/pik-repository/java com.pik/app-0.0.1-SNAPSHOT.jar
 
 after_success:
  - bash <(curl -s https://codecov.io/bash)
- - cp .travis.settings.xml $HOME/.m2/settings.xml
- - mvn deploy
+
+ deploy:
+   provider: script
+   script: "cp .travis.settings.xml $HOME/.m2/settings.xml && package_cloud yank MatKravi/pik-repository/java com.pik/app-0.0.1-SNAPSHOT.jar && mvn deploy"
+   on:
+    all_branches: true
 
 script:
  - mvn test
