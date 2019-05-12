@@ -10,7 +10,8 @@ angular
     ProjectsService,
     $uibModal,
     $scope,
-    $timeout
+    $timeout,
+    uiCalendarConfig
   ) {
     const lcCtrl = this;
     lcCtrl.fliterCriteria = new Object();
@@ -106,5 +107,10 @@ angular
       modalInstance.result.then(function() {
         loadReports();
       });
+    }
+
+    function calendarReportClick(report) {
+      //TODO: open modal
+      console.log(report);
     }
   });
