@@ -82,6 +82,15 @@
           }
         }
       })
+      .state("calendar", {
+        parent: "nav",
+        url: "/calendar",
+        views: {
+          "content@": {
+            component: "logCalendar"
+          }
+        }
+      })
       .state("employees", {
         parent: "nav",
         url: "/employees",

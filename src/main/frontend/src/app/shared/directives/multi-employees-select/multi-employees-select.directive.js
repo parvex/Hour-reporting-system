@@ -59,8 +59,7 @@ angular
         }
 
         function isEmployeeMe(employee) {
-          //TODO: implement this method
-          return false;
+          return scope.me.id == employee.id;
         }
       }
     };

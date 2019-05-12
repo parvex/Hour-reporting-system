@@ -30,6 +30,18 @@ angular
       startingDay: 1
     };
 
+    lcCtrl.uiConfig = {
+      calendar: {
+        editable: false,
+        header: {
+          left: "title",
+          center: "",
+          right: "today prev,next"
+        },
+        eventClick: calendarReportClick
+      }
+    };
+
     $scope.$watch(
       "lcCtrl.fliterCriteria",
       function() {
@@ -69,6 +81,7 @@ angular
 
       ReportsService.getReports(request).then(function(response) {
         lcCtrl.reportsList = response.list;
+        lcCtrl.reportsEvents = generateCalendarReportEvents(lcCtrl.reportsList);
       });
     }
 
@@ -105,6 +118,20 @@ angular
 
       modalInstance.result.then(function() {
         loadReports();
+      });
+    }
+
+    function calendarReportClick(report) {
+      openReportModal(report.id);
+    }
+
+    function generateCalendarReportEvents(reports) {
+      return reports.map(function(report) {
+        return {
+          title: report.employeeName + " " + report.employeeSurname,
+          start: report.date,
+          end: report.date
+        };
       });
     }
   });
