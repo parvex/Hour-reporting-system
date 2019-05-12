@@ -1,11 +1,19 @@
 package com.pik.application.restController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pik.application.domain.User;
+import com.pik.application.dto.PhraseList;
+import com.pik.application.dto.UserIdName;
 import com.pik.application.service.UserService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -54,10 +62,14 @@ public class UserRestController {
 	}
 
 	@PreAuthorize("hasAuthority('SUPERVISOR')")
-	@GetMapping(value = "/available-employees")
-	public List<User> getAvailableEmployees(@RequestParam(value="phrase") String phrase,
-											@RequestParam List<Long> chosenId){
+	@PostMapping(value = "/available-employees")
+//	@ResponseBody
+	public List<UserIdName> getAvailableEmployees(@RequestBody PhraseList body){//(required = false
 
-		return userService.getAvailableEmployees(phrase, chosenId);
+//		List<UserIdName> users = userService.getAvailableEmployees(body.getPhrase(), body.getChosenIds());
+
+//		System.out.println("user: " + users.get());
+//		return users;
+		return userService.getAvailableEmployees(body.getPhrase(), body.getChosenIds());
 	}
 }

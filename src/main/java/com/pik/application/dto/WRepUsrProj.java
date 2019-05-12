@@ -12,7 +12,7 @@ public class WRepUsrProj {
     private String userSurName;
     private Long projectId;
     private String projectName;
-    private String coment;
+    private String comment;
     private Boolean accepted;
 
     public WRepUsrProj(Long workReportId, Date date, int hours, Long userId, String userName, String userSurName, Long projectId, String projectName, String coment, Boolean accepted) {
@@ -24,7 +24,7 @@ public class WRepUsrProj {
         this.userSurName = userSurName;
         this.projectId = projectId;
         this.projectName = projectName;
-        this.coment = coment;
+        this.comment = coment;
         this.accepted = accepted;
     }
 
@@ -93,11 +93,11 @@ public class WRepUsrProj {
     }
 
     public String getComent() {
-        return coment;
+        return comment;
     }
 
     public void setComent(String coment) {
-        this.coment = coment;
+        this.comment = coment;
     }
 
     public Boolean getAccepted() {

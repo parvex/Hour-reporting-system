@@ -1,6 +1,7 @@
 package com.pik.application.service;
 
 import com.pik.application.domain.User;
+import com.pik.application.dto.UserIdName;
 import com.pik.application.repository.UserRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -78,7 +79,7 @@ public class UserService {
         return userRepository.findByRoles(role);
     }
 
-    public List<User> getAvailableEmployees(String phrase, List<Long> chosenId) {
+    public List<UserIdName> getAvailableEmployees(String phrase, List<Long> chosenId) {
         Pageable page = PageRequest.of(0, 10);
         User loggedUser = getLoggedUser();
         Long loggedId = loggedUser.getId();
