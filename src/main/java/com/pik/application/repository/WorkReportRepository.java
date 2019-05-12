@@ -33,7 +33,6 @@ public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
             " w.project.id, w.project.name) FROM WorkReport w WHERE w.date BETWEEN :dateFrom AND :dateTo AND (w.user.id IN (:employeeIds) " +
             " OR COALESCE(:employeeIds, NULL) IS NULL) AND (w.project.id IN (:projectIds) OR COALESCE(:projectIds, NULL) IS NULL)" +
             " AND w.user.supervisor.id = :loggedId OR w.user.id = :loggedId ORDER BY w.date DESC")
-    List<WRepDate> findByDateBetweenOrderByDateAsc(Date dateFrom, Date dateTo, @Nullable List<Long> employeeIds,
-                                                     @Nullable List<Long> projectIds, Long loggedId);
+    List<WRepDate> findByDateBetweenOrderByDateAsc(Date dateFrom, Date dateTo, @Nullable List<Long> employeeIds, @Nullable List<Long> projectIds, Long loggedId);
 
 }

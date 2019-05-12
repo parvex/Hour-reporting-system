@@ -69,6 +69,6 @@ public class UserRestController {
 		if(body != null)
 			return userService.getAvailableEmployees(body.getPhrase(), body.getChosenIds());
 		else
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

@@ -58,6 +58,6 @@ public class ProjectRestController {
         if(body != null)
             return projectService.getProjectByPhrase(body.getPhrase(), body.getChosenIds());
         else
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
