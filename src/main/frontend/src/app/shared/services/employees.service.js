@@ -8,7 +8,6 @@ angular
 
     service.getEmployees = getEmployees;
     service.getAvailableEmployees = getAvailableEmployees;
-    service.getManagers = getManagers;
 
     function getEmployee(employeeId) {
       return $http.get("/api/employees/" + employeeId).then(function(response) {
@@ -40,12 +39,6 @@ angular
         .then(function(response) {
           return response.data;
         });
-    }
-
-    function getManagers(request) {
-      return $http.post("/api/managers", request).then(function(response) {
-        return response.data;
-      });
     }
 
     return service;

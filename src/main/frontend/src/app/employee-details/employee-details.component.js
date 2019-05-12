@@ -8,10 +8,15 @@ angular
   .controller("EmployeeDetailsCtrl", function(
     employeeId,
     $uibModalInstance,
-    EmployeesService
+    EmployeesService,
+    ProjectsService
   ) {
     const edCtrl = this;
     edCtrl.employeeId = employeeId;
+
+    edCtrl.provideProjects = provideProjects;
+    edCtrl.provideEmployees = provideEmployees;
+    edCtrl.provideRoles = provideRoles;
 
     edCtrl.save = save;
     edCtrl.cancel = cancel;
@@ -22,6 +27,24 @@ angular
       });
     } else {
       edCtrl.employee = new Object();
+    }
+
+    function provideProjects(request) {
+      return ProjectsService.getProjects(request);
+    }
+
+    function provideEmployees(request) {
+      return EmployeesService.getEmployees(request);
+    }
+
+    function provideRoles() {
+      return Promise.resolve({
+        list: [
+          { id: 0, name: "USER" },
+          { id: 1, name: "ADMIN" },
+          { id: 2, name: "SUPERVISOR" }
+        ]
+      });
     }
 
     function save() {

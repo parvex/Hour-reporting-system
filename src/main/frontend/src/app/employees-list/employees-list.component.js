@@ -17,7 +17,7 @@ angular
     elCtrl.search = search;
     elCtrl.openEmployeeModal = openEmployeeModal;
 
-    elCtrl.provideManagers = provideManagers;
+    elCtrl.provideEmployees = provideEmployees;
     elCtrl.provideProjects = provideProjects;
 
     elCtrl.employeesTable = new NgTableParams(
@@ -74,8 +74,8 @@ angular
       });
     }
 
-    function provideManagers(request) {
-      return EmployeesService.getManagers(request);
+    function provideEmployees(request) {
+      return EmployeesService.getEmployees(request);
     }
 
     function provideProjects(request) {
