@@ -8,13 +8,16 @@ angular
   .controller("EmployeesListCtrl", function(
     EmployeesService,
     NgTableParams,
-    ProjectsService
+    ProjectsService,
+    $uibModal
   ) {
     const elCtrl = this;
+    elCtrl.filterCriteria = new Object();
+
     elCtrl.search = search;
     elCtrl.openEmployeeModal = openEmployeeModal;
 
-    elCtrl.provideManagers = provideManagers;
+    elCtrl.provideEmployees = provideEmployees;
     elCtrl.provideProjects = provideProjects;
 
     elCtrl.employeesTable = new NgTableParams(
@@ -36,53 +39,43 @@ angular
     );
 
     function generateLoadEmploeesRequest(params) {
-      const criteria = {};
-
-      let projects = [];
-      if (angular.isArray(elCtrl.projectsFilter)) {
-        projects = elCtrl.projectsFilter.map(function(project) {
-          return { id: project.id };
-        });
-      }
-
-      if (projects.length > 0) {
-        criteria.projects = projects;
-      }
-
-      if (elCtrl.employeesNameFilter) {
-        criteria.name = elCtrl.employeesNameFilter;
-      }
-
-      if (elCtrl.employeesSurnameFilter) {
-        criteria.surname = elCtrl.employeesSurnameFilter;
-      }
-
-      if (elCtrl.employeesEmailFilter) {
-        criteria.email = elCtrl.employeesEmailFilter;
-      }
-
-      if (elCtrl.employeesManagerIdFilter) {
-        criteria.manager = elCtrl.employeesManagerIdFilter;
-      }
-
       return {
-        page: params.page() - 1,
-        count: params.count(),
-        criteria: criteria
+        criteria: elCtrl.filterCriteria,
+        options: {
+          page: params.page() - 1,
+          count: params.count()
+        }
       };
     }
 
-    function search() {
+    function reloadEmployeesTable() {
+      elCtrl.employeesTable.page(1);
       elCtrl.employeesTable.reload();
     }
 
-    function openEmployeeModal(employeeId) {
-      //TODO: open modal
-      //TODO: pass employeeId to modal
+    function search() {
+      reloadEmployeesTable();
     }
 
-    function provideManagers(request) {
-      return EmployeesService.getManagers(request);
+    function openEmployeeModal(employeeId) {
+      const modalInstance = $uibModal.open({
+        templateUrl: "app/employee-details/employee-details.template.html",
+        controller: "EmployeeDetailsCtrl",
+        controllerAs: "edCtrl",
+        resolve: {
+          employeeId: function() {
+            return employeeId;
+          }
+        }
+      });
+
+      modalInstance.result.then(function() {
+        reloadEmployeesTable();
+      });
+    }
+
+    function provideEmployees(request) {
+      return EmployeesService.getEmployees(request);
     }
 
     function provideProjects(request) {

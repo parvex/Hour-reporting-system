@@ -105,23 +105,49 @@
         </div>
       </div>
       <div
-        ui-calendar="uiConfig.calendar"
+        ui-calendar="lcCtrl.uiConfig.calendar"
         class="span8 calendar report-calendar"
-        ng-model="eventSources"
+        ng-model="lcCtrl.reportsEvents"
         ng-show="!lcCtrl.listViewActive"
       ></div>
       <div ng-show="lcCtrl.listViewActive">
-        <section>
-          <div
-            ng-repeat="report in lcCtrl.reportsList | limitTo : lcCtrl.listViewItemsPerPage : ((lcCtrl.listViewPage - 1) * lcCtrl.listViewItemsPerPage)"
-          ></div>
-          <div
-            ng-show="!lcCtrl.reportsList || lcCtrl.reportsList.length == 0"
-            class="alert alert-info margin-top"
-          >
-            No reports available.
+        <div
+          ng-repeat="report in lcCtrl.reportsList | limitTo : lcCtrl.listViewItemsPerPage : ((lcCtrl.listViewPage - 1) * lcCtrl.listViewItemsPerPage)"
+          class="row panel panel-default"
+        >
+          <div class="panel-body" ng-click="lcCtrl.openReportModal(report.id)">
+            <div class="col-md-4">
+              <small
+                ><i class="glyphicon glyphicon glyphicon-th-user"></i
+              ></small>
+              <span>
+                {{ report.employeeName + " " + report.employeeSurname }}
+              </span>
+            </div>
+            <div class="col-md-4">
+              <small
+                ><i class="glyphicon glyphicon glyphicon-th-time"></i
+              ></small>
+              <span>
+                {{ report.hoursNumber }}
+              </span>
+            </div>
+            <div class="col-md-4">
+              <small
+                ><i class="glyphicon glyphicon glyphicon-th-calendar"></i
+              ></small>
+              <span>
+                {{ report.date }}
+              </span>
+            </div>
           </div>
-        </section>
+        </div>
+        <div
+          ng-show="!lcCtrl.reportsList || lcCtrl.reportsList.length == 0"
+          class="alert alert-info margin-top"
+        >
+          No reports available.
+        </div>
         <ul
           uib-pager
           total-items="lcCtrl.reportsList.length"

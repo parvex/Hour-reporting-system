@@ -5,7 +5,61 @@ angular
     controller: "EmployeeDetailsCtrl",
     controllerAs: "edCtrl"
   })
-  .controller("EmployeeDetailsCtrl", function($scope, $state) {
+  .controller("EmployeeDetailsCtrl", function(
+    employeeId,
+    $uibModalInstance,
+    EmployeesService,
+    ProjectsService
+  ) {
     const edCtrl = this;
-    console.log("employeeId", $state.params.employeeId);
+    edCtrl.employeeId = employeeId;
+
+    edCtrl.provideProjects = provideProjects;
+    edCtrl.provideEmployees = provideEmployees;
+    edCtrl.provideRoles = provideRoles;
+
+    edCtrl.save = save;
+    edCtrl.cancel = cancel;
+
+    if (employeeId) {
+      EmployeesService.getEmployee(employeeId).then(function(response) {
+        edCtrl.employee = response;
+      });
+    } else {
+      edCtrl.employee = new Object();
+    }
+
+    function provideProjects(request) {
+      return ProjectsService.getProjects(request);
+    }
+
+    function provideEmployees(request) {
+      return EmployeesService.getEmployees(request);
+    }
+
+    function provideRoles() {
+      return Promise.resolve({
+        list: [
+          { id: 0, name: "USER" },
+          { id: 1, name: "ADMIN" },
+          { id: 2, name: "SUPERVISOR" }
+        ]
+      });
+    }
+
+    function save() {
+      if (employeeId) {
+        EmployeesService.updateEmployee(edCtrl.employee).then(function() {
+          cancel();
+        });
+      } else {
+        EmployeesService.saveEmployee(edCtrl.employee).then(function() {
+          cancel();
+        });
+      }
+    }
+
+    function cancel() {
+      $uibModalInstance.close();
+    }
   });
