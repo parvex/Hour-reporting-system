@@ -25,12 +25,4 @@ public class UserIdName {
     public void setName(String name) {
         this.fullName = name;
     }
-
-    @Override
-    public String toString() {
-        return "{" +
-                "id=" + id +
-                "fullName='" + fullName + '\'' +
-                '}';
-    }
 }

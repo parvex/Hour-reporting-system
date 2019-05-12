@@ -5,6 +5,7 @@ import com.pik.application.domain.User;
 import com.pik.application.dto.PhraseList;
 import com.pik.application.dto.UserIdName;
 import com.pik.application.service.UserService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -62,7 +63,7 @@ public class UserRestController {
 
 	@PreAuthorize("hasAuthority('SUPERVISOR')")
 	@PostMapping(value = "/available-employees")
-	@ResponseBody
+//	@ResponseBody
 	public List<UserIdName> getAvailableEmployees(@RequestBody PhraseList body){//(required = false
 
 //		List<UserIdName> users = userService.getAvailableEmployees(body.getPhrase(), body.getChosenIds());
