@@ -10,12 +10,14 @@ before_install:
 
 after_success:
  - bash <(curl -s https://codecov.io/bash)
+ - cp .travis.settings.xml $HOME/.m2/settings.xml
+ - mvn deploy
 
-deploy:
- provider: script
- script: "cp .travis.settings.xml $HOME/.m2/settings.xml && mvn deploy"
- on:
-  all_branches: true
+#deploy:
+# provider: script
+# script: "cp .travis.settings.xml $HOME/.m2/settings.xml && mvn deploy"
+# on:
+#  all_branches: true
 
 script:
  - mvn test
