@@ -1,10 +1,12 @@
 package com.pik.application.repository;
 
 import com.pik.application.domain.Project;
+import com.pik.application.dto.IdName;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,8 +26,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
                 .findFirst();
     }
 
-    @Query("SELECT p.id, p.name FROM User u, Project p WHERE p MEMBER OF u.projects AND upper(p.name) LIKE CONCAT('%',upper(:phrase),'%')" +
-            " AND p.id NOT IN :chosenId AND u.id = :loggedId")
-    List<Project> findByPhrase(String phrase, List<Long> chosenId, Long loggedId, Pageable pageable);
+    @Query("SELECT new com.pik.application.dto.IdName(p.id, p.name) FROM User u, Project p WHERE (p MEMBER OF u.projects) AND (upper(p.name) LIKE CONCAT('%',upper(:phrase),'%')" +
+            " OR :phrase IS NULL) AND (p.id NOT IN (:chosenIds) OR COALESCE(:chosenIds, NULL) IS NULL) AND (u.id = :loggedId OR u.supervisor.id = :loggedId)")
+    List<IdName> findByPhrase(@Nullable String phrase, @Nullable List<Long> chosenIds, Long loggedId, Pageable pageable);
 
 }

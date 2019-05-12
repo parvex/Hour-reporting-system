@@ -1,11 +1,11 @@
 package com.pik.application.dto;
 
-public class UserIdName {
+public class IdName {
 
     public Long id;
     public String name;
 
-    public UserIdName(Long id, String name) {
+    public IdName(Long id, String name) {
         this.id = id;
         this.name = name;
     }

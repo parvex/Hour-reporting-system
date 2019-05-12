@@ -1,7 +1,7 @@
 package com.pik.application.service;
 
 import com.pik.application.domain.User;
-import com.pik.application.dto.UserIdName;
+import com.pik.application.dto.IdName;
 import com.pik.application.repository.UserRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -79,16 +79,17 @@ public class UserService {
         return userRepository.findByRoles(role);
     }
 
-
-    public List<UserIdName> findSupervisorsByPhrase(String phrase){
+    public List<IdName> findSupervisorsByPhrase(String phrase){
         Pageable page = PageRequest.of(0, 10);
         return userRepository.findSupervisorsByUsernameLike(phrase, page);
     }
 
-    public List<UserIdName> getAvailableEmployees(String phrase, List<Long> chosenId) {
+    public ResponseEntity<List<IdName>> getAvailableEmployees(String phrase, List<Long> chosenIds) {
         Pageable page = PageRequest.of(0, 10);
-        User loggedUser = getLoggedUser();
-        Long loggedId = loggedUser.getId();
-        return userRepository.findByUsernameLike(phrase, chosenId, 1811l, page);
+        Long loggedId = getLoggedUser().getId();
+        if(chosenIds != null && chosenIds.isEmpty())
+            chosenIds.add(-1L);
+        List<IdName> body = userRepository.findByUsernameLike(phrase, chosenIds, loggedId, page);
+        return new ResponseEntity<>(body, HttpStatus.OK);
     }
 }

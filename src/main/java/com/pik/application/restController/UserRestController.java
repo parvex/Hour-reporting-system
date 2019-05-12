@@ -1,13 +1,13 @@
 package com.pik.application.restController;
 
 import com.pik.application.domain.User;
+import com.pik.application.dto.IdName;
 import com.pik.application.dto.PhraseList;
-import com.pik.application.dto.UserIdName;
 import com.pik.application.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -58,15 +58,17 @@ public class UserRestController {
 
 //	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping(value="/findsupervisors")
-	public List<UserIdName> getSupervisors(String phrase){
-		List<UserIdName> users = userService.findSupervisorsByPhrase(phrase);
+	public List<IdName> getSupervisors(String phrase){
 		return userService.findSupervisorsByPhrase(phrase);
 	}
-	
+
 	@PreAuthorize("hasAuthority('SUPERVISOR')")
 	@PostMapping(value = "/available-employees")
-	@ResponseBody
-	public List<UserIdName> getAvailableEmployees(@RequestBody(required = false) PhraseList body){
-		return userService.getAvailableEmployees(body.getPhrase(), body.getChosenIds());
+	public ResponseEntity<List<IdName>> getAvailableEmployees(@RequestBody(required = false) PhraseList body){
+
+		if(body != null)
+			return userService.getAvailableEmployees(body.getPhrase(), body.getChosenIds());
+		else
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

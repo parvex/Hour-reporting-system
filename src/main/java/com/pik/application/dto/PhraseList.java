@@ -1,15 +1,11 @@
 package com.pik.application.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class PhraseList {
 
     private String phrase;
     private List<Long> chosenIds;
-
-    public PhraseList() {}
 
     public PhraseList(String phrase, List<Long> chosenIds) {
         this.phrase = phrase;

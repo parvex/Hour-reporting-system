@@ -199,11 +199,11 @@
 
     <distributionManagement>
         <repository>
-            <id>packagecloud-MatKravi</id>
+            <id>packagecloud-travis</id>
             <url>packagecloud+https://packagecloud.io/MatKravi/pik-repository</url>
         </repository>
         <snapshotRepository>
-            <id>packagecloud-MatKravi</id>
+            <id>packagecloud-travis</id>
             <url>packagecloud+https://packagecloud.io/MatKravi/pik-repository</url>
         </snapshotRepository>
     </distributionManagement>

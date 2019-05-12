@@ -1,7 +1,10 @@
 package com.pik.application.restController;
 
 import com.pik.application.domain.Project;
+import com.pik.application.dto.IdName;
+import com.pik.application.dto.PhraseList;
 import com.pik.application.service.ProjectService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +15,6 @@ import java.util.List;
 public class ProjectRestController {
 
     private final ProjectService projectService;
-
     public ProjectRestController(ProjectService projectService) {
         this.projectService = projectService;
     }
@@ -49,8 +51,11 @@ public class ProjectRestController {
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping(value = "/projects")
-    public List<Project> getProjectsByPhrase(@RequestParam(value="phrase") String phrase,
-                                             @RequestParam List<Long> chosenId){
-        return projectService.getProjectByPhrase(phrase, chosenId);
+    public ResponseEntity<List<IdName>> getProjectsByPhrase(@RequestBody(required = false) PhraseList body){
+
+        if(body != null)
+            return projectService.getProjectByPhrase(body.getPhrase(), body.getChosenIds());
+        else
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
