@@ -63,12 +63,7 @@ public class UserRestController {
 	@PreAuthorize("hasAuthority('SUPERVISOR')")
 	@PostMapping(value = "/available-employees")
 	@ResponseBody
-	public List<UserIdName> getAvailableEmployees(@RequestBody PhraseList body){//(required = false
-
-//		List<UserIdName> users = userService.getAvailableEmployees(body.getPhrase(), body.getChosenIds());
-
-//		System.out.println("user: " + users.get());
-//		return users;
+	public List<UserIdName> getAvailableEmployees(@RequestBody(required = false) PhraseList body){
 		return userService.getAvailableEmployees(body.getPhrase(), body.getChosenIds());
 	}
 }

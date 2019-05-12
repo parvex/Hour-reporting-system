@@ -45,7 +45,7 @@ angular
           EmployeesService.getAvailableEmployees(request).then(function(
             response
           ) {
-            scope.employeesList = response.list;
+            scope.employeesList = response;
           });
         }
 
