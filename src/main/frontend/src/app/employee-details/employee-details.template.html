@@ -7,6 +7,28 @@
     <form name="employeeForm">
       <div
         class="form-group"
+        ng-class="{'has-error': employeeForm.username.$touched && employeeForm.username.$invalid}"
+      >
+        <label for="username">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          name="username"
+          placeholder="username"
+          ng-model="rdCtrl.report.username"
+          required
+          ng-minlength="2"
+          ng-maxlength="32"
+        />
+        <span
+          class="help-block"
+          ng-show="employeeForm.username.$touched && employeeForm.username.$invalid"
+          >Username is required and needs to have between 2 and 32
+          characters.</span
+        >
+      </div>
+      <div
+        class="form-group"
         ng-class="{'has-error': employeeForm.name.$touched && employeeForm.name.$invalid}"
       >
         <label for="name">Name</label>
@@ -47,6 +69,71 @@
           >Surname is required and needs to have between 2 and 32
           characters.</span
         >
+      </div>
+      <div
+        class="form-group"
+        ng-class="{'has-error': employeeForm.email.$touched && employeeForm.email.$invalid}"
+      >
+        <label for="email">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          placeholder="email"
+          ng-model="rdCtrl.report.email"
+          required
+        />
+        <span
+          class="help-block"
+          ng-show="employeeForm.email.$touched && employeeForm.email.$invalid"
+          >Email is required and needs to be a valid email address.</span
+        >
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div
+            class="form-group"
+            ng-class="{'has-error': employeeForm.password.$touched && employeeForm.password.$invalid}"
+          >
+            <label for="password">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              name="password"
+              placeholder="password"
+              ng-model="rdCtrl.report.password"
+              required
+              ng-minlength="8"
+              ng-maxlength="64"
+            />
+            <span
+              class="help-block"
+              ng-show="employeeForm.password.$touched && employeeForm.password.$invalid"
+              >Password is required and needs to have between 8 and 64
+              characters.</span
+            >
+          </div>
+          <div
+            class="form-group"
+            ng-class="{'has-error': employeeForm.password.$touched && employeeForm.confirmPassword.$touched && rdCtrl.report.password != rdCtrl.confirmPassword}"
+          >
+            <label for="confirmPassword">Confirm password</label>
+            <input
+              type="password"
+              class="form-control"
+              name="confirmPassword"
+              placeholder="confirm password"
+              ng-model="rdCtrl.confirmPassword"
+              required
+            />
+            <span
+              class="help-block"
+              ng-show="employeeForm.password.$touched && employeeForm.confirmPassword.$touched && rdCtrl.report.password != rdCtrl.confirmPassword"
+              >Passwords needs to be the same.</span
+            >
+          </div>
+        </div>
       </div>
     </form>
   </div>
