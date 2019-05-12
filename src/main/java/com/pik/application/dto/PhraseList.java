@@ -1,6 +1,5 @@
 package com.pik.application.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 
 public class PhraseList {

@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -16,7 +15,6 @@ import java.util.List;
 public class ProjectRestController {
 
     private final ProjectService projectService;
-
     public ProjectRestController(ProjectService projectService) {
         this.projectService = projectService;
     }
