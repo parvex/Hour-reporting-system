@@ -3,7 +3,53 @@
     <h3 class="modal-title" ng-show="!edCtrl.employeeId">New employee</h3>
     <h3 class="modal-title" ng-show="edCtrl.employeeId">Employee edition</h3>
   </div>
-  <div class="modal-body"></div>
+  <div class="modal-body">
+    <form name="employeeForm">
+      <div
+        class="form-group"
+        ng-class="{'has-error': employeeForm.name.$touched && employeeForm.name.$invalid}"
+      >
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          placeholder="name"
+          ng-model="rdCtrl.report.name"
+          required
+          ng-minlength="2"
+          ng-maxlength="32"
+        />
+        <span
+          class="help-block"
+          ng-show="employeeForm.name.$touched && employeeForm.name.$invalid"
+          >Name is required and needs to have between 2 and 32 characters.</span
+        >
+      </div>
+      <div
+        class="form-group"
+        ng-class="{'has-error': employeeForm.surname.$touched && employeeForm.surname.$invalid}"
+      >
+        <label for="surname">Surname</label>
+        <input
+          type="text"
+          class="form-control"
+          name="surname"
+          placeholder="surname"
+          ng-model="rdCtrl.report.surname"
+          required
+          ng-minlength="2"
+          ng-maxlength="32"
+        />
+        <span
+          class="help-block"
+          ng-show="employeeForm.surname.$touched && employeeForm.surname.$invalid"
+          >Surname is required and needs to have between 2 and 32
+          characters.</span
+        >
+      </div>
+    </form>
+  </div>
   <div class="modal-footer">
     <button class="btn btn-primary" type="button" ng-click="edCtrl.save()">
       Save
