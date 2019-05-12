@@ -10,8 +10,7 @@ angular
     ProjectsService,
     $uibModal,
     $scope,
-    $timeout,
-    uiCalendarConfig
+    $timeout
   ) {
     const lcCtrl = this;
     lcCtrl.fliterCriteria = new Object();
@@ -29,6 +28,18 @@ angular
       dateDisabled: disabled,
       minDate: getMinDate(),
       startingDay: 1
+    };
+
+    lcCtrl.uiConfig = {
+      calendar: {
+        editable: false,
+        header: {
+          left: "title",
+          center: "",
+          right: "today prev,next"
+        },
+        eventClick: calendarReportClick
+      }
     };
 
     $scope.$watch(
@@ -70,6 +81,7 @@ angular
 
       ReportsService.getReports(request).then(function(response) {
         lcCtrl.reportsList = response.list;
+        lcCtrl.reportsEvents = generateCalendarReportEvents(lcCtrl.reportsList);
       });
     }
 
@@ -110,7 +122,16 @@ angular
     }
 
     function calendarReportClick(report) {
-      //TODO: open modal
-      console.log(report);
+      openReportModal(report.id);
+    }
+
+    function generateCalendarReportEvents(reports) {
+      return reports.map(function(report) {
+        return {
+          title: report.employeeName + " " + report.employeeSurname,
+          start: report.date,
+          end: report.date
+        };
+      });
     }
   });
