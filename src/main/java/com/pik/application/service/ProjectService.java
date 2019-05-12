@@ -2,6 +2,7 @@ package com.pik.application.service;
 
 import com.pik.application.domain.Project;
 import com.pik.application.domain.User;
+import com.pik.application.dto.IdName;
 import com.pik.application.repository.ProjectRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -62,11 +63,13 @@ public class ProjectService {
         }
     }
 
-    public List<Project> getProjectByPhrase(String phrase, List<Long> chosenId) {
+    public ResponseEntity<List<IdName>> getProjectByPhrase(String phrase, List<Long> chosenIds) {
         Pageable page = PageRequest.of(0, 10);
-        User loggedUser = userService.getLoggedUser();
-        Long loggedUserId = loggedUser.getId();
-        return projectRepository.findByPhrase(phrase, chosenId, loggedUserId, page);
+        Long loggedUserId = userService.getLoggedUser().getId();
+        if(chosenIds != null && chosenIds.isEmpty())
+            chosenIds.add(-1L);
+        List<IdName> body = projectRepository.findByPhrase(phrase, chosenIds, 2000L, page);
+        return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
     public Project findById(Long projectId) {

@@ -1,8 +1,12 @@
 package com.pik.application.restController;
 
 import com.pik.application.domain.WorkReport;
+import com.pik.application.dto.WRepDate;
+import com.pik.application.dto.WRepDateReq;
+import com.pik.application.dto.WRepNew;
 import com.pik.application.dto.WRepUsrProj;
 import com.pik.application.service.WorkReportService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -50,12 +54,12 @@ public class WorkReportRestController {
 
     @PreAuthorize("hasAuthority('SUPERVISOR')")
     @PostMapping(value = "/work-reports")
-    public List<WorkReport> getWorkReportsByDate(@RequestParam Date dateFrom,
-                                              @RequestParam Date dateTo,
-                                              @RequestParam List<Long> employeesId,
-                                              @RequestParam List<Long> projectsId){
+    public ResponseEntity<List<WRepDate>> getWorkReportsByDate(@RequestBody(required = false) WRepDateReq body){
 
-        return workReportService.getWorkReportByDate(dateFrom, dateTo, employeesId, projectsId);
+        if(body != null)
+            return workReportService.getWorkReportByDate(body.getDateFrom(), body.getDateTo(), body.getEmployeeIds(), body.getProjectIds());
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PreAuthorize("hasAuthority('SUPERVISOR')")
@@ -66,12 +70,11 @@ public class WorkReportRestController {
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping(value = "/work-reports-new")
-    public ResponseEntity<WorkReport> addNewWorkReport(@RequestParam Date date,
-                                              @RequestParam Integer hours,
-                                              @RequestParam Long projectId,
-                                              @RequestParam String projectName,
-                                              @RequestParam String comment){
+    public ResponseEntity<WorkReport> addNewWorkReport(@RequestBody(required = false)WRepNew body){
 
-        return workReportService.addNewWorkReport(date, hours, projectId, projectName, comment);
+        if(body != null)
+            return workReportService.addNewWorkReport(body.getDate(), body.getHoursNumber(), body.getProjectId(), body.getProjectName(), body.getComment());
+        else
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -1,18 +1,16 @@
 package com.pik.application.restController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pik.application.domain.User;
+import com.pik.application.dto.IdName;
 import com.pik.application.dto.PhraseList;
-import com.pik.application.dto.UserIdName;
 import com.pik.application.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -62,8 +60,11 @@ public class UserRestController {
 
 	@PreAuthorize("hasAuthority('SUPERVISOR')")
 	@PostMapping(value = "/available-employees")
-	@ResponseBody
-	public List<UserIdName> getAvailableEmployees(@RequestBody(required = false) PhraseList body){
-		return userService.getAvailableEmployees(body.getPhrase(), body.getChosenIds());
+	public ResponseEntity<List<IdName>> getAvailableEmployees(@RequestBody(required = false) PhraseList body){
+
+		if(body != null)
+			return userService.getAvailableEmployees(body.getPhrase(), body.getChosenIds());
+		else
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 }

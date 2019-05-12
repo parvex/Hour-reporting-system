@@ -3,6 +3,7 @@ package com.pik.application.service;
 import com.pik.application.domain.Project;
 import com.pik.application.domain.User;
 import com.pik.application.domain.WorkReport;
+import com.pik.application.dto.WRepDate;
 import com.pik.application.dto.WRepUsrProj;
 import com.pik.application.repository.WorkReportRepository;
 import org.springframework.http.HttpStatus;
@@ -63,10 +64,13 @@ public class WorkReportService {
         }
     }
 
-    public List<WorkReport> getWorkReportByDate(Date dateFrom, Date dateTo, List<Long> employeesId, List<Long> projectsId) {
-        User loggedUser = userService.getLoggedUser();
-        Long loggedId = loggedUser.getId();
-        return workReportRepository.findByDateBetweenOrderByDateAsc(dateFrom, dateTo, employeesId, projectsId, loggedId);
+    public ResponseEntity<List<WRepDate>> getWorkReportByDate(Date dateFrom, Date dateTo, List<Long> employeeIds, List<Long> projectIds) {
+        Long loggedId = userService.getLoggedUser().getId();
+        if(employeeIds != null && employeeIds.isEmpty()) employeeIds.add(-1L);
+        if(projectIds != null && projectIds.isEmpty()) projectIds.add(-1L);
+
+        List<WRepDate> body = workReportRepository.findByDateBetweenOrderByDateAsc(dateFrom, dateTo, employeeIds, projectIds, loggedId);
+        return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
     public ResponseEntity<WRepUsrProj> getWorkReportInfo(Long id) {
@@ -84,7 +88,6 @@ public class WorkReportService {
         Date now = new Date();
         Project project = projectService.findById(projectId);
         WorkReport newWorkReport = new WorkReport(date, now, hours, true, loggedUser, project, comment);
-
         return new ResponseEntity<>(workReportRepository.save(newWorkReport), HttpStatus.CREATED);
     }
 }

@@ -77,11 +77,6 @@
             <artifactId>java-jwt</artifactId>
             <version>3.8.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.8</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -201,17 +196,6 @@
             </properties>
         </profile>
     </profiles>
-
-<!--    <distributionManagement>-->
-<!--        <repository>-->
-<!--            <id>packagecloud-MatKravi</id>-->
-<!--            <url>packagecloud+https://packagecloud.io/MatKravi/pik-repository</url>-->
-<!--        </repository>-->
-<!--        <snapshotRepository>-->
-<!--            <id>packagecloud-MatKravi</id>-->
-<!--            <url>packagecloud+https://packagecloud.io/MatKravi/pik-repository</url>-->
-<!--        </snapshotRepository>-->
-<!--    </distributionManagement>-->
 
     <distributionManagement>
         <repository>
