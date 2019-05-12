@@ -19,7 +19,7 @@ import java.util.*;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "user_tbl")
-public class User  implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue
@@ -99,7 +99,7 @@ public class User  implements UserDetails {
     }
 
     @ManyToMany
-    private Set<Project> projects = new HashSet<Project>();
+    private Set<Project> projects = new HashSet<>();
 
     public Set<Project> getProjects() { return projects; }
 
@@ -154,7 +154,6 @@ public class User  implements UserDetails {
     public void setRoles(List<String> roles) {
         this.roles = roles;
     }
-
 
     public void setPassword(String password) {
         this.password = password;

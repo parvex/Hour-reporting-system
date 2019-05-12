@@ -13,6 +13,8 @@ import java.util.Optional;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
+    Project findOneByName(String name);
+
     @Query("SELECT p FROM Project p")
     List<Project> getLimited(Pageable page);
 
@@ -21,4 +23,9 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
                 .stream()
                 .findFirst();
     }
+
+    @Query("SELECT p.id, p.name FROM User u, Project p WHERE p MEMBER OF u.projects AND upper(p.name) LIKE CONCAT('%',upper(:phrase),'%')" +
+            " AND p.id NOT IN :chosenId AND u.id = :loggedId")
+    List<Project> findByPhrase(String phrase, List<Long> chosenId, Long loggedId, Pageable pageable);
+
 }

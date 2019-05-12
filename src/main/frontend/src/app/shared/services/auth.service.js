@@ -1,7 +1,7 @@
 angular
   .module("hourReportingSystem")
   //Angular Service for storing logged user details
-  .service("AuthService", function($cookies) {
+  .service("AuthService", function($cookies, $state, $injector, $http) {
     const service = this;
     service.setUser = setUser;
     service.getUser = getUser;
@@ -9,16 +9,28 @@ angular
     service.logout = logout;
     service.hasRole = hasRole;
 
-    function setUser(user) {
+    //refreshing token on refresh
+    if(isLogged()) {
+      var token = $cookies.get('token');
+      console.log(token);
+      $http.defaults.headers.common["Authorization"] =
+        "Bearer " + token;
+    }
+
+    function setUser(data) {
       var obj = {
-        id: user.id,
-        name: user.name,
-        surname: user.surname,
-        username: user.username,
-        roles: user.roles
+        id: data.user.id,
+        name: data.user.name,
+        surname: data.user.surname,
+        username: data.user.username,
+        roles: data.user.roles
       };
 
       $cookies.putObject("user", obj);
+      $cookies.put("token", data.token);
+
+      $http.defaults.headers.common["Authorization"] =
+        "Bearer " + data.token;
     }
 
     function getUser() {
@@ -32,6 +44,9 @@ angular
 
     function logout() {
       $cookies.remove("user");
+      $state.go("login");
+      $http.defaults.headers.common["Authorization"] = "";
+      $injector.get("$rootScope").$broadcast("LogoutSuccessful");
     }
 
     //returns true if user has false, otherwise and if he's not logged

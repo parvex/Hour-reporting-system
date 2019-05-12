@@ -29,6 +29,19 @@
           }
         }
       })
+      .state("users", {
+        parent: "nav",
+        url: "/users",
+        data: {
+          role: "ADMIN"
+        },
+        views: {
+          "content@": {
+            templateUrl: "app/users/users.html",
+            controller: "UsersController"
+          }
+        }
+      })
       .state("home", {
         parent: "nav",
         url: "/",
@@ -62,9 +75,6 @@
       .state("register", {
         parent: "nav",
         url: "/register",
-        data : {
-          role : 'ADMIN'
-        },
         views: {
           "content@": {
             templateUrl: "app/register/register.html",
@@ -89,15 +99,6 @@
             component: "employeeDetails"
           }
         }
-      })
-      .state("calendar", {
-        parent: "nav",
-        url: "/calendar",
-        views: {
-          "content@": {
-            component: "logCalendar"
-          }
-        }
-      })
+      });
   }
 })();
