@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +29,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where :role MEMBER OF u.roles")
     List<User> findByRoles(@Param("role") String role);
 
-    @Query("SELECT new com.pik.application.dto.UserIdName(u.id , CONCAT(u.name,' ',u.surname)) FROM User u WHERE (upper(u.name) LIKE CONCAT('%',upper(:phrase),'%')" +
-            "OR upper(u.surname) LIKE CONCAT('%',upper(:phrase),'%')) AND u.id NOT IN :chosenId AND u.supervisor.id = :supervisorId")
-    List<UserIdName> findByUsernameLike(String phrase, List<Long> chosenId, Long supervisorId, Pageable pageable);
+    @Query("SELECT new com.pik.application.dto.UserIdName(u.id , CONCAT(u.name,' ',u.surname)) FROM User u WHERE CONCAT(upper(u.name), ' ', u.surname) LIKE CONCAT('%',upper(:phrase),'%')" +
+            "AND u.id NOT IN :chosenId AND u.supervisor.id = :supervisorId")
+    List<UserIdName> findByUsernameLike(@Nullable String phrase, @Nullable List<Long> chosenId,@Nullable Long supervisorId, Pageable pageable);
 
 }

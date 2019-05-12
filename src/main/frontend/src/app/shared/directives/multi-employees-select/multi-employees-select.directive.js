@@ -45,7 +45,7 @@ angular
           EmployeesService.getAvailableEmployees(request).then(function(
             response
           ) {
-            scope.employeesList = response.list;
+            scope.employeesList = response;
           });
         }
 
@@ -59,8 +59,7 @@ angular
         }
 
         function isEmployeeMe(employee) {
-          //TODO: implement this method
-          return false;
+          return scope.me.id == employee.id;
         }
       }
     };

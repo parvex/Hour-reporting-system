@@ -1,104 +1,112 @@
 <section class="container">
-  <form name="elCtrl.employeesSearchForm" class="margin-top margin-bottom">
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <input
-          type="text"
-          class="form-control"
-          name="name"
-          placeholder="name"
-          ng-model="elCtrl.employeesNameFilter"
-        />
+  <form name="employeesSearchForm" class="panel panel-default">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-4 margin-bottom">
+          <input
+            type="text"
+            class="form-control"
+            name="name"
+            placeholder="name"
+            ng-model="elCtrl.filterCriteria.name"
+          />
+        </div>
+        <div class="col-md-4 margin-bottom">
+          <input
+            type="text"
+            class="form-control"
+            name="surname"
+            placeholder="surname"
+            ng-model="elCtrl.filterCriteria.surname"
+          />
+        </div>
+        <div class="col-md-4 margin-bottom">
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            placeholder="email"
+            ng-model="elCtrl.filterCriteria.email"
+          />
+        </div>
       </div>
-      <div class="form-group col-md-4">
-        <input
-          type="text"
-          class="form-control"
-          name="surname"
-          placeholder="surname"
-          ng-model="elCtrl.employeesSurnameFilter"
-        />
+      <div class="row">
+        <div class="col-md-4 margin-bottom">
+          <item-select
+            model="elCtrl.filterCriteria.supervisorName"
+            model-id="elCtrl.filterCriteria.supervisorId"
+            placeholder="supervisor"
+            provider="elCtrl.provideEmployees(request)"
+          >
+          </item-select>
+        </div>
+        <div class="col-md-4 margin-bottom">
+          <multi-item-select
+            model="elCtrl.filterCriteria.projects"
+            placeholder="projects"
+            provider="elCtrl.provideProjects(request)"
+          >
+          </multi-item-select>
+        </div>
       </div>
-      <div class="form-group col-md-4">
-        <input
-          type="text"
-          class="form-control"
-          name="email"
-          placeholder="email"
-          ng-model="elCtrl.employeesEmailFilter"
-        />
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <item-select
-          model="elCtrl.employeesManagerNameFilter"
-          model-id="elCtrl.employeesManagerIdFilter"
-          placeholder="manager"
-          provider="elCtrl.provideManagers(request)"
-        >
-        </item-select>
-      </div>
-      <div class="form-group col-md-4">
-        <multi-item-select
-          model="elCtrl.projectsFilter"
-          placeholder="projects"
-          provider="elCtrl.provideProjects(request)"
-        >
-        </multi-item-select>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="pull-right">
+            <button
+              class="btn btn-primary"
+              ng-click="elCtrl.openEmployeeModal()"
+            >
+              <span>Add Employee </span>
+              <small><i class="glyphicon glyphicon-plus"></i></small>
+            </button>
+            <button class="btn btn-primary" ng-click="elCtrl.search()">
+              <span>Search </span>
+              <small><i class="glyphicon glyphicon-search"></i></small>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </form>
   <div class="row">
-    <div class="col-12">
-      <div class="float-right">
-        <button class="btn btn-info" ng-click="elCtrl.openEmployeeModal()">
-          Add Employee <i class="fas fa-plus-circle"></i>
-        </button>
-        <button class="btn btn-primary" ng-click="elCtrl.search()">
-          Search <i class="fas fa-search"></i>
-        </button>
-      </div>
-    </div>
+    <table
+      ng-table="elCtrl.employeesTable"
+      class="table table-striped margin-top margin-bottom"
+      template-pagination="custom/pager"
+    >
+      <thead>
+        <th>#</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Email</th>
+        <th>Manager</th>
+        <th>Projects</th>
+        <th>Actions</th>
+      </thead>
+      <tbody ng-show="$data.length == 0">
+        <tr>
+          <td colspan="7">No data available.</td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr ng-repeat="employee in $data">
+          <td class="text-center">
+            {{ (params.page() - 1) * params.count() + $index + 1 }}
+          </td>
+          <td>{{ employee.name }}</td>
+          <td>{{ employee.surname }}</td>
+          <td>{{ employee.email }}</td>
+          <td>{{ employee.manager }}</td>
+          <td td-ul list="employee.projects"></td>
+          <td class="text-center">
+            <span
+              ng-clik="elCtrl.openEmployeeModal(employee.id)"
+              uib-tooltip="Edit employee"
+              ><i class="glyphicon glyphicon-pencil"></i
+            ></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <table
-    ng-table="elCtrl.employeesTable"
-    class="table table-striped margin-top margin-bottom"
-    template-pagination="custom/pager"
-  >
-    <thead>
-      <th>#</th>
-      <th>Name</th>
-      <th>Surname</th>
-      <th>Email</th>
-      <th>Manager</th>
-      <th>Projects</th>
-      <th>Actions</th>
-    </thead>
-    <tbody ng-show="$data.length == 0">
-      <tr>
-        <td colspan="7">No data available.</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr ng-repeat="employee in $data">
-        <td class="text-center">
-          {{ (params.page() - 1) * params.count() + $index + 1 }}
-        </td>
-        <td>{{ employee.name }}</td>
-        <td>{{ employee.surname }}</td>
-        <td>{{ employee.email }}</td>
-        <td>{{ employee.manager }}</td>
-        <td td-ul list="employee.projects"></td>
-        <td class="text-center">
-          <button
-            class="btn btn-info"
-            ng-clik="elCtrl.openEmployeeModal(employee.id)"
-          >
-            Edit
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </section>
