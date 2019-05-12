@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pik.application.domain.User;
 import com.pik.application.dto.PhraseList;
 import com.pik.application.dto.UserIdName;
+
 import com.pik.application.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -60,6 +61,13 @@ public class UserRestController {
 		return userService.findByRoles("Supervisor");
 	}
 
+//	@PreAuthorize("hasAuthority('ADMIN')")
+	@GetMapping(value="/findsupervisors")
+	public List<UserIdName> getSupervisors(String phrase){
+		List<UserIdName> users = userService.findSupervisorsByPhrase(phrase);
+		return userService.findSupervisorsByPhrase(phrase);
+	}
+	
 	@PreAuthorize("hasAuthority('SUPERVISOR')")
 	@PostMapping(value = "/available-employees")
 	@ResponseBody

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -33,4 +34,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "AND u.id NOT IN :chosenId AND u.supervisor.id = :supervisorId")
     List<UserIdName> findByUsernameLike(@Nullable String phrase, @Nullable List<Long> chosenId,@Nullable Long supervisorId, Pageable pageable);
 
+
+    @Query("SELECT new com.pik.application.dto.UserIdName(u.id, CONCAT(u.name,' ', u.surname, ' [', u.username, ']')) FROM User u WHERE CONCAT(upper(u.name), ' ' , upper(u.surname)) LIKE CONCAT('%',upper(:phrase),'%')" +
+            "AND 'SUPERVISOR' MEMBER OF u.roles")
+    List<UserIdName> findSupervisorsByUsernameLike(String phrase, Pageable pageable);
 }
