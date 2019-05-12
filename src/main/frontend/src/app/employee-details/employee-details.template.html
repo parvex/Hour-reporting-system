@@ -1,1 +1,15 @@
-<h3>Employee details</h3>
+<section>
+  <div class="modal-header">
+    <h3 class="modal-title" ng-show="!edCtrl.employeeId">New employee</h3>
+    <h3 class="modal-title" ng-show="edCtrl.employeeId">Employee edition</h3>
+  </div>
+  <div class="modal-body"></div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="edCtrl.save()">
+      Save
+    </button>
+    <button class="btn btn-warning" type="button" ng-click="edCtrl.cancel()">
+      Cancel
+    </button>
+  </div>
+</section>

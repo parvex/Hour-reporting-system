@@ -5,7 +5,38 @@ angular
     controller: "EmployeeDetailsCtrl",
     controllerAs: "edCtrl"
   })
-  .controller("EmployeeDetailsCtrl", function($scope, $state) {
+  .controller("EmployeeDetailsCtrl", function(
+    employeeId,
+    $uibModalInstance,
+    EmployeesService
+  ) {
     const edCtrl = this;
-    console.log("employeeId", $state.params.employeeId);
+    edCtrl.employeeId = employeeId;
+
+    edCtrl.save = save;
+    edCtrl.cancel = cancel;
+
+    if (employeeId) {
+      EmployeesService.getEmployee(employeeId).then(function(response) {
+        edCtrl.employee = response;
+      });
+    } else {
+      edCtrl.employee = new Object();
+    }
+
+    function save() {
+      if (employeeId) {
+        EmployeesService.updateEmployee(edCtrl.employee).then(function() {
+          cancel();
+        });
+      } else {
+        EmployeesService.saveEmployee(edCtrl.employee).then(function() {
+          cancel();
+        });
+      }
+    }
+
+    function cancel() {
+      $uibModalInstance.close();
+    }
   });
