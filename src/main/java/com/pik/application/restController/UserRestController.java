@@ -58,6 +58,13 @@ public class UserRestController {
 		return userService.findByRoles("Supervisor");
 	}
 
+//	@PreAuthorize("hasAuthority('ADMIN')")
+	@GetMapping(value="/findsupervisors")
+	public List<UserIdName> getSupervisors(String phrase){
+		List<UserIdName> users = userService.findSupervisorsByPhrase(phrase);
+		return userService.findSupervisorsByPhrase(phrase);
+	}
+
 	@PreAuthorize("hasAuthority('SUPERVISOR')")
 	@PostMapping(value = "/available-employees")
 	public ResponseEntity<List<IdName>> getAvailableEmployees(@RequestBody(required = false) PhraseList body){

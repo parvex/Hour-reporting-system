@@ -5,7 +5,6 @@ import com.pik.application.dto.IdName;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.Nullable;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>{
+public interface UserRepository extends JpaRepository<User, Long> {
 
     User findOneByUsername(String username);
 
@@ -33,4 +32,8 @@ public interface UserRepository extends JpaRepository<User, Long>{
             " OR :phrase IS NULL) AND ((COALESCE(:chosenIds, NULL) IS NULL) OR u.id NOT IN (:chosenIds)) AND u.supervisor.id = :supervisorId")
     List<IdName> findByUsernameLike(@Nullable String phrase, @Nullable List<Long> chosenIds, @Nullable Long supervisorId, Pageable pageable);
 
+
+    @Query("SELECT new com.pik.application.dto.UserIdName(u.id, CONCAT(u.name,' ', u.surname, ' [', u.username, ']')) FROM User u WHERE CONCAT(upper(u.name), ' ' , upper(u.surname)) LIKE CONCAT('%',upper(:phrase),'%')" +
+            "AND 'SUPERVISOR' MEMBER OF u.roles")
+    List<UserIdName> findSupervisorsByUsernameLike(String phrase, Pageable pageable);
 }
