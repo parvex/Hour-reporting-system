@@ -79,6 +79,12 @@ public class UserService {
         return userRepository.findByRoles(role);
     }
 
+
+    public List<UserIdName> findSupervisorsByPhrase(String phrase){
+        Pageable page = PageRequest.of(0, 10);
+        return userRepository.findSupervisorsByUsernameLike(phrase, page);
+    }
+
     public List<UserIdName> getAvailableEmployees(String phrase, List<Long> chosenId) {
         Pageable page = PageRequest.of(0, 10);
         User loggedUser = getLoggedUser();

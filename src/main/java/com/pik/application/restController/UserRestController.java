@@ -1,6 +1,5 @@
 package com.pik.application.restController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pik.application.domain.User;
 import com.pik.application.dto.PhraseList;
 import com.pik.application.dto.UserIdName;
@@ -9,10 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -60,6 +56,13 @@ public class UserRestController {
 		return userService.findByRoles("Supervisor");
 	}
 
+//	@PreAuthorize("hasAuthority('ADMIN')")
+	@GetMapping(value="/findsupervisors")
+	public List<UserIdName> getSupervisors(String phrase){
+		List<UserIdName> users = userService.findSupervisorsByPhrase(phrase);
+		return userService.findSupervisorsByPhrase(phrase);
+	}
+	
 	@PreAuthorize("hasAuthority('SUPERVISOR')")
 	@PostMapping(value = "/available-employees")
 	@ResponseBody
