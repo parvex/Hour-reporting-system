@@ -32,8 +32,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             " OR :phrase IS NULL) AND ((COALESCE(:chosenIds, NULL) IS NULL) OR u.id NOT IN (:chosenIds)) AND u.supervisor.id = :supervisorId")
     List<IdName> findByUsernameLike(@Nullable String phrase, @Nullable List<Long> chosenIds, @Nullable Long supervisorId, Pageable pageable);
 
-
-    @Query("SELECT new com.pik.application.dto.UserIdName(u.id, CONCAT(u.name,' ', u.surname, ' [', u.username, ']')) FROM User u WHERE CONCAT(upper(u.name), ' ' , upper(u.surname)) LIKE CONCAT('%',upper(:phrase),'%')" +
-            "AND 'SUPERVISOR' MEMBER OF u.roles")
-    List<UserIdName> findSupervisorsByUsernameLike(String phrase, Pageable pageable);
+    @Query("SELECT new com.pik.application.dto.IdName(u.id, CONCAT(u.name,' ', u.surname, ' [', u.username, ']')) FROM User u WHERE CONCAT(upper(u.name), ' ' , upper(u.surname)) " +
+            " LIKE CONCAT('%',upper(:phrase),'%') AND 'SUPERVISOR' MEMBER OF u.roles")
+    List<IdName> findSupervisorsByUsernameLike(String phrase, Pageable pageable);
 }

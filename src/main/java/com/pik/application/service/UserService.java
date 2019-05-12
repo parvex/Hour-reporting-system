@@ -79,15 +79,12 @@ public class UserService {
         return userRepository.findByRoles(role);
     }
 
-
-    public ResponseEntity<List<IdName>> getAvailableEmployees(String phrase, List<Long> chosenIds) {
-
-    public List<UserIdName> findSupervisorsByPhrase(String phrase){
+    public List<IdName> findSupervisorsByPhrase(String phrase){
         Pageable page = PageRequest.of(0, 10);
         return userRepository.findSupervisorsByUsernameLike(phrase, page);
     }
 
-    public List<UserIdName> getAvailableEmployees(String phrase, List<Long> chosenId) {
+    public ResponseEntity<List<IdName>> getAvailableEmployees(String phrase, List<Long> chosenIds) {
         Pageable page = PageRequest.of(0, 10);
         Long loggedId = getLoggedUser().getId();
         if(chosenIds != null && chosenIds.isEmpty())

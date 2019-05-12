@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -60,8 +58,7 @@ public class UserRestController {
 
 //	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping(value="/findsupervisors")
-	public List<UserIdName> getSupervisors(String phrase){
-		List<UserIdName> users = userService.findSupervisorsByPhrase(phrase);
+	public List<IdName> getSupervisors(String phrase){
 		return userService.findSupervisorsByPhrase(phrase);
 	}
 

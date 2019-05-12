@@ -68,7 +68,7 @@ public class ProjectService {
         Long loggedUserId = userService.getLoggedUser().getId();
         if(chosenIds != null && chosenIds.isEmpty())
             chosenIds.add(-1L);
-        List<IdName> body = projectRepository.findByPhrase(phrase, chosenIds, 2000L, page);
+        List<IdName> body = projectRepository.findByPhrase(phrase, chosenIds, loggedUserId, page);
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
