@@ -31,7 +31,10 @@ angular.module("hourReportingSystem").directive("itemSelect", function() {
         scope.provider({ request: request }).then(function(response) {
           scope.itemsList = response.list;
 
-          if (!containsItem(scope.itemsList, scope.chosenItem)) {
+          if (
+            scope.chosenItemId &&
+            !containsItem(scope.itemsList, scope.chosenItem)
+          ) {
             scope.itemsList.push({
               id: scope.chosenItemId,
               name: scope.chosenItem
@@ -50,7 +53,7 @@ angular.module("hourReportingSystem").directive("itemSelect", function() {
 
       function onSelected(item) {
         scope.chosenItem = item.name;
-        scope.chosenItem = item.id;
+        scope.chosenItemId = item.id;
       }
     }
   };
