@@ -1,6 +1,7 @@
 package com.pik.application.repository;
 
 import com.pik.application.domain.User;
+import com.pik.application.dto.UserIdName;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,8 +28,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where :role MEMBER OF u.roles")
     List<User> findByRoles(@Param("role") String role);
 
-    @Query("SELECT u.id, u.name, u.surname FROM User u WHERE (upper(u.name) LIKE CONCAT('%',upper(:phrase),'%')" +
+    @Query("SELECT new com.pik.application.dto.UserIdName(u.id , CONCAT(u.name,' ',u.surname)) FROM User u WHERE (upper(u.name) LIKE CONCAT('%',upper(:phrase),'%')" +
             "OR upper(u.surname) LIKE CONCAT('%',upper(:phrase),'%')) AND u.id NOT IN :chosenId AND u.supervisor.id = :supervisorId")
-    List<User> findByUsernameLike(String phrase, List<Long> chosenId, Long supervisorId, Pageable pageable);
+    List<UserIdName> findByUsernameLike(String phrase, List<Long> chosenId, Long supervisorId, Pageable pageable);
 
 }
