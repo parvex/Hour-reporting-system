@@ -25,9 +25,8 @@ public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
                 .findFirst();
     }
 
-    @Query("SELECT new com.pik.application.dto.WRepUsrProj(w.id, w.date, w.hours, w.user.id, w.user.name," +
-            " w.user.surname, w.project.id, w.project.name, w.comment, w.accepted) " +
-            "FROM WorkReport w WHERE w.id = :id")
+    @Query("SELECT new com.pik.application.dto.WRepUsrProj(w.id, w.date, w.hours, w.user.id, w.user.name, w.user.surname, w.project.id, w.project.name, w.comment, w.accepted)" +
+            " FROM WorkReport w WHERE w.id = :id")
     WRepUsrProj findByIdInfo(Long id);
 
     @Query("SELECT new com.pik.application.dto.WRepDate(w.date, w.hours, w.user.id, w.user.name, w.user.surname, w.comment, w.accepted," +
