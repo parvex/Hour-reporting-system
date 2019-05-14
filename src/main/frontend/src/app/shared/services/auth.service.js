@@ -12,7 +12,6 @@ angular
     //refreshing token on refresh
     if(isLogged()) {
       var token = $cookies.get('token');
-      console.log(token);
       $http.defaults.headers.common["Authorization"] =
         "Bearer " + token;
     }

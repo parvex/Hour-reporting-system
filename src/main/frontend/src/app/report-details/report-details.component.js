@@ -10,13 +10,20 @@ angular
     $uibModalInstance,
     ReportsService,
     ProjectsService,
-    EmployeesService
+    EmployeesService,
+    $scope
   ) {
     const rdCtrl = this;
     rdCtrl.reportId = reportId;
 
+    $scope.$watch("rdCtrl.report.startDate", function(startDate) {
+      rdCtrl.report.endDate = null;
+      rdCtrl.endDateOptions.minDate = startDate;
+    });
+
     rdCtrl.isProjectSelected = isProjectSelected;
-    rdCtrl.openDatePickerModal = openDatePickerModal;
+    rdCtrl.openStartDatePickerModal = openStartDatePickerModal;
+    rdCtrl.openEndDatePickerModal = openEndDatePickerModal;
 
     rdCtrl.provideProjects = provideProjects;
     rdCtrl.provideEmployees = provideEmployees;
@@ -30,6 +37,18 @@ angular
       startingDay: 1
     };
 
+    rdCtrl.endDateOptions = {
+      dateDisabled: disabled,
+      minDate: getMinDate(),
+      startingDay: 1
+    };
+
+    rdCtrl.endDateOptions = {
+      dateDisabled: disabled,
+
+      startingDay: 1
+    };
+
     if (reportId) {
       ReportsService.getReport(reportId).then(function(response) {
         rdCtrl.report = response;
@@ -39,8 +58,13 @@ angular
     }
 
     function getMinDate() {
-      //TODO: return min date
-      return new Date();
+      const today = new Date();
+      const lastWeek = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate() - 7
+      );
+      return lastWeek;
     }
 
     // Disable weekend selection
@@ -56,8 +80,12 @@ angular
       );
     }
 
-    function openDatePickerModal() {
-      rdCtrl.datePickerOpened = true;
+    function openStartDatePickerModal() {
+      rdCtrl.startDatePickerOpened = true;
+    }
+
+    function openEndDatePickerModal() {
+      rdCtrl.endDatePickerOpened = true;
     }
 
     function provideProjects(request) {
@@ -68,10 +96,13 @@ angular
       return EmployeesService.getEmployees(request);
     }
 
-    function save() {
-      ReportsService.saveReport(rdCtrl.report).then(function() {
-        $uibModalInstance.close();
-      });
+    function save(form) {
+      form.$setSubmitted(true);
+      if (form.$valid) {
+        ReportsService.saveReport(rdCtrl.report).then(function() {
+          $uibModalInstance.close();
+        });
+      }
     }
 
     function cancel() {

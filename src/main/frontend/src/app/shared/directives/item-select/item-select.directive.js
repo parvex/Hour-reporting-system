@@ -6,7 +6,9 @@ angular.module("hourReportingSystem").directive("itemSelect", function() {
       chosenItemId: "=modelId",
       placeholder: "@",
       disabled: "=?",
-      provider: "&"
+      provider: "&",
+      name: "@",
+      required: "=?"
     },
     templateUrl: "app/shared/directives/item-select/item-select.template.html",
     link: function(scope) {

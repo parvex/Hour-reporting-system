@@ -16,17 +16,19 @@ angular
     lcCtrl.fliterCriteria = new Object();
     lcCtrl.listViewItemsPerPage = 6;
 
-    lcCtrl.openDateFromPickerModal = openDateFromPickerModal;
-    lcCtrl.openDateToPickerModal = openDateToPickerModal;
+    lcCtrl.openStartDatePickerModal = openStartDatePickerModal;
+    lcCtrl.openEndDatePickerModal = openEndDatePickerModal;
 
     lcCtrl.openReportModal = openReportModal;
     lcCtrl.toggleListViewActive = toggleListViewActive;
 
     lcCtrl.provideProjects = provideProjects;
 
-    lcCtrl.dateOptions = {
-      dateDisabled: disabled,
-      minDate: getMinDate(),
+    lcCtrl.startDateOptions = {
+      startingDay: 1
+    };
+
+    lcCtrl.endDateOptions = {
       startingDay: 1
     };
 
@@ -56,24 +58,17 @@ angular
       true
     );
 
-    function openDateFromPickerModal() {
-      lcCtrl.dateFromPickerOpened = true;
+    $scope.$watch("lcCtrl.fliterCriteria.startDateOptions", function(minDate) {
+      lcCtrl.fliterCriteria.endDate = null;
+      lcCtrl.endDateOptions.minDate = minDate;
+    });
+
+    function openStartDatePickerModal() {
+      lcCtrl.startDatePickerOpened = true;
     }
 
-    function openDateToPickerModal() {
-      lcCtrl.dateToPickerOpened = true;
-    }
-
-    // Disable weekend selection
-    function disabled(data) {
-      var date = data.date,
-        mode = data.mode;
-      return mode === "day" && (date.getDay() === 0 || date.getDay() === 6);
-    }
-
-    function getMinDate() {
-      //TODO: return min date
-      return new Date();
+    function openEndDatePickerModal() {
+      lcCtrl.endDatePickerOpened = true;
     }
 
     function loadReports() {
@@ -87,13 +82,21 @@ angular
 
     function generateRequest() {
       const request = {
-        dateFrom: lcCtrl.fliterCriteria.dateFrom,
-        dateTo: lcCtrl.fliterCriteria.dateTo,
-        employeesIds: lcCtrl.fliterCriteria.employees,
-        projectsIds: lcCtrl.fliterCriteria.projects
+        dateFrom: lcCtrl.fliterCriteria.startDate,
+        dateTo: lcCtrl.fliterCriteria.endDate,
+        employeesIds: getIdsList(lcCtrl.fliterCriteria.employees),
+        projectsIds: getIdsList(lcCtrl.fliterCriteria.projects)
       };
 
       return request;
+    }
+
+    function getIdsList(list) {
+      if (angular.isArray(list) && list.length > 0) {
+        return list.map(function(element) {
+          return element.id;
+        });
+      } else return [];
     }
 
     function toggleListViewActive() {
