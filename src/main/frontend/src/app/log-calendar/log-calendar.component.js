@@ -82,8 +82,8 @@ angular
 
     function generateRequest() {
       const request = {
-        dateFrom: lcCtrl.fliterCriteria.dateFrom,
-        dateTo: lcCtrl.fliterCriteria.dateTo,
+        dateFrom: lcCtrl.fliterCriteria.startDate,
+        dateTo: lcCtrl.fliterCriteria.endDate,
         employeesIds: getIdsList(lcCtrl.fliterCriteria.employees),
         projectsIds: getIdsList(lcCtrl.fliterCriteria.projects)
       };
