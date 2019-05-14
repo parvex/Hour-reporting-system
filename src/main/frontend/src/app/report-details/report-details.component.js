@@ -10,10 +10,16 @@ angular
     $uibModalInstance,
     ReportsService,
     ProjectsService,
-    EmployeesService
+    EmployeesService,
+    $scope
   ) {
     const rdCtrl = this;
     rdCtrl.reportId = reportId;
+
+    $scope.$watch("rdCtrl.report.startDate", function(startDate) {
+      rdCtrl.report.endDate = null;
+      rdCtrl.endDateOptions.minDate = startDate;
+    });
 
     rdCtrl.isProjectSelected = isProjectSelected;
     rdCtrl.openStartDatePickerModal = openStartDatePickerModal;
@@ -28,6 +34,18 @@ angular
     rdCtrl.dateOptions = {
       dateDisabled: disabled,
       minDate: getMinDate(),
+      startingDay: 1
+    };
+
+    rdCtrl.endDateOptions = {
+      dateDisabled: disabled,
+      minDate: getMinDate(),
+      startingDay: 1
+    };
+
+    rdCtrl.endDateOptions = {
+      dateDisabled: disabled,
+
       startingDay: 1
     };
 

@@ -60,11 +60,12 @@
                 uib-datepicker-popup
                 ng-model="rdCtrl.report.endDate"
                 is-open="rdCtrl.endDatePickerOpened"
-                datepicker-options="rdCtrl.dateOptions"
+                datepicker-options="rdCtrl.endDateOptions"
                 close-text="Close"
                 placeholder="date"
                 name="endDate"
                 required
+                min-date="rdCtrl.getMinDate()"
               />
               <span class="input-group-btn">
                 <button
