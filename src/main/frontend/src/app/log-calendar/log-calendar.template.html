@@ -7,17 +7,17 @@
             type="text"
             class="form-control"
             uib-datepicker-popup
-            ng-model="lcCtrl.fliterCriteria.dateFrom"
-            is-open="lcCtrl.dateFromPickerOpened"
-            datepicker-options="lcCtrl.dateOptions"
+            ng-model="lcCtrl.fliterCriteria.startDateOptions"
+            is-open="lcCtrl.startDatePickerOpened"
+            datepicker-options="lcCtrl.startDateOptions"
             close-text="Close"
-            placeholder="date from"
+            placeholder="start date"
           />
           <span class="input-group-btn">
             <button
               type="button"
               class="btn btn-default"
-              ng-click="lcCtrl.openDateFromPickerModal()"
+              ng-click="lcCtrl.openStartDatePickerModal()"
             >
               <i class="glyphicon glyphicon-calendar"></i>
             </button>
@@ -30,17 +30,17 @@
             type="text"
             class="form-control"
             uib-datepicker-popup
-            ng-model="lcCtrl.fliterCriteria.dateTo"
-            is-open="lcCtrl.dateToPickerOpened"
-            datepicker-options="lcCtrl.dateOptions"
+            ng-model="lcCtrl.fliterCriteria.endDate"
+            is-open="lcCtrl.endDatePickerOpened"
+            datepicker-options="lcCtrl.endDateOptions"
             close-text="Close"
-            placeholder="date to"
+            placeholder="end date"
           />
           <span class="input-group-btn">
             <button
               type="button"
               class="btn btn-default"
-              ng-click="lcCtrl.openDateToPickerModal()"
+              ng-click="lcCtrl.openEndDatePickerModal()"
             >
               <i class="glyphicon glyphicon-calendar"></i>
             </button>
