@@ -16,7 +16,8 @@ angular
     rdCtrl.reportId = reportId;
 
     rdCtrl.isProjectSelected = isProjectSelected;
-    rdCtrl.openDatePickerModal = openDatePickerModal;
+    rdCtrl.openStartDatePickerModal = openStartDatePickerModal;
+    rdCtrl.openEndDatePickerModal = openEndDatePickerModal;
 
     rdCtrl.provideProjects = provideProjects;
     rdCtrl.provideEmployees = provideEmployees;
@@ -56,8 +57,12 @@ angular
       );
     }
 
-    function openDatePickerModal() {
-      rdCtrl.datePickerOpened = true;
+    function openStartDatePickerModal() {
+      rdCtrl.startDatePickerOpened = true;
+    }
+
+    function openEndDatePickerModal() {
+      rdCtrl.endDatePickerOpened = true;
     }
 
     function provideProjects(request) {

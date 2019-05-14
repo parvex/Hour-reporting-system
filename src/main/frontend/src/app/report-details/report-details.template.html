@@ -5,41 +5,86 @@
   </div>
   <div class="modal-body">
     <form name="reportForm">
-      <div
-        class="form-group"
-        ng-class="{'has-error': reportForm.date.$touched && reportForm.date.$invalid}"
-      >
-        <label for="date">Date</label>
-        <p class="input-group" ng-show="!rdCtrl.reportId">
-          <input
-            type="text"
-            class="form-control"
-            uib-datepicker-popup
-            ng-model="rdCtrl.report.date"
-            is-open="rdCtrl.datePickerOpened"
-            datepicker-options="rdCtrl.dateOptions"
-            close-text="Close"
-            placeholder="date"
-            name="date"
-            required
-          />
-          <span class="input-group-btn">
-            <button
-              type="button"
-              class="btn btn-default"
-              ng-click="rdCtrl.openDatePickerModal()"
+      <div class="panel panel-default" ng-show="!edCtrl.employeeId">
+        <div class="panel-body">
+          <label>
+            <input type="checkbox" ng-model="rdCtrl.report.period" />
+            Period
+          </label>
+          <div
+            class="form-group"
+            ng-class="{'has-error': reportForm.startDate.$touched && reportForm.startDate.$invalid}"
+          >
+            <label for="date" ng-show="rdCtrl.report.period">Start date</label>
+            <label for="date" ng-show="!rdCtrl.report.period">Date</label>
+            <p class="input-group" ng-show="!rdCtrl.reportId">
+              <input
+                type="text"
+                class="form-control"
+                uib-datepicker-popup
+                ng-model="rdCtrl.report.startDate"
+                is-open="rdCtrl.startDatePickerOpened"
+                datepicker-options="rdCtrl.dateOptions"
+                close-text="Close"
+                placeholder="date"
+                name="startDate"
+                required
+              />
+              <span class="input-group-btn">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  ng-click="rdCtrl.openStartDatePickerModal()"
+                >
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+            </p>
+            <span
+              class="help-block"
+              ng-show="reportForm.startDate.$touched && reportForm.startDate.$invalid"
+              >Report date is required.</span
             >
-              <i class="glyphicon glyphicon-calendar"></i>
-            </button>
-          </span>
-        </p>
-        <span
-          class="help-block"
-          ng-show="reportForm.date.$touched && reportForm.date.$invalid"
-          >Report date is required.</span
-        >
+          </div>
+          <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.startDate }}</p>
+          <div
+            class="form-group"
+            ng-class="{'has-error': reportForm.endDate.$touched && reportForm.endDate.$invalid}"
+            ng-show="rdCtrl.report.period"
+          >
+            <label for="endDate">End date</label>
+            <p class="input-group" ng-show="!rdCtrl.reportId">
+              <input
+                type="text"
+                class="form-control"
+                uib-datepicker-popup
+                ng-model="rdCtrl.report.endDate"
+                is-open="rdCtrl.endDatePickerOpened"
+                datepicker-options="rdCtrl.dateOptions"
+                close-text="Close"
+                placeholder="date"
+                name="endDate"
+                required
+              />
+              <span class="input-group-btn">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  ng-click="rdCtrl.openEndDatePickerModal()"
+                >
+                  <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+              </span>
+            </p>
+            <span
+              class="help-block"
+              ng-show="reportForm.endDate.$touched && reportForm.endDate.$invalid"
+              >Report end date is required.</span
+            >
+          </div>
+          <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.endDate }}</p>
+        </div>
       </div>
-      <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.date }}</p>
       <div
         class="form-group"
         ng-class="{'has-error': reportForm.hoursNumber.$touched && reportForm.hoursNumber.$invalid}"
@@ -68,7 +113,7 @@
       <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.hoursNumber }}</p>
       <div
         class="form-group"
-        ng-class="{'has-error': !rdCtrl.isProjectSelected()}"
+        ng-class="{'has-error': reportForm.project.$touched && reportForm.project.$invalid}"
       >
         <label>Project</label>
         <item-select
@@ -77,9 +122,13 @@
           placeholder="project"
           provider="rdCtrl.provideProjects(request)"
           disabled="rdCtrl.reportId"
+          name="project"
+          required="true"
         >
         </item-select>
-        <span class="help-block" ng-show="!rdCtrl.isProjectSelected()"
+        <span
+          class="help-block"
+          ng-show="reportForm.project.$touched && reportForm.project.$invalid"
           >Project is required.</span
         >
       </div>
@@ -126,7 +175,7 @@
       type="button"
       ng-click="rdCtrl.save()"
       ng-show="!rdCtrl.reportId"
-      ng-disabled="reportForm.$invalid || !rdCtrl.isProjectSelected()"
+      ng-disabled="reportForm.$invalid"
     >
       Save
     </button>

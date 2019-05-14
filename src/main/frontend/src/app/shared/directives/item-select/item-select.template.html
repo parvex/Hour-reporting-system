@@ -4,6 +4,8 @@
   ng-disabled="disabled"
   on-select="onSelected($item)"
   class="item-select"
+  name="{{ name }}"
+  ng-required="{{ required }}"
 >
   <ui-select-match placeholder="{{ placeholder }}">{{
     $select.selected.name
