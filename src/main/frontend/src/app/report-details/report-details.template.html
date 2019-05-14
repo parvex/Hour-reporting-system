@@ -13,7 +13,7 @@
           </label>
           <div
             class="form-group"
-            ng-class="{'has-error': reportForm.startDate.$touched && reportForm.startDate.$invalid}"
+            ng-class="{'has-error': reportForm.startDate.$invalid && (reportForm.startDate.$touched || reportForm.$submitted)}"
           >
             <label for="date" ng-show="rdCtrl.report.period">Start date</label>
             <label for="date" ng-show="!rdCtrl.report.period">Date</label>
@@ -42,14 +42,14 @@
             </p>
             <span
               class="help-block"
-              ng-show="reportForm.startDate.$touched && reportForm.startDate.$invalid"
+              ng-show=" reportForm.startDate.$invalid && (reportForm.startDate.$touched || reportForm.$submitted)"
               >Report date is required.</span
             >
           </div>
           <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.startDate }}</p>
           <div
             class="form-group"
-            ng-class="{'has-error': reportForm.endDate.$touched && reportForm.endDate.$invalid}"
+            ng-class="{'has-error':  reportForm.endDate.$invalid && (reportForm.endDate.$touched || reportForm.$submitted)}"
             ng-show="rdCtrl.report.period"
           >
             <label for="endDate">End date</label>
@@ -78,7 +78,7 @@
             </p>
             <span
               class="help-block"
-              ng-show="reportForm.endDate.$touched && reportForm.endDate.$invalid"
+              ng-show=" reportForm.endDate.$invalid && (reportForm.endDate.$touched || reportForm.$submitted)"
               >Report end date is required.</span
             >
           </div>
@@ -87,7 +87,7 @@
       </div>
       <div
         class="form-group"
-        ng-class="{'has-error': reportForm.hoursNumber.$touched && reportForm.hoursNumber.$invalid}"
+        ng-class="{'has-error':  reportForm.hoursNumber.$invalid && (reportForm.hoursNumber.$touched || reportForm.$submitted)}"
       >
         <label for="hoursNumber">Hours number</label>
         <div class="input-group" ng-show="!rdCtrl.reportId">
@@ -105,7 +105,7 @@
         </div>
         <span
           class="help-block"
-          ng-show="reportForm.hoursNumber.$touched && reportForm.hoursNumber.$invalid"
+          ng-show=" reportForm.hoursNumber.$invalid && (reportForm.hoursNumber.$touched || reportForm.$submitted)"
           >Number of hours is required and needs to be a number between 0 and
           8.</span
         >
@@ -113,7 +113,7 @@
       <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.hoursNumber }}</p>
       <div
         class="form-group"
-        ng-class="{'has-error': reportForm.project.$touched && reportForm.project.$invalid}"
+        ng-class="{'has-error':  reportForm.project.$invalid && (reportForm.project.$touched || reportForm.$submitted)}"
       >
         <label>Project</label>
         <item-select
@@ -128,7 +128,7 @@
         </item-select>
         <span
           class="help-block"
-          ng-show="reportForm.project.$touched && reportForm.project.$invalid"
+          ng-show=" reportForm.project.$invalid && (reportForm.project.$touched || reportForm.$submitted)"
           >Project is required.</span
         >
       </div>
@@ -144,7 +144,7 @@
       </div>
       <div
         class="form-group"
-        ng-class="{'has-error': reportForm.comment.$touched && reportForm.comment.$invalid}"
+        ng-class="{'has-error':  reportForm.comment.$invalid && (reportForm.comment.$touched || reportForm.$submitted)}"
       >
         <label for="comment">Comment</label>
         <textarea
@@ -158,7 +158,7 @@
         ></textarea>
         <span
           class="help-block"
-          ng-show="reportForm.comment.$touched && reportForm.comment.$invalid"
+          ng-show=" reportForm.comment.$invalid && (reportForm.comment.$touched || reportForm.$submitted)"
           >Comment is required.</span
         >
       </div>
@@ -172,10 +172,9 @@
   <div class="modal-footer">
     <button
       class="btn btn-primary"
-      type="button"
-      ng-click="rdCtrl.save()"
+      type="submit"
+      ng-click="rdCtrl.save(reportForm)"
       ng-show="!rdCtrl.reportId"
-      ng-disabled="reportForm.$invalid"
     >
       Save
     </button>

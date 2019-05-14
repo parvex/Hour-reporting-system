@@ -73,10 +73,13 @@ angular
       return EmployeesService.getEmployees(request);
     }
 
-    function save() {
-      ReportsService.saveReport(rdCtrl.report).then(function() {
-        $uibModalInstance.close();
-      });
+    function save(form) {
+      form.$setSubmitted(true);
+      if (form.$valid) {
+        ReportsService.saveReport(rdCtrl.report).then(function() {
+          $uibModalInstance.close();
+        });
+      }
     }
 
     function cancel() {
