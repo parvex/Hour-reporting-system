@@ -21,3 +21,5 @@ script:
 deploy:
  provider: script
  script: "cp .travis.settings.xml $HOME/.m2/settings.xml && package_cloud yank MatKravi/pik-repository/java com.pik/app-0.0.1-SNAPSHOT.jar && mvn deploy"
+ on:
+  all_branches: true
