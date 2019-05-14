@@ -21,5 +21,6 @@ script:
 deploy:
  provider: script
  script: "mvn deploy"
+ skip_cleanup: true
  on:
   all_branches: true
