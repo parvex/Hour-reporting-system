@@ -9,6 +9,7 @@ before_install:
  - chmod +x mvnw
  - gem install package_cloud
  - cp .travis.settings.xml $HOME/.m2/settings.xml
+ - cp .travis.settings.xml $HOME/travis/.packagecloud/settings.xml
 
 after_success:
  - bash <(curl -s https://codecov.io/bash)
