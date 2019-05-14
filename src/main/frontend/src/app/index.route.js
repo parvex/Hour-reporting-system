@@ -108,6 +108,15 @@
             component: "employeeDetails"
           }
         }
+      })
+      .state("projects", {
+        parent: "nav",
+        url: "/projects",
+        views: {
+          "content@": {
+            component: ""
+          }
+        }
       });
   }
 })();
