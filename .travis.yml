@@ -19,7 +19,7 @@ script:
 # - "package_cloud yank MatKravi/pik-repository/java com.pik/app-0.0.1-SNAPSHOT.jar && mvn deploy"
 
 before_deploy:
- -package_cloud yank MatKravi/pik-repository/java com.pik/app-0.0.1-SNAPSHOT.jar
+ - package_cloud yank MatKravi/pik-repository/java com.pik/app-0.0.1-SNAPSHOT.jar
 
 deploy:
  provider: script
