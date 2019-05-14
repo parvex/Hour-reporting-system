@@ -89,11 +89,19 @@ angular
       const request = {
         dateFrom: lcCtrl.fliterCriteria.dateFrom,
         dateTo: lcCtrl.fliterCriteria.dateTo,
-        employeesIds: lcCtrl.fliterCriteria.employees,
-        projectsIds: lcCtrl.fliterCriteria.projects
+        employeesIds: getIdsList(lcCtrl.fliterCriteria.employees),
+        projectsIds: getIdsList(lcCtrl.fliterCriteria.projects)
       };
 
       return request;
+    }
+
+    function getIdsList(list) {
+      if (angular.isArray(list) && list.length > 0) {
+        return list.map(function(element) {
+          return element.id;
+        });
+      } else return [];
     }
 
     function toggleListViewActive() {
