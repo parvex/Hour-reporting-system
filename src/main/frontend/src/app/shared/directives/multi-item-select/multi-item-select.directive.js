@@ -39,7 +39,7 @@ angular.module("hourReportingSystem").directive("multiItemSelect", function() {
         };
 
         scope.provider({ request: request }).then(function(response) {
-          scope.itemsList = response.list;
+          scope.itemsList = response;
         });
       }
 
