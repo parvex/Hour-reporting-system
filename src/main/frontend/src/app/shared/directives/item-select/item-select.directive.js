@@ -31,7 +31,7 @@ angular.module("hourReportingSystem").directive("itemSelect", function() {
         };
 
         scope.provider({ request: request }).then(function(response) {
-          scope.itemsList = response.list;
+          scope.itemsList = response;
 
           if (
             scope.chosenItemId &&
