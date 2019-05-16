@@ -28,11 +28,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where :role MEMBER OF u.roles")
     List<User> findByRoles(@Param("role") String role);
 
-    @Query("SELECT new com.pik.application.dto.IdName(u.id, CONCAT(u.name,' ',u.surname)) FROM User u WHERE (CONCAT(upper(u.name),' ', u.surname) LIKE CONCAT('%',upper(:phrase),'%')" +
+    @Query("SELECT new com.pik.application.dto.IdName(u.id, CONCAT(u.name,' ',u.surname), false) FROM User u WHERE (CONCAT(upper(u.name),' ', u.surname) LIKE CONCAT('%',upper(:phrase),'%')" +
             " OR :phrase IS NULL) AND ((COALESCE(:chosenIds, NULL) IS NULL) OR u.id NOT IN (:chosenIds)) AND u.supervisor.id = :supervisorId")
-    List<IdName> findByUsernameLike(@Nullable String phrase, @Nullable List<Long> chosenIds, @Nullable Long supervisorId, Pageable pageable);
+    List<IdName> findByUsernameLike(@Nullable String phrase, @Nullable List<Long> chosenIds, Long supervisorId, Pageable pageable);
 
-    @Query("SELECT new com.pik.application.dto.IdName(u.id, CONCAT(u.name,' ', u.surname, ' [', u.username, ']')) FROM User u WHERE CONCAT(upper(u.name), ' ' , upper(u.surname)) " +
+    @Query("SELECT new com.pik.application.dto.IdName(u.id, CONCAT(u.name,' ', u.surname, ' [', u.username, ']'), false) FROM User u WHERE CONCAT(upper(u.name), ' ' , upper(u.surname)) " +
             " LIKE CONCAT('%',upper(:phrase),'%') AND 'SUPERVISOR' MEMBER OF u.roles")
     List<IdName> findSupervisorsByUsernameLike(String phrase, Pageable pageable);
 }
