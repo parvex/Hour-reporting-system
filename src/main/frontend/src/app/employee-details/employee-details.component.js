@@ -15,7 +15,7 @@ angular
     edCtrl.employeeId = employeeId;
 
     edCtrl.provideProjects = provideProjects;
-    edCtrl.provideEmployees = provideEmployees;
+    edCtrl.provideSupervisors = provideSupervisors;
     edCtrl.provideRoles = provideRoles;
 
     edCtrl.save = save;
@@ -33,18 +33,16 @@ angular
       return ProjectsService.getProjects(request);
     }
 
-    function provideEmployees(request) {
-      return EmployeesService.getEmployees(request);
+    function provideSupervisors(request) {
+      return EmployeesService.getSupervisors(request);
     }
 
     function provideRoles() {
-      return Promise.resolve({
-        list: [
-          { id: 0, name: "USER" },
-          { id: 1, name: "ADMIN" },
-          { id: 2, name: "SUPERVISOR" }
-        ]
-      });
+      return Promise.resolve([
+        { id: 0, name: "USER" },
+        { id: 1, name: "ADMIN" },
+        { id: 2, name: "SUPERVISOR" }
+      ]);
     }
 
     function save(form) {
