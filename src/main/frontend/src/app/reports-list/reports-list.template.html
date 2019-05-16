@@ -1,0 +1,52 @@
+<section>
+  <div class="modal-header">
+    <h3 class="modal-title" ng-show="rlCtrl.accepted">Accepted work reports</h3>
+    <h3 class="modal-title" ng-show="!rlCtrl.accepted">New work reports</h3>
+  </div>
+  <div class="modal-body">
+      <table ng-table="rlCtrl.reportsTable"
+             class="table table-bordered table-striped"
+             template-pagination="custom/pager"
+             style="table-layout: fixed"
+      >
+        <thead>
+        <colgroup>
+          <col class="col-lg-1">
+          <col class="col-lg-2">
+          <col class="col-lg-2">
+          <col class="col-lg-1">
+          <col class="col-lg-5">
+        </colgroup>
+          <th>#</th>
+          <th>Name</th>
+          <th>Reported at</th>
+          <th>Hours</th>
+          <th>Comment</th>
+          <th ng-show="!rlCtrl.accepted">Action</th>
+        </thead>
+        <tbody ng-show="$data.length == 0">
+        <tr>
+          <td colspan="7">No data available.</td>
+        </tr>
+        </tbody>
+        <tbody>
+          <tr ng-repeat="report in $data" class="text-center"
+              style="word-wrap: break-word"
+          >
+            <td>
+              {{ (params.page() - 1) * params.count() + $index + 1 }}
+            </td>
+            <td>{{ report.userName + " " + report.userSurName }}</td>
+            <td>{{ report.date | date : "short" }}</td>
+            <td>{{ report.hours }}</td>
+            <td class="text-left">{{ report.coment }}</td>
+            <td ng-show="!rlCtrl.accepted">
+              <span uib-tooltip="Edit project">
+                <i class="glyphicon glyphicon-pencil"></i>
+              </span>
+            </td>
+         </tr>
+        </tbody>
+      </table>
+  </div>
+</section>

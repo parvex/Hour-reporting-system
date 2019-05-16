@@ -30,10 +30,10 @@
         >
         <thead>
           <colgroup>
-            <col class="col-md-1">
-            <col class="col-md-3">
-            <col class="col-md-7">
-            <col class="col-md-1">
+            <col class="col-xs-1">
+            <col class="col-xs-3">
+            <col class="col-xs-7">
+            <col class="col-xs-1">
           </colgroup>
           <th>#</th>
           <th>Name</th>
@@ -55,6 +55,12 @@
             <td class="text-center">
               <span ng-click="plCtrl.openProjectModal(project.id)" uib-tooltip="Edit project">
                 <i class="glyphicon glyphicon-pencil"></i>
+              </span>
+              <span ng-click="plCtrl.openReportModal(project.id, true)" uib-tooltip="Show accepted reports">
+                <i class="glyphicon glyphicon-list"></i>
+              </span>
+              <span ng-click="plCtrl.openReportModal(project.id, false)" uib-tooltip="Show new reports">
+                <i class="glyphicon glyphicon-align-right"></i>
               </span>
             </td>
           </tr>

@@ -15,6 +15,7 @@ angular
 
     plCtrl.search = search;
     plCtrl.openProjectModal = openProjectModal;
+    plCtrl.openReportModal = openReportModal;
     plCtrl.provideProjects = provideProjects;
 
     plCtrl.projectsTable = new NgTableParams(
@@ -60,6 +61,27 @@ angular
         resolve: {
           projectId: function() {
             return projectId;
+          }
+        }
+      });
+
+      modalInstance.result.then(function() {
+        reloadProjectsTable();
+      });
+    }
+
+    function openReportModal(projectId, accepted) {
+      const modalInstance = $uibModal.open({
+        templateUrl: "app/reports-list/reports-list.template.html",
+        controller: "ReportsListCtrl",
+        controllerAs: "rlCtrl",
+        size: "lg",
+        resolve: {
+          projectId: function() {
+            return projectId;
+          },
+          accepted: function() {
+            return accepted;
           }
         }
       });
