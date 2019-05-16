@@ -75,7 +75,7 @@ angular
       const request = generateRequest();
 
       ReportsService.getReports(request).then(function(response) {
-        lcCtrl.reportsList = response.list;
+        lcCtrl.reportsList = response;
         lcCtrl.reportsEvents = generateCalendarReportEvents(lcCtrl.reportsList);
       });
     }
