@@ -5,7 +5,8 @@ angular.module("hourReportingSystem").directive("multiItemSelect", function() {
       chosenItems: "=model",
       placeholder: "@",
       disabled: "=?",
-      provider: "&"
+      provider: "&",
+      name: "@"
     },
     templateUrl:
       "app/shared/directives/multi-item-select/multi-item-select.template.html",
@@ -23,14 +24,17 @@ angular.module("hourReportingSystem").directive("multiItemSelect", function() {
             scope.chosenItems = [];
           }
 
-          scope.chosenIds = scope.chosenItems.map(function(item) {
-            return item.id;
-          });
-
+          scope.chosenIds = generateChosenIds();
           loadItemsList();
         },
         true
       );
+
+      function generateChosenIds() {
+        return scope.chosenItems.map(function(item) {
+          return item.id;
+        });
+      }
 
       function loadItemsList(phrase) {
         const request = {

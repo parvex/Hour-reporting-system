@@ -16,6 +16,7 @@
     ng-disabled="disabled"
     on-select="onSelected($item, $model)"
     class="multi-item-select"
+    name="{{ name }}"
   >
     <ui-select-match placeholder="{{ placeholder }}">
       {{ $select.selected.name }}</ui-select-match

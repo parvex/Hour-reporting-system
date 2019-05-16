@@ -164,17 +164,22 @@
           >Supervisor is required.</span
         >
       </div>
-      <div class="form-group" ng-class="{'has-error': !edCtrl.employee.role}">
-        <label>Role</label>
-        <item-select
-          model="edCtrl.employee.role"
-          model-id="edCtrl.roleId"
-          placeholder="role"
+      <div
+        class="form-group"
+        ng-class="{'has-error': edCtrl.employee.roles.length == 0  && (employeeForm.roles.$touched || employeeForm.$submitted)}"
+      >
+        <label>Roles</label>
+        <multi-item-select
+          model="edCtrl.employee.roles"
+          placeholder="roles"
           provider="edCtrl.provideRoles(request)"
+          name="roles"
         >
-        </item-select>
-        <span class="help-block" ng-show="!edCtrl.employee.role"
-          >Role is required.</span
+        </multi-item-select>
+        <span
+          class="help-block"
+          ng-show="edCtrl.employee.roles.length == 0  && (employeeForm.roles.$touched || employeeForm.$submitted)"
+          >At least one role is required.</span
         >
       </div>
     </form>
