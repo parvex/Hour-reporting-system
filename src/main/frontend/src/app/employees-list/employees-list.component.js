@@ -29,7 +29,7 @@ angular
           return EmployeesService.getEmployees(request).then(function(
             response
           ) {
-            const employeesList = response.list;
+            const employeesList = response;
 
             params.total(employeesList.length);
             return employeesList;

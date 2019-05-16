@@ -62,12 +62,12 @@ public class UserRestController {
 		return userService.findSupervisorsByPhrase(phrase);
 	}
 
-	@PreAuthorize("hasAuthority('SUPERVISOR')")
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
 	@PostMapping(value = "/available-employees")
 	public ResponseEntity<List<IdName>> getAvailableEmployees(@RequestBody(required = false) PhraseList body){
 
 		if(body != null)
-			return userService.getAvailableEmployees(body.getPhrase(), body.getChosenIds());
+			return userService.getAvailableEmployees(body.getPhrase(), body.getChosenIds(), body.getPage());
 		else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
