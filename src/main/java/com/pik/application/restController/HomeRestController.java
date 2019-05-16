@@ -43,7 +43,7 @@ public class HomeRestController {
 
 		if (user != null && passwordEncoder.matches(password, user.getPassword())) {
 			token = Jwts.builder().setSubject(username).claim("roles", user.getRoles()).setIssuedAt(new Date())
-					.setExpiration(new Date(new Date().getTime() + 900000L))
+					.setExpiration(new Date(new Date().getTime() + 900000000000L))
 					.signWith(SignatureAlgorithm.HS256, "secretkey").compact();
 			tokenMap.put("token", token);
 			tokenMap.put("user", user);
