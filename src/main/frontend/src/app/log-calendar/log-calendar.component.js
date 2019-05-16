@@ -58,7 +58,7 @@ angular
       true
     );
 
-    $scope.$watch("lcCtrl.fliterCriteria.startDateOptions", function(minDate) {
+    $scope.$watch("lcCtrl.fliterCriteria.startDate", function(minDate) {
       lcCtrl.fliterCriteria.endDate = null;
       lcCtrl.endDateOptions.minDate = minDate;
     });
