@@ -45,8 +45,8 @@
               ng-show=" reportForm.startDate.$invalid && (reportForm.startDate.$touched || reportForm.$submitted)"
               >Report date is required.</span
             >
+            <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.startDate }}</p>
           </div>
-          <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.startDate }}</p>
           <div
             class="form-group"
             ng-class="{'has-error':  reportForm.endDate.$invalid && (reportForm.endDate.$touched || reportForm.$submitted)}"
@@ -82,8 +82,8 @@
               ng-show=" reportForm.endDate.$invalid && (reportForm.endDate.$touched || reportForm.$submitted)"
               >Report end date is required.</span
             >
+            <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.endDate }}</p>
           </div>
-          <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.endDate }}</p>
         </div>
       </div>
       <div
@@ -110,8 +110,8 @@
           >Number of hours is required and needs to be a number between 0 and
           8.</span
         >
+        <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.hoursNumber }}</p>
       </div>
-      <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.hoursNumber }}</p>
       <div
         class="form-group"
         ng-class="{'has-error':  reportForm.project.$invalid && (reportForm.project.$touched || reportForm.$submitted)}"
@@ -135,13 +135,9 @@
       </div>
       <div class="form-group" ng-show="rdCtrl.reportId">
         <label>Employee</label>
-        <item-select
-          model="rdCtrl.report.employeeName"
-          model-id="rdCtrl.report.employeeId"
-          placeholder="employee"
-          provider="rdCtrl.provideEmployees(request)"
-        >
-        </item-select>
+        <p>
+          {{ rdCtrl.report.employeeName + " " + rdCtrl.report.employeeSurname }}
+        </p>
       </div>
       <div
         class="form-group"

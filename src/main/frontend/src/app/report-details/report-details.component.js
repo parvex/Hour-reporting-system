@@ -99,10 +99,21 @@ angular
     function save(form) {
       form.$setSubmitted(true);
       if (form.$valid) {
-        ReportsService.saveReport(rdCtrl.report).then(function() {
+        const request = generateRequest();
+
+        ReportsService.saveReport(request).then(function() {
           $uibModalInstance.close();
         });
       }
+    }
+
+    function generateRequest() {
+      const reportRequest = angular.copy(rdCtrl.report);
+      if (!reportRequest.endDate) {
+        reportRequest.endDate = reportRequest.startDate;
+      }
+
+      return reportRequest;
     }
 
     function cancel() {
