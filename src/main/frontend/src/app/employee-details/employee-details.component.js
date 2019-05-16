@@ -47,15 +47,19 @@ angular
       });
     }
 
-    function save() {
-      if (employeeId) {
-        EmployeesService.updateEmployee(edCtrl.employee).then(function() {
-          cancel();
-        });
-      } else {
-        EmployeesService.saveEmployee(edCtrl.employee).then(function() {
-          cancel();
-        });
+    function save(form) {
+      form.$setSubmitted(true);
+      console.log(form);
+      if (form.$valid) {
+        if (employeeId) {
+          EmployeesService.updateEmployee(edCtrl.employee).then(function() {
+            cancel();
+          });
+        } else {
+          EmployeesService.saveEmployee(edCtrl.employee).then(function() {
+            cancel();
+          });
+        }
       }
     }
 
