@@ -108,24 +108,6 @@
             component: "employeeDetails"
           }
         }
-      })
-      .state("projects", {
-        parent: "nav",
-        url: "/projects",
-        views: {
-          "content@": {
-            component: "projectsList"
-          }
-        }
-      })
-      .state("project", {
-        parent: "nav",
-        url: "/projects/{projectId}",
-        views: {
-          "content@": {
-            component: "projectDetails"
-          }
-        }
       });
   }
 })();

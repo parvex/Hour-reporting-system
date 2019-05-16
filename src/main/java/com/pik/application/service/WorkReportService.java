@@ -4,7 +4,7 @@ import com.pik.application.domain.Project;
 import com.pik.application.domain.User;
 import com.pik.application.domain.WorkReport;
 import com.pik.application.dto.WRepDate;
-import com.pik.application.dto.WorkReportExtraInfo;
+import com.pik.application.dto.WRepUsrProj;
 import com.pik.application.repository.WorkReportRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,8 +73,8 @@ public class WorkReportService {
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
-    public ResponseEntity<WorkReportExtraInfo> getWorkReportInfo(Long id) {
-        Optional<WorkReportExtraInfo> workReport = Optional.ofNullable(workReportRepository.findByIdInfo(id));
+    public ResponseEntity<WRepUsrProj> getWorkReportInfo(Long id) {
+        Optional<WRepUsrProj> workReport = Optional.ofNullable(workReportRepository.findByIdInfo(id));
         if(workReport.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -89,17 +89,5 @@ public class WorkReportService {
         Project project = projectService.findById(projectId);
         WorkReport newWorkReport = new WorkReport(date, now, hours, true, loggedUser, project, comment);
         return new ResponseEntity<>(workReportRepository.save(newWorkReport), HttpStatus.CREATED);
-    }
-
-    public ResponseEntity<List<WorkReportExtraInfo>> getWorkReportsAccepted(Long id, Boolean accepted) {
-
-        Optional<List<WorkReportExtraInfo>> workReport = Optional.ofNullable(workReportRepository.findForProjectAccepted(id, accepted));
-
-        if(workReport.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        else{
-            return new ResponseEntity<>(workReport.get(), HttpStatus.OK);
-        }
     }
 }

@@ -2,7 +2,7 @@ package com.pik.application.dto;
 
 import java.util.Date;
 
-public class NewWorkReport {
+public class WRepNew {
 
     private Date date;
     private Integer hoursNumber;
@@ -10,7 +10,7 @@ public class NewWorkReport {
     private String projectName;
     private String comment;
 
-    public NewWorkReport(Date date, Integer hoursNumber, Long projectId, String projectName, String comment) {
+    public WRepNew(Date date, Integer hoursNumber, Long projectId, String projectName, String comment) {
         this.date = date;
         this.hoursNumber = hoursNumber;
         this.projectId = projectId;

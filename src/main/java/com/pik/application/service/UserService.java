@@ -84,9 +84,8 @@ public class UserService {
         return userRepository.findSupervisorsByUsernameLike(phrase, page);
     }
 
-    public ResponseEntity<List<IdName>> getAvailableEmployees(String phrase, List<Long> chosenIds, Pageable page) {
-//        Pageable page = PageRequest.of(0, 10);
-
+    public ResponseEntity<List<IdName>> getAvailableEmployees(String phrase, List<Long> chosenIds) {
+        Pageable page = PageRequest.of(0, 10);
         Long loggedId = getLoggedUser().getId();
         if(chosenIds != null && chosenIds.isEmpty())
             chosenIds.add(-1L);

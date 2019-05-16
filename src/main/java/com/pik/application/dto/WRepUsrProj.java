@@ -2,7 +2,7 @@ package com.pik.application.dto;
 
 import java.util.Date;
 
-public class WorkReportExtraInfo {
+public class WRepUsrProj {
 
     private Long workReportId;
     private Date date;
@@ -15,7 +15,7 @@ public class WorkReportExtraInfo {
     private String comment;
     private Boolean accepted;
 
-    public WorkReportExtraInfo(Long workReportId, Date date, int hours, Long userId, String userName, String userSurName, Long projectId, String projectName, String coment, Boolean accepted) {
+    public WRepUsrProj(Long workReportId, Date date, int hours, Long userId, String userName, String userSurName, Long projectId, String projectName, String coment, Boolean accepted) {
         this.workReportId = workReportId;
         this.date = date;
         this.hours = hours;
