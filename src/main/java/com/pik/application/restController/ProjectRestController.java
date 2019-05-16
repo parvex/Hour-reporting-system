@@ -49,7 +49,7 @@ public class ProjectRestController {
         return projectService.deleteProject(id);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+    @PreAuthorize("hasAuthority('USER')")
     @PostMapping(value = "/projects")
     public ResponseEntity<List<IdName>> getProjectsByPhrase(@RequestBody(required = false) PhraseList body){
 
