@@ -24,28 +24,40 @@ angular
       {},
       {
         getData: function(params) {
-          const request = generateLoadEmploeesRequest(params);
+          const request = generateLoadEmployeesRequest(params);
 
           return EmployeesService.getEmployees(request).then(function(
             response
           ) {
             const employeesList = response;
 
-            params.total(employeesList.length);
+            params.total(employeesList.totalCount);
             return employeesList;
           });
         }
       }
     );
 
-    function generateLoadEmploeesRequest(params) {
+    function generateLoadEmployeesRequest(params) {
+      const criteria = angular.copy(elCtrl.filterCriteria);
+      criteria.projects = getIdsArray(criteria.projects);
+
       return {
-        criteria: elCtrl.filterCriteria,
+        criteria: criteria,
         options: {
           page: params.page() - 1,
           count: params.count()
         }
       };
+    }
+
+    function getIdsArray(array) {
+      if (!angular.isArray(array) || array.length < 1) return [];
+      else {
+        return array.map(function(el) {
+          return el.id;
+        });
+      }
     }
 
     function reloadEmployeesTable() {

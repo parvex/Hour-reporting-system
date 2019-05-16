@@ -22,7 +22,7 @@
         </div>
         <div class="col-md-4 margin-bottom">
           <input
-            type="email"
+            type="text"
             class="form-control"
             name="email"
             placeholder="email"
@@ -70,7 +70,7 @@
         <th>Name</th>
         <th>Surname</th>
         <th>Email</th>
-        <th>Manager</th>
+        <th>Supervisor</th>
         <th>Projects</th>
         <th>Actions</th>
       </thead>
@@ -87,7 +87,7 @@
           <td>{{ employee.name }}</td>
           <td>{{ employee.surname }}</td>
           <td>{{ employee.email }}</td>
-          <td>{{ employee.manager }}</td>
+          <td>{{ employee.supervisorFullname }}</td>
           <td td-ul list="employee.projects"></td>
           <td class="text-center">
             <span

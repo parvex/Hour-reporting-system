@@ -29,9 +29,11 @@ angular
     }
 
     function getEmployees(request) {
-      return $http.post("/api/employees", request).then(function(response) {
-        return response.data;
-      });
+      return $http
+        .post("/api/available-employees", request)
+        .then(function(response) {
+          return response.data;
+        });
     }
 
     function getAvailableEmployees(request) {

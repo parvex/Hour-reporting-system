@@ -45,7 +45,7 @@
         />
         <span
           class="help-block"
-          ng-show="employeeForm.name.$invalid && employeeForm.name.$touched"
+          ng-show="employeeForm.name.$invalid && (employeeForm.name.$touched || employeeForm.$submitted)"
           >Name is required and needs to have between 2 and 32 characters.</span
         >
       </div>

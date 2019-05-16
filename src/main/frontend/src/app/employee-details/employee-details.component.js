@@ -37,12 +37,18 @@ angular
       return EmployeesService.getSupervisors(request);
     }
 
-    function provideRoles() {
-      return Promise.resolve([
+    function provideRoles(request) {
+      const roles = [
         { id: 0, name: "USER" },
         { id: 1, name: "ADMIN" },
         { id: 2, name: "SUPERVISOR" }
-      ]);
+      ];
+
+      const filteredRoles = roles.filter(function(role) {
+        return !request.chosenIds.includes(role.id);
+      });
+
+      return Promise.resolve(filteredRoles);
     }
 
     function save(form) {
