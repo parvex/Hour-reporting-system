@@ -29,9 +29,9 @@ angular
           return EmployeesService.getEmployees(request).then(function(
             response
           ) {
-            const employeesList = response;
+            const employeesList = response.list;
 
-            params.total(employeesList.length);
+            params.total(employeesList.totalCount);
             return employeesList;
           });
         }
