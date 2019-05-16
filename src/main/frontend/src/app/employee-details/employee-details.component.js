@@ -49,7 +49,6 @@ angular
 
     function save(form) {
       form.$setSubmitted(true);
-      console.log(form);
       if (form.$valid) {
         if (employeeId) {
           EmployeesService.updateEmployee(edCtrl.employee).then(function() {

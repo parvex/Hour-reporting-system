@@ -172,6 +172,7 @@
       type="submit"
       ng-click="rdCtrl.save(reportForm)"
       ng-show="!rdCtrl.reportId"
+      ng-disabled="reportForm.$submitted && reportForm.$invalid"
     >
       Save
     </button>

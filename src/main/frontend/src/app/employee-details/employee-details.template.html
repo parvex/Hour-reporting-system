@@ -141,6 +141,7 @@
           model="edCtrl.employee.projects"
           placeholder="projects"
           provider="edCtrl.provideProjects(request)"
+          name="projects"
         >
         </multi-item-select>
       </div>
@@ -189,6 +190,7 @@
       class="btn btn-primary"
       type="button"
       ng-click="edCtrl.save(employeeForm)"
+      ng-disabled="employeeForm.$submitted && employeeForm.$invalid"
     >
       Save
     </button>
