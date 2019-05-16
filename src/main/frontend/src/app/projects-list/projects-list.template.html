@@ -1,0 +1,70 @@
+<section class="container">
+  <form name="employeesSearchForm" class="panel panel-default">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-md-4 col-md-offset-3">
+          <multi-item-select
+            model="plCtrl.filterCriteria.projects"
+            placeholder="project name"
+            provider="plCtrl.provideProjects(request)"
+          >
+          </multi-item-select>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary" ng-click="plCtrl.search()">
+              <span>Search </span>
+              <small><i class="glyphicon glyphicon-search"></i></small>
+            </button>
+            <button class="btn btn-primary" ng-click="plCtrl.openProjectModal()">
+              <span>Add Project </span>
+              <small><i class="glyphicon glyphicon-plus"></i></small>
+            </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="row">
+      <table ng-table="plCtrl.projectsTable"
+          class="table table-bordered table-striped margin-bottom"
+          template-pagination="custom/pager"
+        >
+        <thead>
+          <colgroup>
+            <col class="col-xs-1">
+            <col class="col-xs-3">
+            <col class="col-xs-7">
+            <col class="col-xs-1">
+          </colgroup>
+          <th>#</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </thead>
+        <tbody ng-show="$data.length == 0">
+        <tr>
+          <td colspan="7">No data available.</td>
+        </tr>
+        </tbody>
+        <tbody>
+          <tr ng-repeat="project in $data">
+            <td class="text-center">
+              {{ (params.page() - 1) * params.count() + $index + 1 }}
+            </td>
+            <td>{{ project.name }}</td>
+            <td>{{ project.description }}</td>
+            <td class="text-center">
+              <span ng-click="plCtrl.openProjectModal(project.id)" uib-tooltip="Edit project">
+                <i class="glyphicon glyphicon-pencil"></i>
+              </span>
+              <span ng-click="plCtrl.openReportModal(project.id, true)" uib-tooltip="Show accepted reports">
+                <i class="glyphicon glyphicon-list"></i>
+              </span>
+              <span ng-click="plCtrl.openReportModal(project.id, false)" uib-tooltip="Show new reports">
+                <i class="glyphicon glyphicon-align-right"></i>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</section>

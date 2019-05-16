@@ -1,10 +1,7 @@
 package com.pik.application.restController;
 
 import com.pik.application.domain.WorkReport;
-import com.pik.application.dto.WRepDate;
-import com.pik.application.dto.WRepDateReq;
-import com.pik.application.dto.WRepNew;
-import com.pik.application.dto.WRepUsrProj;
+import com.pik.application.dto.*;
 import com.pik.application.service.WorkReportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +49,7 @@ public class WorkReportRestController {
         return workReportService.deleteWorkReport(id);
     }
 
-    @PreAuthorize("hasAuthority('SUPERVISOR')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
     @PostMapping(value = "/work-reports")
     public ResponseEntity<List<WRepDate>> getWorkReportsByDate(@RequestBody(required = false) WRepDateReq body){
 
@@ -62,19 +59,31 @@ public class WorkReportRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PreAuthorize("hasAuthority('SUPERVISOR')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
     @GetMapping(value = "/work-reports/{id}")
-    public ResponseEntity<WRepUsrProj> getWorkReportInfo(@PathVariable Long id){
+    public ResponseEntity<WorkReportExtraInfo> getWorkReportInfo(@PathVariable Long id){
         return workReportService.getWorkReportInfo(id);
     }
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping(value = "/work-reports-new")
-    public ResponseEntity<WorkReport> addNewWorkReport(@RequestBody(required = false)WRepNew body){
+    public ResponseEntity<WorkReport> addNewWorkReport(@RequestBody(required = false) NewWorkReport body){
 
         if(body != null)
             return workReportService.addNewWorkReport(body.getDate(), body.getHoursNumber(), body.getProjectId(), body.getProjectName(), body.getComment());
         else
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+    @PostMapping(value = "/work-reports-accepted")
+    public ResponseEntity<List<WorkReportExtraInfo>> getAcceptedWorkReports(@RequestBody(required = false) IdName body){
+        if(body != null) {
+            System.out.println(body.id + " " + body.name + " " + body.accepted);
+            return workReportService.getWorkReportsAccepted(body.id, body.accepted);
+        }else
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
 }
