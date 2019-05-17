@@ -4,6 +4,6 @@ angular.module("hourReportingSystem").directive("tdUl", function() {
     scope: {
       list: "="
     },
-    templateUrl: "shared/directives/td-ul/td-ul.template.html"
+    templateUrl: "app/shared/directives/td-ul/td-ul.template.html"
   };
 });
