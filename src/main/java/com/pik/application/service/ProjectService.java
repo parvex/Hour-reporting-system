@@ -2,11 +2,13 @@ package com.pik.application.service;
 
 import com.pik.application.domain.Project;
 import com.pik.application.dto.LongString;
+import com.pik.application.dto.PageOptions;
+import com.pik.application.dto.ProjectsData.IdNameDescription;
 import com.pik.application.repository.ProjectRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -88,5 +90,21 @@ public class ProjectService {
             return new ArrayList<>();
         }
         return project;
+    }
+
+    public ResponseEntity<List<IdNameDescription>> getProjectsChosen(List<Long> chosenIds, String order, PageOptions options) {
+        Long loggedId = userService.getLoggedUser().getId();
+        if(chosenIds != null && chosenIds.isEmpty())
+            chosenIds.add(-1L);
+
+        Pageable page = order.isBlank() ? PageRequest.of(options.getPage(), options.getCount())
+                : order.equals("ASC") ? PageRequest.of(options.getPage(), options.getCount(), Sort.Direction.ASC, "name")
+                : PageRequest.of(options.getPage(), options.getCount(), Sort.Direction.DESC, "name");
+
+        List<IdNameDescription> projects =  projectRepository.findProjectsChosen(chosenIds, loggedId, page);
+        if(projects.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+        }
+        return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 }

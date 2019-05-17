@@ -7,6 +7,7 @@ angular
     service.updateProject = updateProject;
     service.getAllProjects = getAllProjects;
     service.getProject = getProject;
+    service.getProjectsChosen = getProjectsChosen;
 
     // by phrase
     function getProjects(request) {
@@ -35,6 +36,12 @@ angular
 
     function getAllProjects(request) {
       return $http.get("/api/projects", request).then(function(response) {
+        return response.data;
+      });
+    }
+
+    function getProjectsChosen(request) {
+      return $http.post("/api/projects-chosen", request).then(function(response) {
         return response.data;
       });
     }

@@ -1,6 +1,7 @@
 package com.pik.application.repository;
 
 import com.pik.application.dto.WRepDate;
+import com.pik.application.dto.WorkReportData.IdEmployeeNameDateHoursComment;
 import com.pik.application.dto.WorkReportExtraInfo;
 import com.pik.application.domain.WorkReport;
 import org.springframework.data.domain.PageRequest;
@@ -35,7 +36,11 @@ public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
             " AND w.user.supervisor.id = :loggedId OR w.user.id = :loggedId OR :loggedId = 1811 ORDER BY w.date DESC")
     List<WRepDate> findByDateBetweenOrderByDateAsc(Date dateFrom, Date dateTo, @Nullable List<Long> employeeIds, @Nullable List<Long> projectIds, Long loggedId);
 
-    @Query("SELECT new com.pik.application.dto.WorkReportExtraInfo(w.id, w.date, w.hours, w.user.id, w.user.name, w.user.surname, w.project.id, w.project.name, w.comment, w.accepted)" +
-            " FROM WorkReport w WHERE w.project.id = :projectId AND w.accepted = :accepted")
-    List<WorkReportExtraInfo> findForProjectAccepted(Long projectId, Boolean accepted);
+//    @Query("SELECT new com.pik.application.dto.WorkReportExtraInfo(w.id, w.date, w.hours, w.user.id, w.user.name, w.user.surname, w.project.id, w.project.name, w.comment, w.accepted)" +
+//            " FROM WorkReport w WHERE w.project.id = :projectId AND w.accepted = :accepted")
+//    List<WorkReportExtraInfo> findForProjectAccepted(Long projectId, Boolean accepted);
+
+    @Query("SELECT new com.pik.application.dto.WorkReportData.IdEmployeeNameDateHoursComment(w.id, CONCAT(w.user.name,' ',w.user.surname), w.reportedAt, w.hours, w.comment) " +
+            "FROM WorkReport w WHERE (w.id IN (:chosenIds) OR (-1 IN (:chosenIds)) OR COALESCE(:chosenIds, NULL) IS NULL) AND (u.supervisor.id = :loggedId OR :loggedId = 1811)")
+    List<IdEmployeeNameDateHoursComment> findWorkReportsByState(List<Long> chosenIds, Boolean state, Long loggedId, Pageable page);
 }

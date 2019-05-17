@@ -3,10 +3,16 @@ package com.pik.application.service;
 import com.pik.application.domain.Project;
 import com.pik.application.domain.User;
 import com.pik.application.domain.WorkReport;
+import com.pik.application.dto.PageOptions;
+import com.pik.application.dto.ProjectsData.IdNameDescription;
 import com.pik.application.dto.WRepDate;
+import com.pik.application.dto.WorkReportData.IdEmployeeNameDateHoursComment;
 import com.pik.application.dto.WorkReportExtraInfo;
 import com.pik.application.repository.WorkReportRepository;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -92,15 +98,32 @@ public class WorkReportService {
         return new ResponseEntity<>(workReportRepository.save(newWorkReport), HttpStatus.CREATED);
     }
 
-    public ResponseEntity<List<WorkReportExtraInfo>> getWorkReportsAccepted(Long id, Boolean accepted) {
+//    public ResponseEntity<List<WorkReportExtraInfo>> getWorkReportsAccepted(Long id, Boolean accepted) {
+//
+//        Optional<List<WorkReportExtraInfo>> workReport = Optional.ofNullable(workReportRepository.findForProjectAccepted(id, accepted));
+//
+//        if(workReport.isEmpty()){
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//        else{
+//            return new ResponseEntity<>(workReport.get(), HttpStatus.OK);
+//        }
+//    }
 
-        Optional<List<WorkReportExtraInfo>> workReport = Optional.ofNullable(workReportRepository.findForProjectAccepted(id, accepted));
+    public ResponseEntity<List<IdEmployeeNameDateHoursComment>> getWorkReportsByState(List<Long> chosenIds, PageOptions options, Boolean state, String order) {
+        Long loggedId = userService.getLoggedUser().getId();
+        if(chosenIds != null && chosenIds.isEmpty())
+            chosenIds.add(-1L);
 
-        if(workReport.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        Pageable page = order.isBlank() ? PageRequest.of(options.getPage(), options.getCount())
+                : order.equals("ASC") ? PageRequest.of(options.getPage(), options.getCount(), Sort.Direction.ASC, "date")
+                : PageRequest.of(options.getPage(), options.getCount(), Sort.Direction.DESC, "date");
+
+        List<IdEmployeeNameDateHoursComment> reports = workReportRepository.findWorkReportsByState(chosenIds, state, loggedId, page);
+        if(reports.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
         }
-        else{
-            return new ResponseEntity<>(workReport.get(), HttpStatus.OK);
-        }
+        return new ResponseEntity<>(reports, HttpStatus.OK);
+
     }
 }
