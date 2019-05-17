@@ -30,7 +30,7 @@ angular
 
     function getEmployees(request) {
       return $http
-        .post("/api/available-employees", request)
+        .post("/api/employees-list", request)
         .then(function(response) {
           return response.data;
         });

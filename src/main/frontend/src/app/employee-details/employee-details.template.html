@@ -1,7 +1,7 @@
 <section>
   <div class="modal-header">
-    <h3 class="modal-title" ng-show="!edCtrl.employeeId">New employee</h3>
-    <h3 class="modal-title" ng-show="edCtrl.employeeId">Employee edition</h3>
+    <h3 class="modal-title" ng-if="!edCtrl.employeeId">New employee</h3>
+    <h3 class="modal-title" ng-if="edCtrl.employeeId">Employee edition</h3>
   </div>
   <div class="modal-body">
     <form name="employeeForm">
@@ -23,7 +23,7 @@
         />
         <span
           class="help-block"
-          ng-show="employeeForm.username.$invalid && (employeeForm.username.$touched || employeeForm.$submitted)"
+          ng-if="employeeForm.username.$invalid && (employeeForm.username.$touched || employeeForm.$submitted)"
           >Username is required and needs to have between 2 and 32
           characters.</span
         >
@@ -45,7 +45,7 @@
         />
         <span
           class="help-block"
-          ng-show="employeeForm.name.$invalid && (employeeForm.name.$touched || employeeForm.$submitted)"
+          ng-if="employeeForm.name.$invalid && (employeeForm.name.$touched || employeeForm.$submitted)"
           >Name is required and needs to have between 2 and 32 characters.</span
         >
       </div>
@@ -66,7 +66,7 @@
         />
         <span
           class="help-block"
-          ng-show="employeeForm.surname.$invalid && (employeeForm.surname.$touched || employeeForm.$submitted)"
+          ng-if="employeeForm.surname.$invalid && (employeeForm.surname.$touched || employeeForm.$submitted)"
           >Surname is required and needs to have between 2 and 32
           characters.</span
         >
@@ -83,14 +83,15 @@
           placeholder="email"
           ng-model="edCtrl.employee.email"
           required
+          disabled="edCtrl.employeeId"
         />
         <span
           class="help-block"
-          ng-show="employeeForm.email.$invalid && (employeeForm.email.$touched || employeeForm.$submitted)"
+          ng-if="employeeForm.email.$invalid && (employeeForm.email.$touched || employeeForm.$submitted)"
           >Email is required and needs to be a valid email address.</span
         >
       </div>
-      <div class="panel panel-default" ng-show="!edCtrl.employeeId">
+      <div class="panel panel-default" ng-if="!edCtrl.employeeId">
         <div class="panel-body">
           <div
             class="form-group"
@@ -109,7 +110,7 @@
             />
             <span
               class="help-block"
-              ng-show="employeeForm.password.$invalid && (employeeForm.password.$touched || employeeForm.$submitted)"
+              ng-if="employeeForm.password.$invalid && (employeeForm.password.$touched || employeeForm.$submitted)"
               >Password is required and needs to have between 8 and 64
               characters.</span
             >
@@ -129,7 +130,7 @@
             />
             <span
               class="help-block"
-              ng-show="((employeeForm.password.$touched && employeeForm.confirmPassword.$touched) || employeeForm.$submitted) && edCtrl.employee.password != edCtrl.confirmPassword"
+              ng-if="((employeeForm.password.$touched && employeeForm.confirmPassword.$touched) || employeeForm.$submitted) && edCtrl.employee.password != edCtrl.confirmPassword"
               >Passwords needs to be the same.</span
             >
           </div>
@@ -161,7 +162,7 @@
         </item-select>
         <span
           class="help-block"
-          ng-show="employeeForm.supervisor.$invalid && (employeeForm.supervisor.$touched || employeeForm.$submitted)"
+          ng-if="employeeForm.supervisor.$invalid && (employeeForm.supervisor.$touched || employeeForm.$submitted)"
           >Supervisor is required.</span
         >
       </div>
@@ -175,11 +176,12 @@
           placeholder="roles"
           provider="edCtrl.provideRoles(request)"
           name="roles"
+          disabled="edCtrl.employeeId"
         >
         </multi-item-select>
         <span
           class="help-block"
-          ng-show="edCtrl.employee.roles.length == 0  && (employeeForm.roles.$touched || employeeForm.$submitted)"
+          ng-if="edCtrl.employee.roles.length == 0  && (employeeForm.roles.$touched || employeeForm.$submitted)"
           >At least one role is required.</span
         >
       </div>
