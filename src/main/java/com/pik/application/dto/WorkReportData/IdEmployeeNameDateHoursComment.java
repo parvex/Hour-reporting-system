@@ -7,10 +7,10 @@ public class IdEmployeeNameDateHoursComment {
     private Long id;
     private String employeeName;
     private Date date;
-    private Long hours;
+    private Integer hours;
     private String comment;
 
-    public IdEmployeeNameDateHoursComment(Long id, String employeeName, Date date, Long hours, String comment) {
+    public IdEmployeeNameDateHoursComment(Long id, String employeeName, Date date, Integer hours, String comment) {
         this.id = id;
         this.employeeName = employeeName;
         this.date = date;
@@ -42,11 +42,11 @@ public class IdEmployeeNameDateHoursComment {
         this.date = date;
     }
 
-    public Long getHours() {
+    public Integer getHours() {
         return hours;
     }
 
-    public void setHours(Long hours) {
+    public void setHours(Integer hours) {
         this.hours = hours;
     }
 

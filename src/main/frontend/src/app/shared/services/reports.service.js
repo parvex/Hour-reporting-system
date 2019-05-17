@@ -5,7 +5,7 @@ angular
     service.getReport = getReport;
     service.getReports = getReports;
     service.saveReport = saveReport;
-    service.getReportsAccepted = getReportsAccepted;
+    service.getReportsByState = getReportsByState;
 
     function getReport(reportId) {
       return $http
@@ -27,8 +27,8 @@ angular
       });
     }
 
-    function getReportsAccepted(request) {
-      return $http.post("/api/work-reports-accepted", request).then(function(response) {
+    function getReportsByState(request) {
+      return $http.post("/api/work-reports-state", request).then(function(response) {
         return response.data;
       });
     }
