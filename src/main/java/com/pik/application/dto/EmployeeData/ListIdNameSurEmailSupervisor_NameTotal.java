@@ -4,19 +4,19 @@ import java.util.List;
 
 public class ListIdNameSurEmailSupervisor_NameTotal {
 
-    private List<IdNameSurEmailSupervisor_Name> list;
+    private List<IdNameSurEmailSupervisor_NameProjects> list;
     private Integer totalCount;
 
-    public ListIdNameSurEmailSupervisor_NameTotal(List<IdNameSurEmailSupervisor_Name> list, Integer totalCount) {
+    public ListIdNameSurEmailSupervisor_NameTotal(List<IdNameSurEmailSupervisor_NameProjects> list, Integer totalCount) {
         this.list = list;
         this.totalCount = totalCount;
     }
 
-    public List<IdNameSurEmailSupervisor_Name> getList() {
+    public List<IdNameSurEmailSupervisor_NameProjects> getList() {
         return list;
     }
 
-    public void setList(List<IdNameSurEmailSupervisor_Name> list) {
+    public void setList(List<IdNameSurEmailSupervisor_NameProjects> list) {
         this.list = list;
     }
 

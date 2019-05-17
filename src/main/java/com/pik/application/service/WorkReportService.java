@@ -110,20 +110,20 @@ public class WorkReportService {
 //        }
 //    }
 
-    public ResponseEntity<List<IdEmployeeNameDateHoursComment>> getWorkReportsByState(List<Long> chosenIds, PageOptions options, Boolean state, String order) {
-        Long loggedId = userService.getLoggedUser().getId();
-        if(chosenIds != null && chosenIds.isEmpty())
-            chosenIds.add(-1L);
-
-        Pageable page = order.isBlank() ? PageRequest.of(options.getPage(), options.getCount())
-                : order.equals("ASC") ? PageRequest.of(options.getPage(), options.getCount(), Sort.Direction.ASC, "date")
-                : PageRequest.of(options.getPage(), options.getCount(), Sort.Direction.DESC, "date");
-
-        List<IdEmployeeNameDateHoursComment> reports = workReportRepository.findWorkReportsByState(chosenIds, state, loggedId, page);
-        if(reports.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
-        }
-        return new ResponseEntity<>(reports, HttpStatus.OK);
-
-    }
+//    public ResponseEntity<List<IdEmployeeNameDateHoursComment>> getWorkReportsByState(List<Long> chosenIds, PageOptions options, Boolean state, String order) {
+//        Long loggedId = userService.getLoggedUser().getId();
+//        if(chosenIds != null && chosenIds.isEmpty())
+//            chosenIds.add(-1L);
+//
+//        Pageable page = order.isBlank() ? PageRequest.of(options.getPage(), options.getCount())
+//                : order.equals("ASC") ? PageRequest.of(options.getPage(), options.getCount(), Sort.Direction.ASC, "date")
+//                : PageRequest.of(options.getPage(), options.getCount(), Sort.Direction.DESC, "date");
+//
+//        List<IdEmployeeNameDateHoursComment> reports = workReportRepository.findWorkReportsByState(chosenIds, state, loggedId, page);
+//        if(reports.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+//        }
+//        return new ResponseEntity<>(reports, HttpStatus.OK);
+//
+//    }
 }
