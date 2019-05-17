@@ -6,10 +6,17 @@ angular
     service.saveProject = saveProject;
     service.updateProject = updateProject;
     service.getAllProjects = getAllProjects;
+    service.getProject = getProject;
 
     // by phrase
     function getProjects(request) {
       return $http.post("/api/projects", request).then(function(response) {
+        return response.data;
+      });
+    }
+
+    function getProject(projectId) {
+      return $http.get("/api/projects/" + projectId).then(function(response) {
         return response.data;
       });
     }

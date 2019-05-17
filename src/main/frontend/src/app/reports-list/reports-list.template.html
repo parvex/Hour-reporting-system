@@ -1,5 +1,5 @@
 <section>
-  <div class="modal-header">
+  <div class="modal-header text-center">
     <h3 class="modal-title" ng-show="rlCtrl.accepted">Accepted work reports</h3>
     <h3 class="modal-title" ng-show="!rlCtrl.accepted">New work reports</h3>
   </div>
@@ -11,11 +11,11 @@
       >
         <thead>
         <colgroup>
-          <col class="col-lg-1">
-          <col class="col-lg-2">
-          <col class="col-lg-2">
-          <col class="col-lg-1">
-          <col class="col-lg-5">
+          <col class="col-xs-1">
+          <col class="col-xs-2">
+          <col class="col-xs-2">
+          <col class="col-xs-1">
+          <col class="col-xs-5">
         </colgroup>
           <th>#</th>
           <th>Name</th>
@@ -41,9 +41,10 @@
             <td>{{ report.hours }}</td>
             <td class="text-left">{{ report.coment }}</td>
             <td ng-show="!rlCtrl.accepted">
-              <span uib-tooltip="Edit project">
-                <i class="glyphicon glyphicon-pencil"></i>
-              </span>
+              <input type = "checkbox"
+              model = "rlCtrl.accepted">
+
+
             </td>
          </tr>
         </tbody>

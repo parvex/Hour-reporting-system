@@ -1,7 +1,10 @@
 package com.pik.application.repository;
 
+import com.pik.application.domain.SystemRole;
 import com.pik.application.domain.User;
-import com.pik.application.dto.IdName;
+import com.pik.application.dto.EmployeeData.IdNameSurEmailSupervisor_Name;
+import com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles;
+import com.pik.application.dto.LongString;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,11 +31,28 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where :role MEMBER OF u.roles")
     List<User> findByRoles(@Param("role") String role);
 
-    @Query("SELECT new com.pik.application.dto.IdName(u.id, CONCAT(u.name,' ',u.surname), false) FROM User u WHERE (CONCAT(upper(u.name),' ', u.surname) LIKE CONCAT('%',upper(:phrase),'%')" +
-            " OR :phrase IS NULL) AND ((COALESCE(:chosenIds, NULL) IS NULL) OR u.id NOT IN (:chosenIds)) AND u.supervisor.id = :supervisorId")
-    List<IdName> findByUsernameLike(@Nullable String phrase, @Nullable List<Long> chosenIds, Long supervisorId, Pageable pageable);
+    @Query("SELECT new com.pik.application.dto.LongString(u.id, CONCAT(u.name,' ',u.surname)) FROM User u WHERE (CONCAT(upper(u.name),' ', u.surname) LIKE CONCAT('%',upper(:phrase),'%') " +
+            "OR :phrase IS NULL) AND ((COALESCE(:chosenIds, NULL) IS NULL) OR u.id NOT IN (:chosenIds)) AND u.supervisor.id = :supervisorId")
+    List<LongString> findByUsernameLike(@Nullable String phrase, @Nullable List<Long> chosenIds, Long supervisorId, Pageable pageable);
 
-    @Query("SELECT new com.pik.application.dto.IdName(u.id, CONCAT(u.name,' ', u.surname, ' [', u.username, ']'), false) FROM User u WHERE CONCAT(upper(u.name), ' ' , upper(u.surname)) " +
-            " LIKE CONCAT('%',upper(:phrase),'%') AND 'SUPERVISOR' MEMBER OF u.roles")
-    List<IdName> findSupervisorsByUsernameLike(String phrase, Pageable pageable);
+    @Query("SELECT new com.pik.application.dto.LongString(u.id, CONCAT(u.name,' ', u.surname, ' [', u.username, ']')) FROM User u WHERE CONCAT(upper(u.name), ' ' , upper(u.surname)) " +
+            "LIKE CONCAT('%',upper(:phrase),'%') AND 'SUPERVISOR' MEMBER OF u.roles")
+    List<LongString> findSupervisorsByUsernameLike(String phrase, Pageable pageable);
+
+    @Query("SELECT DISTINCT new com.pik.application.dto.EmployeeData.IdNameSurEmailSupervisor_Name(u.id, u.name, u.surname, u.email, CONCAT(u.supervisor.name,' ',u.supervisor.surname)) " +
+            "FROM User u LEFT JOIN u.projects p WHERE (:email IS NULL OR :email = '' OR u.email = :email) AND (:name IS NULL OR :name = '' OR u.name = :name) " +
+            "AND (:surname IS NULL OR :surname = '' OR u.surname = :surname) AND (p.id IN (:projects) OR (-1 IN (:projects)) OR COALESCE(:projects, NULL) IS NULL " +
+            "AND :loggedId = u.supervisor.id OR :loggedId = 1811)")
+    List<IdNameSurEmailSupervisor_Name> findByIdNameSurEmailSupervisorPage(@Nullable String email, @Nullable String name, @Nullable String surname, @Nullable List<Long> projects, Long loggedId, Pageable page);
+
+    @Query("SELECT new com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles(u.id, u.username, u.name, u.surname, u.email, " +
+            "u.supervisor.id, CONCAT(u.supervisor.name,' ',u.supervisor.surname)) FROM User u WHERE (u.id = :id OR (-1 = :id)) AND (u.supervisor.id = :loggedId OR :loggedId = 1811)")
+    Optional<IdUserNameSurEmailProjectsSupervisorRoles> getEmployeeById(Long id, Long loggedId);
+
+    @Query("SELECT r FROM User u JOIN u.roles r WHERE u.id = :id")
+    List<String> findAllRolesForUser(Long id);
+
+    @Query("SELECT new com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles(u.id, u.username, u.name, u.surname, u.email, " +
+            "u.supervisor.id, CONCAT(u.supervisor.name,' ',u.supervisor.surname)) FROM User u")
+    List<IdUserNameSurEmailProjectsSupervisorRoles> findAllEmployees();
 }

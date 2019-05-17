@@ -1,7 +1,7 @@
 package com.pik.application.restController;
 
 import com.pik.application.domain.Project;
-import com.pik.application.dto.IdName;
+import com.pik.application.dto.LongString;
 import com.pik.application.dto.PhraseList;
 import com.pik.application.service.ProjectService;
 import org.springframework.http.HttpStatus;
@@ -51,7 +51,7 @@ public class ProjectRestController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
     @PostMapping(value = "/projects")
-    public ResponseEntity<List<IdName>> getProjectsByPhrase(@RequestBody(required = false) PhraseList body){
+    public ResponseEntity<List<LongString>> getProjectsByPhrase(@RequestBody(required = false) PhraseList body){
 
         if(body != null)
             return projectService.getProjectByPhrase(body.getPhrase(), body.getChosenIds());
