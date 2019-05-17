@@ -2,6 +2,8 @@ package com.pik.application.restController;
 
 import com.pik.application.domain.WorkReport;
 import com.pik.application.dto.*;
+import com.pik.application.dto.WorkReportData.IdEmployeeNameDateHoursComment;
+import com.pik.application.dto.WorkReportData.ListIdsStateOrderPage;
 import com.pik.application.service.WorkReportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,10 +78,10 @@ public class WorkReportRestController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
-    @PostMapping(value = "/work-reports-accepted")
-    public ResponseEntity<List<WorkReportExtraInfo>> getAcceptedWorkReports(@RequestBody(required = false) LongStringBool body){
+    @PostMapping(value = "/work-reports-state")
+    public ResponseEntity<List<IdEmployeeNameDateHoursComment>> getWorkReportsByState(@RequestBody(required = false) ListIdsStateOrderPage body){
         if(body != null) {
-            return workReportService.getWorkReportsAccepted(body.getId(), body.getAccepted());
+            return workReportService.getWorkReportsByState(body.getCriteria(), body.getOptions(), body.getState(), body.getOrder());
         }else
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -2,15 +2,23 @@
   <form name="employeesSearchForm" class="panel panel-default">
     <div class="panel-heading">
       <div class="row">
-        <div class="col-md-4 col-md-offset-3">
-          <multi-item-select
-            model="plCtrl.filterCriteria.projects"
-            placeholder="project name"
-            provider="plCtrl.provideProjects(request)"
-          >
-          </multi-item-select>
+        <div class="col-sm-1 col-md-offset-2 margin-top ">
+            <span ng-click="plCtrl.filterCriteria.sorted = 'ASC'; plCtrl.reloadTable()" uib-tooltip="Order ASC">
+                <i class="glyphicon glyphicon-triangle-top"></i>
+            </span>
+            <span ng-click="plCtrl.filterCriteria.sorted = 'DESC'; plCtrl.reloadTable()" uib-tooltip="Order DESC">
+                <i class="glyphicon glyphicon-triangle-bottom"></i>
+            </span>
         </div>
-        <div class="btn-group">
+        <div class="col-sm-5 col-xs-6">
+            <multi-item-select
+              model="plCtrl.filterCriteria.projects"
+              placeholder="project name"
+              provider="plCtrl.provideProjects(request)"
+            >
+            </multi-item-select>
+        </div>
+        <div class="btn-group" class="col-sm-3">
             <button class="btn btn-primary" ng-click="plCtrl.search()">
               <span>Search </span>
               <small><i class="glyphicon glyphicon-search"></i></small>
@@ -27,13 +35,14 @@
       <table ng-table="plCtrl.projectsTable"
           class="table table-bordered table-striped margin-bottom"
           template-pagination="custom/pager"
+             style="table-layout: fixed"
         >
         <thead>
           <colgroup>
-            <col class="col-xs-1">
-            <col class="col-xs-3">
-            <col class="col-xs-7">
-            <col class="col-xs-1">
+            <col class="col-sm-1 col-xs-1">
+            <col class="col-sm-3 col-xs-2">
+            <col class="col-sm-7 col-xs-6">
+            <col class="col-sm-1 col-xs-2">
           </colgroup>
           <th>#</th>
           <th>Name</th>
@@ -46,7 +55,8 @@
         </tr>
         </tbody>
         <tbody>
-          <tr ng-repeat="project in $data">
+          <tr ng-repeat="project in $data"
+              style="word-wrap: break-word">
             <td class="text-center">
               {{ (params.page() - 1) * params.count() + $index + 1 }}
             </td>

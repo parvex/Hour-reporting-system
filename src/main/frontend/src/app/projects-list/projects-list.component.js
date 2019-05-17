@@ -12,11 +12,12 @@ angular
   ) {
     const plCtrl = this;
     plCtrl.filterCriteria = new Object();
-
+    plCtrl.filterCriteria.sorted = "";
     plCtrl.search = search;
     plCtrl.openProjectModal = openProjectModal;
     plCtrl.openReportModal = openReportModal;
     plCtrl.provideProjects = provideProjects;
+    plCtrl.reloadTable = reloadProjectsTable;
 
     plCtrl.projectsTable = new NgTableParams(
       {},
@@ -24,7 +25,7 @@ angular
         getData: function(params) {
           const request = generateLoadProjectsRequest(params);
 
-          return ProjectsService.getProjects(request)
+          return ProjectsService.getProjectsChosen(request)
             .then(function(response) {
               const projectsList = response;
               params.total(projectsList.length);
@@ -36,12 +37,21 @@ angular
 
     function generateLoadProjectsRequest(params) {
       return {
-        criteria: plCtrl.filterCriteria,
+        criteria: getIdsList(plCtrl.filterCriteria.projects),
+        order: plCtrl.filterCriteria.sorted,
         options: {
           page: params.page() - 1,
           count: params.count()
         }
       };
+    }
+
+    function getIdsList(list) {
+      if (angular.isArray(list) && list.length > 0) {
+        return list.map(function(element) {
+          return element.id;
+        });
+      } else return [];
     }
 
     function reloadProjectsTable() {
