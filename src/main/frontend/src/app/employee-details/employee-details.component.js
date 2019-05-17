@@ -39,8 +39,8 @@ angular
 
     function provideRoles(request) {
       const roles = [
-        { id: 0, name: "USER" },
-        { id: 1, name: "ADMIN" },
+        { id: 0, name: "ADMIN" },
+        { id: 1, name: "USER" },
         { id: 2, name: "SUPERVISOR" }
       ];
 
