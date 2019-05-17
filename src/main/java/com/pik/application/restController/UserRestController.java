@@ -77,7 +77,7 @@ public class UserRestController {
 	}
 
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
-	@PostMapping(value = "/employees-list-page")
+	@PostMapping(value = "/employees-list")
 	public ResponseEntity<ListIdNameSurEmailSupervisor_NameTotal> getEmployeesPage(@RequestBody(required = false) EmailNameSurProjectsPage body){
 
 		if(body != null)
@@ -92,7 +92,7 @@ public class UserRestController {
 		return userService.getEmployeeById(id);
 	}
 
-	@PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
 	@GetMapping(value = "/employees")
 	public ResponseEntity<List<IdUserNameSurEmailProjectsSupervisorRoles>> getAllEmployees(){
 		return userService.findAllEmployees();
