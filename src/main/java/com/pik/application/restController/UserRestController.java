@@ -2,7 +2,6 @@ package com.pik.application.restController;
 
 import com.pik.application.domain.User;
 import com.pik.application.dto.EmployeeData.EmailNameSurProjectsPage;
-import com.pik.application.dto.EmployeeData.IdNameSurEmailSupervisor_Name;
 import com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles;
 import com.pik.application.dto.EmployeeData.ListIdNameSurEmailSupervisor_NameTotal;
 import com.pik.application.dto.LongString;
