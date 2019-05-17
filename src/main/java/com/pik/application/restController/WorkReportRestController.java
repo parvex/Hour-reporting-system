@@ -77,14 +77,14 @@ public class WorkReportRestController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
-    @PostMapping(value = "/work-reports-state")
-    public ResponseEntity<List<IdEmployeeNameDateHoursComment>> getWorkReportsByState(@RequestBody(required = false) ListIdsStateOrderPage body){
-        if(body != null) {
-            return workReportService.getWorkReportsByState(body.getCriteria(), body.getOptions(), body.getState(), body.getOrder());
-        }else
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+//    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+//    @PostMapping(value = "/work-reports-state")
+//    public ResponseEntity<List<IdEmployeeNameDateHoursComment>> getWorkReportsByState(@RequestBody(required = false) ListIdsStateOrderPage body){
+//        if(body != null) {
+//            return workReportService.getWorkReportsByState(body.getCriteria(), body.getOptions(), body.getState(), body.getOrder());
+//        }else
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 
 
 }

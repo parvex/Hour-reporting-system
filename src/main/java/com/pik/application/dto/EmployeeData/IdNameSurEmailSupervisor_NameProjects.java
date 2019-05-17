@@ -13,13 +13,12 @@ public class IdNameSurEmailSupervisor_NameProjects {
     private String supervisorFullname;
     private List<LongString> projects;
 
-    public IdNameSurEmailSupervisor_NameProjects(Long id, String name, String surname, String email, String supervisorFullname, List<LongString> projects) {
+    public IdNameSurEmailSupervisor_NameProjects(Long id, String name, String surname, String email, String supervisorFullname) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.supervisorFullname = supervisorFullname;
-        this.projects = projects;
     }
 
     public Long getId() {

@@ -40,7 +40,7 @@ public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
 //            " FROM WorkReport w WHERE w.project.id = :projectId AND w.accepted = :accepted")
 //    List<WorkReportExtraInfo> findForProjectAccepted(Long projectId, Boolean accepted);
 
-    @Query("SELECT new com.pik.application.dto.WorkReportData.IdEmployeeNameDateHoursComment(w.id, CONCAT(w.user.name,' ',w.user.surname), w.reportedAt, w.hours, w.comment) " +
-            "FROM WorkReport w WHERE (w.id IN (:chosenIds) OR (-1 IN (:chosenIds)) OR COALESCE(:chosenIds, NULL) IS NULL) AND (u.supervisor.id = :loggedId OR :loggedId = 1811)")
-    List<IdEmployeeNameDateHoursComment> findWorkReportsByState(List<Long> chosenIds, Boolean state, Long loggedId, Pageable page);
+//    @Query("SELECT new com.pik.application.dto.WorkReportData.IdEmployeeNameDateHoursComment(w.id, CONCAT(w.user.name,' ',w.user.surname), w.reportedAt, w.hours, w.comment) " +
+//            "FROM WorkReport w WHERE (w.id IN (:chosenIds) OR (-1 IN (:chosenIds)) OR COALESCE(:chosenIds, NULL) IS NULL) AND (u.supervisor.id = :loggedId OR :loggedId = 1811)")
+//    List<IdEmployeeNameDateHoursComment> findWorkReportsByState(List<Long> chosenIds, Boolean state, Long loggedId, Pageable page);
 }
