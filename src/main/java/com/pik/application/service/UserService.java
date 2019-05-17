@@ -105,7 +105,6 @@ public class UserService {
 
     public ResponseEntity<ListIdNameSurEmailSupervisor_NameTotal> getEmployeesPage(EmailNameSurProjects employee, PageOptions pageOptions) {
         Pageable page = PageRequest.of(pageOptions.getPage(), pageOptions.getCount());
-        Pageable pageMax = PageRequest.of(pageOptions.getPage(), Integer.MAX_VALUE);
 
         if(employee.getProjects() != null && employee.getProjects().isEmpty())
             employee.getProjects().add(-1L);
@@ -114,10 +113,7 @@ public class UserService {
         List<IdNameSurEmailSupervisor_Name> body = userRepository.findByIdNameSurEmailSupervisorPage(employee.getEmail(),
                 employee.getName(), employee.getSurname(), employee.getProjects(), loggedId, page);
 
-        List<IdNameSurEmailSupervisor_Name> bodyMax = userRepository.findByIdNameSurEmailSupervisorPage(employee.getEmail(),
-                employee.getName(), employee.getSurname(), employee.getProjects(), loggedId, pageMax);
-
-        ListIdNameSurEmailSupervisor_NameTotal bodyTotal = new ListIdNameSurEmailSupervisor_NameTotal(body, bodyMax.size());
+        ListIdNameSurEmailSupervisor_NameTotal bodyTotal = new ListIdNameSurEmailSupervisor_NameTotal(body, body.size());
 
         return new ResponseEntity<>(bodyTotal, HttpStatus.OK);
     }

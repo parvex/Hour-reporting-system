@@ -3,8 +3,6 @@ package com.pik.application.restController;
 import com.pik.application.domain.Project;
 import com.pik.application.dto.LongString;
 import com.pik.application.dto.PhraseList;
-import com.pik.application.dto.ProjectsData.IdNameDescription;
-import com.pik.application.dto.ListIdsOrderPage;
 import com.pik.application.service.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,16 +55,6 @@ public class ProjectRestController {
 
         if(body != null)
             return projectService.getProjectByPhrase(body.getPhrase(), body.getChosenIds());
-        else
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
-    @PostMapping(value = "/projects-chosen")
-    public ResponseEntity<List<IdNameDescription>> getProjectsChosen(@RequestBody(required = false) ListIdsOrderPage body){
-
-        if(body != null)
-            return projectService.getProjectsChosen(body.getCriteria(), body.getOrder(), body.getOptions());
         else
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
