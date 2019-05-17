@@ -1,19 +1,25 @@
 package com.pik.application.dto.EmployeeData;
 
-public class IdNameSurEmailSupervisor_Name {
+import com.pik.application.dto.LongString;
+
+import java.util.List;
+
+public class IdNameSurEmailSupervisor_NameProjects {
 
     private Long id;
     private String name;
     private String surname;
     private String email;
     private String supervisorFullname;
+    private List<LongString> projects;
 
-    public IdNameSurEmailSupervisor_Name(Long id, String name, String surname, String email, String supervisorFullname) {
+    public IdNameSurEmailSupervisor_NameProjects(Long id, String name, String surname, String email, String supervisorFullname, List<LongString> projects) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.supervisorFullname = supervisorFullname;
+        this.projects = projects;
     }
 
     public Long getId() {
@@ -54,5 +60,13 @@ public class IdNameSurEmailSupervisor_Name {
 
     public void setSupervisorFullname(String supervisorFullname) {
         this.supervisorFullname = supervisorFullname;
+    }
+
+    public List<LongString> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<LongString> projects) {
+        this.projects = projects;
     }
 }

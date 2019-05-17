@@ -1,15 +1,15 @@
 package com.pik.application.service;
 
 import com.pik.application.domain.Project;
+import com.pik.application.domain.SystemRole;
 import com.pik.application.domain.User;
 import com.pik.application.dto.EmployeeData.EmailNameSurProjects;
-import com.pik.application.dto.EmployeeData.IdNameSurEmailSupervisor_Name;
+import com.pik.application.dto.EmployeeData.IdNameSurEmailSupervisor_NameProjects;
 import com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles;
 import com.pik.application.dto.EmployeeData.ListIdNameSurEmailSupervisor_NameTotal;
 import com.pik.application.dto.LongString;
 import com.pik.application.dto.PageOptions;
 import com.pik.application.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +20,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -111,14 +110,19 @@ public class UserService {
             employee.getProjects().add(-1L);
 
         Long loggedId = getLoggedUser().getId();
-        List<IdNameSurEmailSupervisor_Name> body = userRepository.findByIdNameSurEmailSupervisorPage(employee.getEmail(),
+        List<IdNameSurEmailSupervisor_NameProjects> body = userRepository.findByIdNameSurEmailSupervisorPage(employee.getEmail(),
                 employee.getName(), employee.getSurname(), employee.getProjects(), loggedId, page);
 
-        List<IdNameSurEmailSupervisor_Name> bodyMax = userRepository.findByIdNameSurEmailSupervisorPage(employee.getEmail(),
+        // Add projects for every returned employee in {id, name} form
+        for(IdNameSurEmailSupervisor_NameProjects user : body){
+            List<LongString> projects = projectService.findProjectsForUser(user.getId());
+            user.setProjects(projects);
+        }
+        // Again call query to get TOTAL COUNT
+        List<IdNameSurEmailSupervisor_NameProjects> bodyMax = userRepository.findByIdNameSurEmailSupervisorPage(employee.getEmail(),
                 employee.getName(), employee.getSurname(), employee.getProjects(), loggedId, pageMax);
 
         ListIdNameSurEmailSupervisor_NameTotal bodyTotal = new ListIdNameSurEmailSupervisor_NameTotal(body, bodyMax.size());
-
         return new ResponseEntity<>(bodyTotal, HttpStatus.OK);
     }
 
@@ -149,9 +153,13 @@ public class UserService {
         for(IdUserNameSurEmailProjectsSupervisorRoles employee : employees){
             List<String> roles = findAllRolesForUser(employee.getId());
             List<LongString> rolesNum = new ArrayList<>();
-            long num = 1L;
             for (String r : roles) {
-                rolesNum.add(new LongString(num++, r));
+                if(r.equals(SystemRole.ADMIN))
+                    rolesNum.add(new LongString(0L, r));
+                else if(r.equals(SystemRole.SUPERVISOR))
+                    rolesNum.add(new LongString(2L, r));
+                else
+                    rolesNum.add(new LongString(1L, r));
             }
             employee.setRoles(rolesNum);
             List<LongString> projects = projectService.findProjectsForUser(employee.getId());
