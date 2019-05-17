@@ -12,12 +12,12 @@ angular
   ) {
     const pdCtrl = this;
     pdCtrl.projectId = projectId;
-
+    pdCtrl.provideEmployees = provideEmployees;
     pdCtrl.save = save;
     pdCtrl.cancel = cancel;
 
     if (projectId) {
-      ProjectsService.getProjects(projectId).then(function(response) {
+      ProjectsService.getProject(projectId).then(function(response) {
         pdCtrl.project = response;
       });
     } else {
@@ -35,16 +35,6 @@ angular
     }
 
 
-
-
-
-
-
-
-
-
-
-
     function save() {
       if (projectId) {
         ProjectsService.updateProject(pdCtrl.project).then(function() {
@@ -60,4 +50,9 @@ angular
     function cancel() {
       $uibModalInstance.close();
     }
+
+    function provideEmployees(request) {
+      return EmployeesService.getEmployees(request);
+    }
+
   });

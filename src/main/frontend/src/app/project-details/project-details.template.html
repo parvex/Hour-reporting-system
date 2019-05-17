@@ -44,13 +44,11 @@
                 ng-model="pdCtrl.project.description"
                 required
                 ng-minlength="5"
-                ng-maxlength="50"
-                ng-disabled="pdCtrl.projectId"
               />
               <span
                 class="help-block"
                 ng-show="projectForm.description.$touched && projectForm.description.$invalid"
-              >Project description is required and needs to have between 5 and 50
+              >Project description is required and needs to have at least 5
                 characters.</span
               >
             </div>
@@ -59,9 +57,10 @@
               ng-class="{'has-error': projectForm.name.$touched && projectForm.name.$invalid}"
             >
               <label>Assign employees</label>
-              <multi-employees-select>
-      <!--          model="pdCtrl.project."-->
-                placeholder="employees"
+              <multi-employees-select
+                model = "pdCtrl.filterCriteria.project"
+                placeholder = "employees"
+                provider = "pdCtrl.provideEmployees(request)">
               </multi-employees-select>
                 <span
                   class="help-block"

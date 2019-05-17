@@ -77,10 +77,9 @@ public class WorkReportRestController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
     @PostMapping(value = "/work-reports-accepted")
-    public ResponseEntity<List<WorkReportExtraInfo>> getAcceptedWorkReports(@RequestBody(required = false) IdName body){
+    public ResponseEntity<List<WorkReportExtraInfo>> getAcceptedWorkReports(@RequestBody(required = false) LongStringBool body){
         if(body != null) {
-            System.out.println(body.id + " " + body.name + " " + body.accepted);
-            return workReportService.getWorkReportsAccepted(body.id, body.accepted);
+            return workReportService.getWorkReportsAccepted(body.getId(), body.getAccepted());
         }else
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

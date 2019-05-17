@@ -6,6 +6,7 @@ import com.pik.application.domain.WorkReport;
 import com.pik.application.dto.WRepDate;
 import com.pik.application.dto.WorkReportExtraInfo;
 import com.pik.application.repository.WorkReportRepository;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class WorkReportService {
     private final UserService userService;
     private final ProjectService projectService;
 
-    public WorkReportService(WorkReportRepository workReportRepository, UserService userService, ProjectService projectService) {
+    public WorkReportService(WorkReportRepository workReportRepository, @Lazy UserService userService, @Lazy ProjectService projectService) {
         this.workReportRepository = workReportRepository;
         this.userService = userService;
         this.projectService = projectService;

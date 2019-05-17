@@ -1,15 +1,17 @@
 package com.pik.application.service;
 
 import com.pik.application.domain.Project;
-import com.pik.application.domain.User;
-import com.pik.application.dto.IdName;
+import com.pik.application.dto.LongString;
 import com.pik.application.repository.ProjectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +21,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final UserService userService;
 
-    public ProjectService(ProjectRepository projectRepository, UserService userService) {
+    public ProjectService(ProjectRepository projectRepository, @Lazy UserService userService) {
         this.projectRepository = projectRepository;
         this.userService = userService;
     }
@@ -63,12 +65,12 @@ public class ProjectService {
         }
     }
 
-    public ResponseEntity<List<IdName>> getProjectByPhrase(String phrase, List<Long> chosenIds) {
+    public ResponseEntity<List<LongString>> getProjectByPhrase(String phrase, List<Long> chosenIds) {
         Pageable page = PageRequest.of(0, 10);
         Long loggedUserId = userService.getLoggedUser().getId();
         if(chosenIds != null && chosenIds.isEmpty())
             chosenIds.add(-1L);
-        List<IdName> body = projectRepository.findByPhrase(phrase, chosenIds, loggedUserId, page);
+        List<LongString> body = projectRepository.findByPhrase(phrase, chosenIds, loggedUserId, page);
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
@@ -78,5 +80,13 @@ public class ProjectService {
             throw new RuntimeException("Project not found!");
         }
         return project.get();
+    }
+
+    public List<LongString> findProjectsForUser(Long id) {
+        List<LongString> project = projectRepository.findProjectsForUser(id);
+        if(project.isEmpty()){
+            return new ArrayList<>();
+        }
+        return project;
     }
 }
