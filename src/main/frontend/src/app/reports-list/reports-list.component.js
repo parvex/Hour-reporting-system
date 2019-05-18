@@ -10,7 +10,7 @@ angular
     state,
     $uibModalInstance,
     NgTableParams,
-    ReportsService,
+    ReportsService
   ) {
     const rlCtrl = this;
     rlCtrl.filterCriteria = {};
