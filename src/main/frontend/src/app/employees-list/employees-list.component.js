@@ -30,8 +30,7 @@ angular
             response
           ) {
             const employeesList = response.list;
-
-            params.total(employeesList.totalCount);
+            params.total(response.totalCount);
             return employeesList;
           });
         }
