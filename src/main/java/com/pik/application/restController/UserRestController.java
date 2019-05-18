@@ -49,7 +49,7 @@ public class UserRestController {
 
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@PutMapping(value = "/users")
-	public User updateUser(@RequestBody User user) {
+	public User updateEmployee(@RequestBody User user) {
 		return userService.updateUser(user);
 	}
 
@@ -99,14 +99,14 @@ public class UserRestController {
 
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@PutMapping(value = "/employees")
-	public ResponseEntity<IdUserNameSurEmailProjectsSupervisorRoles> updateUser(@RequestBody IdUserNameSurEmailProjectsSupervisorRoles body) {
-		return userService.updateEmployee(body);
+	public ResponseEntity<IdUserNameSurEmailProjectsSupervisorRoles> updateEmployee(@RequestBody IdUserNameSurEmailProjectsSupervisorRoles body) {
+		return userService.addNewEmployee(body);
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping(value = "/employees")
 	public ResponseEntity<IdUserNameSurEmailProjectsSupervisorRoles> newEmployee(@RequestBody IdUserNameSurEmailProjectsSupervisorRoles body) {
-		return userService.updateEmployee(body);
+		return userService.addNewEmployee(body);
 	}
 
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")

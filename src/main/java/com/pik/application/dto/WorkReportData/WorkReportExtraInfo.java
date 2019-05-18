@@ -1,4 +1,4 @@
-package com.pik.application.dto;
+package com.pik.application.dto.WorkReportData;
 
 import java.util.Date;
 

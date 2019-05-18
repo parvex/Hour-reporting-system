@@ -1,14 +1,13 @@
 package com.pik.application.restController;
 
 import com.pik.application.domain.WorkReport;
-import com.pik.application.dto.*;
-import com.pik.application.dto.WorkReportData.IdEmployeeNameDateHoursComment;
-import com.pik.application.dto.WorkReportData.IdStateOrderPage;
+import com.pik.application.dto.WorkReportData.*;
 import com.pik.application.service.WorkReportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.*;
 
 @RestController
@@ -53,7 +52,7 @@ public class WorkReportRestController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR', 'USER')")
     @PostMapping(value = "/work-reports")
-    public ResponseEntity<List<WRepDate>> getWorkReportsByDate(@RequestBody(required = false) WRepDateReq body){
+    public ResponseEntity<List<WorkReportExtraInfo>> getWorkReportsByDate(@RequestBody(required = false) WorkReportDateInput body){
 
         if(body != null)
             return workReportService.getWorkReportByDate(body.getDateFrom(), body.getDateTo(), body.getEmployeeIds(), body.getProjectIds());
@@ -70,11 +69,15 @@ public class WorkReportRestController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @PostMapping(value = "/work-reports-new")
     public ResponseEntity<WorkReport> addNewWorkReport(@RequestBody(required = false) NewWorkReport body){
+        return body != null ? workReportService.addNewWorkReport(body) : new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
-        if(body != null)
-            return workReportService.addNewWorkReport(body.getDate(), body.getHoursNumber(), body.getProjectId(), body.getProjectName(), body.getComment());
-        else
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PutMapping(value = "/work-reports-new")
+    public ResponseEntity<WorkReport> updateWorkReport(@RequestBody(required = false) NewWorkReport body){
+        if(body == null || (body != null && body.getId() == null))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return addNewWorkReport(body);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR', 'USER')")
@@ -85,5 +88,4 @@ public class WorkReportRestController {
         }else
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }
