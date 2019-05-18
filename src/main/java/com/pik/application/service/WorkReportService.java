@@ -77,15 +77,29 @@ public class WorkReportService {
         if(projectIds != null && projectIds.isEmpty()) projectIds.add(-1L);
 
         List<WRepDate> body = workReportRepository.findByDateBetweenOrderByDateAsc(dateFrom, dateTo, employeeIds, projectIds, loggedId);
+        for(WRepDate rep : body){
+            if(rep.getEmployeeId() == loggedId)
+                rep.setEditable(true);
+            else
+                rep.setEditable(false);
+        }
+
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 
     public ResponseEntity<WorkReportExtraInfo> getWorkReportInfo(Long id) {
+        Long loggedId = userService.getLoggedUser().getId();
         Optional<WorkReportExtraInfo> workReport = Optional.ofNullable(workReportRepository.findByIdInfo(id));
         if(workReport.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         else{
+            WorkReportExtraInfo rep = workReport.get();
+            if(rep.getEmployeeId() == loggedId)
+                rep.setEditable(true);
+            else
+                rep.setEditable(false);
+
             return new ResponseEntity<>(workReport.get(), HttpStatus.OK);
         }
     }
