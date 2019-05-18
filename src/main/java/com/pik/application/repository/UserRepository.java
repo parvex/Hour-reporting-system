@@ -45,14 +45,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<IdNameSurEmailSupervisor_NameProjects> findByIdNameSurEmailSupervisorPage(@Nullable String email, @Nullable String name,
                                                                                    @Nullable String surname, @Nullable List<Long> projects, Long loggedId, Pageable page);
 
-    @Query("SELECT new com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles(u.id, u.username, u.name, u.surname, u.email, " +
+    @Query("SELECT new com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles(u.id, u.username, u.name, u.surname, u.email, ''," +
             "u.supervisor.id, CONCAT(u.supervisor.name,' ',u.supervisor.surname)) FROM User u WHERE (u.id = :id OR (-1 = :id)) AND (u.supervisor.id = :loggedId OR :loggedId = 1811)")
     Optional<IdUserNameSurEmailProjectsSupervisorRoles> getEmployeeById(Long id, Long loggedId);
 
     @Query("SELECT r FROM User u JOIN u.roles r WHERE u.id = :id")
     List<String> findAllRolesForUser(Long id);
 
-    @Query("SELECT new com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles(u.id, u.username, u.name, u.surname, u.email, " +
+    @Query("SELECT new com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles(u.id, u.username, u.name, u.surname, u.email, ''," +
             "u.supervisor.id, CONCAT(u.supervisor.name,' ',u.supervisor.surname)) FROM User u")
     List<IdUserNameSurEmailProjectsSupervisorRoles> findAllEmployees();
 

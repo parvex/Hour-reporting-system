@@ -10,12 +10,13 @@ public class IdUserNameSurEmailProjectsSupervisorRoles {
     private String name;
     private String surname;
     private String email;
+    private String password;
     private List<LongString> projects;
     private Long supervisorId;
     private String supervisorFullname;
     private List<LongString> roles;
 
-    public IdUserNameSurEmailProjectsSupervisorRoles(Long id, String username, String name, String surname, String email, Long supervisorId, String supervisorFullname) {
+    public IdUserNameSurEmailProjectsSupervisorRoles(Long id, String username, String name, String surname, String email, String password, Long supervisorId, String supervisorFullname) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -25,6 +26,7 @@ public class IdUserNameSurEmailProjectsSupervisorRoles {
         this.supervisorId = supervisorId;
         this.supervisorFullname = supervisorFullname;
         this.roles = roles;
+        this.password = password;
     }
 
     public Long getId() {
@@ -97,5 +99,12 @@ public class IdUserNameSurEmailProjectsSupervisorRoles {
 
     public void setRoles(List<LongString> roles) {
         this.roles = roles;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
