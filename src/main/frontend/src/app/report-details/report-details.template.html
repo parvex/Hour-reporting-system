@@ -1,7 +1,13 @@
 <section>
   <div class="modal-header">
-    <h3 class="modal-title" ng-show="!rdCtrl.reportId">New work report</h3>
-    <h3 class="modal-title" ng-show="rdCtrl.reportId">Work preview</h3>
+    <h3 class="modal-title" ng-if="!rdCtrl.reportId">
+      <small><i class="glyphicon glyphicon-briefcase"></i></small
+      ><span> New work report</span>
+    </h3>
+    <h3 class="modal-title" ng-if="rdCtrl.reportId">
+      <small><i class="glyphicon glyphicon-briefcase"></i></small
+      ><span> Work report edition</span>
+    </h3>
   </div>
   <div class="modal-body">
     <form name="reportForm">

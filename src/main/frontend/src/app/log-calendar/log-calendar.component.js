@@ -51,8 +51,6 @@ angular
     function eventRender(event, element, view) {
       element = generateCalendarEventElement(element, event);
 
-      console.log(event);
-
       $compile(element)($scope);
     }
 
@@ -155,7 +153,6 @@ angular
     }
 
     function calendarReportClick(report) {
-      console.log(report);
       openReportModal(report.id);
     }
 
