@@ -88,11 +88,18 @@ public class WorkReportService {
     }
 
     public ResponseEntity<WorkReportExtraInfo> getWorkReportInfo(Long id) {
+        Long loggedId = userService.getLoggedUser().getId();
         Optional<WorkReportExtraInfo> workReport = Optional.ofNullable(workReportRepository.findByIdInfo(id));
         if(workReport.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         else{
+            WorkReportExtraInfo rep = workReport.get();
+            if(rep.getEmployeeId() == loggedId)
+                rep.setEditable(true);
+            else
+                rep.setEditable(false);
+
             return new ResponseEntity<>(workReport.get(), HttpStatus.OK);
         }
     }

@@ -5,23 +5,24 @@ import java.util.Date;
 public class WorkReportExtraInfo {
 
     private Long workReportId;
+    private Boolean editable;
     private Date date;
-    private int hours;
-    private Long userId;
-    private String userName;
-    private String userSurname;
+    private Integer hoursNumber;
+    private Long employeeId;
+    private String employeeName;
+    private String employeeSurname;
     private Long projectId;
     private String projectName;
     private String comment;
     private Boolean accepted;
 
-    public WorkReportExtraInfo(Long workReportId, Date date, int hours, Long userId, String userName, String userSurname, Long projectId, String projectName, String comment, Boolean accepted) {
+    public WorkReportExtraInfo(Long workReportId, Date date, int hoursNumber, Long employeeId, String employeeName, String employeeSurname, Long projectId, String projectName, String comment, Boolean accepted) {
         this.workReportId = workReportId;
         this.date = date;
-        this.hours = hours;
-        this.userId = userId;
-        this.userName = userName;
-        this.userSurname = userSurname;
+        this.hoursNumber = hoursNumber;
+        this.employeeId = employeeId;
+        this.employeeName = employeeName;
+        this.employeeSurname = employeeSurname;
         this.projectId = projectId;
         this.projectName = projectName;
         this.comment = comment;
@@ -45,35 +46,35 @@ public class WorkReportExtraInfo {
     }
 
     public int getHoursNumber() {
-        return hours;
+        return hoursNumber;
     }
 
-    public void setHoursNumber(int hours) {
-        this.hours = hours;
+    public void setHoursNumber(int hoursNumber) {
+        this.hoursNumber = hoursNumber;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getEmployeeId() {
+        return employeeId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getEmployeeName() {
+        return employeeName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
-    public String getUserSurname() {
-        return userSurname;
+    public String getEmployeeSurname() {
+        return employeeSurname;
     }
 
-    public void setUserSurname(String userSurName) {
-        this.userSurname = userSurName;
+    public void setEmployeeSurname(String employeeSurname) {
+        this.employeeSurname = employeeSurname;
     }
 
     public Long getProjectId() {
@@ -96,8 +97,8 @@ public class WorkReportExtraInfo {
         return comment;
     }
 
-    public void setComment(String coment) {
-        this.comment = coment;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public Boolean getAccepted() {
@@ -106,5 +107,13 @@ public class WorkReportExtraInfo {
 
     public void setAccepted(Boolean accepted) {
         this.accepted = accepted;
+    }
+
+    public Boolean getEditable() {
+        return editable;
+    }
+
+    public void setEditable(Boolean editable) {
+        this.editable = editable;
     }
 }
