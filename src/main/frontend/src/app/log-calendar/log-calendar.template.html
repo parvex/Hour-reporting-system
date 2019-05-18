@@ -113,31 +113,25 @@
       <div ng-show="lcCtrl.listViewActive">
         <div
           ng-repeat="report in lcCtrl.reportsList | limitTo : lcCtrl.listViewItemsPerPage : ((lcCtrl.listViewPage - 1) * lcCtrl.listViewItemsPerPage)"
-          class="row panel panel-default"
+          class="panel panel-default margin-top report-list-item"
         >
           <div class="panel-body" ng-click="lcCtrl.openReportModal(report.id)">
-            <div class="col-md-4">
-              <small
-                ><i class="glyphicon glyphicon glyphicon-th-user"></i
-              ></small>
+            <div class="col-md-4 margin-top margin-bottom">
+              <small><i class="glyphicon glyphicon-user"></i></small>
               <span>
                 {{ report.employeeName + " " + report.employeeSurname }}
               </span>
             </div>
-            <div class="col-md-4">
-              <small
-                ><i class="glyphicon glyphicon glyphicon-th-time"></i
-              ></small>
+            <div class="col-md-4 margin-top margin-bottom">
+              <small><i class="glyphicon glyphicon-time"></i></small>
               <span>
-                {{ report.hoursNumber }}
+                {{ report.hoursNumber + " h" }}
               </span>
             </div>
-            <div class="col-md-4">
-              <small
-                ><i class="glyphicon glyphicon glyphicon-th-calendar"></i
-              ></small>
+            <div class="col-md-4 margin-top margin-bottom">
+              <small><i class="glyphicon glyphicon-calendar"></i></small>
               <span>
-                {{ report.date }}
+                {{ report.date | date }}
               </span>
             </div>
           </div>
