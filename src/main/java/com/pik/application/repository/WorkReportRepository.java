@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
+
+import javax.validation.constraints.Null;
 import java.util.*;
 
 @Repository
@@ -30,11 +32,12 @@ public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
             " FROM WorkReport w WHERE w.id = :id")
     WorkReportExtraInfo findByIdInfo(Long id);
 
-    @Query("SELECT new com.pik.application.dto.WRepDate(w.id, w.date, w.hours, w.user.id, w.user.name, w.user.surname, w.comment, w.accepted," +
-            " w.project.id, w.project.name) FROM WorkReport w WHERE w.date BETWEEN :dateFrom AND :dateTo AND (w.user.id IN (:employeeIds) " +
-            " OR COALESCE(:employeeIds, NULL) IS NULL) AND (w.project.id IN (:projectIds) OR COALESCE(:projectIds, NULL) IS NULL)" +
-            " AND w.user.supervisor.id = :loggedId OR w.user.id = :loggedId OR :loggedId = 1811 ORDER BY w.date DESC")
-    List<WRepDate> findByDateBetweenOrderByDateAsc(Date dateFrom, Date dateTo, @Nullable List<Long> employeeIds, @Nullable List<Long> projectIds, Long loggedId);
+    @Query("SELECT new com.pik.application.dto.WRepDate(w.id, w.date, w.hours, w.user.id, w.user.name, w.user.surname, w.comment, w.accepted, " +
+            " w.project.id, w.project.name) FROM WorkReport w WHERE ((:dateFrom IS NULL AND :dateTo IS NULL) OR (:dateTo IS NULL AND w.date >= :dateFrom) " +
+            "OR (:dateFrom IS NULL AND w.date <= :dateTo) OR (w.date BETWEEN :dateFrom AND :dateTo)) AND (w.user.id IN (:employeeIds) OR (-1 IN (:employeeIds)) " +
+            "OR COALESCE(:employeeIds, NULL) IS NULL) AND (w.project.id IN (:projectIds) OR (-1 IN (:projectIds)) OR COALESCE(:projectIds, NULL) IS NULL) " +
+            "AND (w.user.supervisor.id = :loggedId OR w.user.id = :loggedId OR :loggedId = 1811) ORDER BY w.date DESC")
+    List<WRepDate> findByDateBetweenOrderByDateAsc(@Nullable Date dateFrom, @Nullable Date dateTo, @Nullable List<Long> employeeIds, @Nullable List<Long> projectIds, Long loggedId);
 
 //    @Query("SELECT new com.pik.application.dto.WorkReportExtraInfo(w.id, w.date, w.hours, w.user.id, w.user.name, w.user.surname, w.project.id, w.project.name, w.comment, w.accepted)" +
 //            " FROM WorkReport w WHERE w.project.id = :projectId AND w.accepted = :accepted")
