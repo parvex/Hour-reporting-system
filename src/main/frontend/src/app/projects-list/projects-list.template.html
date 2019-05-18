@@ -55,7 +55,7 @@
         </tr>
         </tbody>
         <tbody>
-          <tr ng-repeat="project in $data"
+          <tr ng-repeat="project in $data | orderBy:'name'"
               style="word-wrap: break-word">
             <td class="text-center">
               {{ (params.page() - 1) * params.count() + $index + 1 }}

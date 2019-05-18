@@ -7,18 +7,19 @@ angular
   })
   .controller("ReportsListCtrl", function(
     projectId,
-    accepted,
+    state,
     $uibModalInstance,
     NgTableParams,
     ReportsService,
-    $scope
   ) {
     const rlCtrl = this;
+    rlCtrl.filterCriteria = {};
+    rlCtrl.filterCriteria.sorted = "";
+    rlCtrl.state = state;
     rlCtrl.projectId = projectId;
-    rlCtrl.accepted = accepted;
-
     rlCtrl.save = save;
     rlCtrl.cancel = cancel;
+    rlCtrl.reloadTable = reloadProjectsTable;
 
     rlCtrl.reportsTable = new NgTableParams(
       {},
@@ -26,11 +27,11 @@ angular
         getData: function(params) {
           const request = generateLoadReportsRequest(params);
 
-          return ReportsService.getReportsAccepted(request).then(function(response) {
-            const reportsList = response;
-
-            params.total(reportsList.length);
-            return reportsList;
+          return ReportsService.getReportsByState(request)
+            .then(function(response) {
+              const reportsList = response;
+              params.total(reportsList.length);
+              return reportsList;
           });
         }
       }
@@ -38,8 +39,13 @@ angular
 
     function generateLoadReportsRequest(params) {
       return {
-        id: rlCtrl.projectId,
-        accepted: rlCtrl.accepted
+        criteria: rlCtrl.projectId,
+        state: rlCtrl.state,
+        order: rlCtrl.filterCriteria.sorted,
+        options: {
+          page: params.page() - 1,
+          count: params.count()
+        }
       };
     }
 
@@ -55,4 +61,10 @@ angular
     function cancel() {
       $uibModalInstance.close();
     }
+
+    function reloadProjectsTable() {
+      rlCtrl.reportsTable.page(1);
+      rlCtrl.reportsTable.reload();
+    }
+
   });

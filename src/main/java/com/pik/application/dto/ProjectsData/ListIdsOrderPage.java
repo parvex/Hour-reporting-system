@@ -1,4 +1,6 @@
-package com.pik.application.dto;
+package com.pik.application.dto.ProjectsData;
+
+import com.pik.application.dto.PageOptions;
 
 import java.util.List;
 
