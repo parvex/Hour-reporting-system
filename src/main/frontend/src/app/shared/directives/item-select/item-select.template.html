@@ -11,7 +11,7 @@
     $select.selected.name
   }}</ui-select-match>
   <ui-select-choices
-    repeat="item in itemsList | filter: $select.search"
+    repeat="item.name as item in itemsList | filter: $select.search"
     refresh-delay="500"
     refresh="loadItemsList($select.search)"
   >
