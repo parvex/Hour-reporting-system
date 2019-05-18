@@ -4,6 +4,7 @@ import java.util.*;
 
 public class WRepDate {
 
+    private Long id;
     private Date date;
     private Integer hoursNumber;
     private Long employeeId;
@@ -14,7 +15,8 @@ public class WRepDate {
     private Long projectId;
     private String projectName;
 
-    public WRepDate(Date date, Integer hoursNumber, Long employeeId, String employeeName, String employeeSurname, String comment, Boolean accepted, Long projectId, String projectName) {
+    public WRepDate(Long id, Date date, Integer hoursNumber, Long employeeId, String employeeName, String employeeSurname, String comment, Boolean accepted, Long projectId, String projectName) {
+        this.id = id;
         this.date = date;
         this.hoursNumber = hoursNumber;
         this.employeeId = employeeId;
@@ -24,6 +26,14 @@ public class WRepDate {
         this.accepted = accepted;
         this.projectId = projectId;
         this.projectName = projectName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Date getDate() {
