@@ -10,7 +10,8 @@ angular
     ProjectsService,
     $uibModal,
     $scope,
-    $timeout
+    $timeout,
+    $compile
   ) {
     const lcCtrl = this;
     lcCtrl.fliterCriteria = new Object();
@@ -40,9 +41,36 @@ angular
           center: "",
           right: "today prev,next"
         },
-        eventClick: calendarReportClick
+        eventClick: calendarReportClick,
+        eventRender: eventRender
       }
     };
+
+    lcCtrl.reportsEvents = [];
+
+    function eventRender(event, element, view) {
+      element = generateCalendarEventElement(element, event);
+
+      console.log(event);
+
+      $compile(element)($scope);
+    }
+
+    function generateCalendarEventElement(element, event) {
+      element.attr({
+        "uib-tooltip": "show details",
+        "tooltip-append-to-body": true
+      });
+
+      element.context.innerHTML =
+        '<div class="fc-content"><span class="fc-title">' +
+        event.title +
+        "</span></div>";
+
+      element.context.innerText = event.title;
+
+      return element;
+    }
 
     $scope.$watch(
       "lcCtrl.fliterCriteria",
@@ -76,7 +104,9 @@ angular
 
       ReportsService.getReports(request).then(function(response) {
         lcCtrl.reportsList = response;
-        lcCtrl.reportsEvents = generateCalendarReportEvents(lcCtrl.reportsList);
+        lcCtrl.reportsEvents[0] = generateCalendarReportEvents(
+          lcCtrl.reportsList
+        );
       });
     }
 
@@ -125,15 +155,18 @@ angular
     }
 
     function calendarReportClick(report) {
+      console.log(report);
       openReportModal(report.id);
     }
 
     function generateCalendarReportEvents(reports) {
       return reports.map(function(report) {
         return {
+          id: report.id,
           title: report.employeeName + " " + report.employeeSurname,
-          start: report.date,
-          end: report.date
+          start: new Date(report.date),
+          end: new Date(report.date),
+          allDay: true
         };
       });
     }
