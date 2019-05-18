@@ -9,7 +9,7 @@ angular
           modelValue,
           viewValue
         ) {
-          return EmployeesService.chceckUsernameUniqueness(viewValue);
+          return EmployeesService.checkUsernameUniqueness(viewValue);
         };
       }
     };
