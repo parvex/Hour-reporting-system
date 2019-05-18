@@ -14,7 +14,9 @@ angular
     $compile
   ) {
     const lcCtrl = this;
-    lcCtrl.fliterCriteria = new Object();
+    lcCtrl.fliterCriteria = {
+      startDate: getInitialStartDate()
+    };
     lcCtrl.listViewItemsPerPage = 6;
 
     lcCtrl.openStartDatePickerModal = openStartDatePickerModal;
@@ -72,6 +74,16 @@ angular
       return element;
     }
 
+    function getInitialStartDate() {
+      const today = new Date();
+      const lastWeek = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate() - 7
+      );
+      return lastWeek;
+    }
+
     $scope.$watch(
       "lcCtrl.fliterCriteria",
       function() {
@@ -87,7 +99,7 @@ angular
     );
 
     $scope.$watch("lcCtrl.fliterCriteria.startDate", function(minDate) {
-      lcCtrl.fliterCriteria.endDate = null;
+      if (lcCtrl.fliterCriteria.endDate) lcCtrl.fliterCriteria.endDate = null;
       lcCtrl.endDateOptions.minDate = minDate;
     });
 
