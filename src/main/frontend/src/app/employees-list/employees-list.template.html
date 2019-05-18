@@ -2,7 +2,7 @@
   <form name="employeesSearchForm" class="panel panel-default">
     <div class="panel-body">
       <div class="row">
-        <div class="col-md-4 margin-bottom">
+        <div class="col-md-6 margin-bottom">
           <input
             type="text"
             class="form-control"
@@ -11,7 +11,7 @@
             ng-model="elCtrl.filterCriteria.name"
           />
         </div>
-        <div class="col-md-4 margin-bottom">
+        <div class="col-md-6 margin-bottom">
           <input
             type="text"
             class="form-control"
@@ -20,7 +20,17 @@
             ng-model="elCtrl.filterCriteria.surname"
           />
         </div>
-        <div class="col-md-4 margin-bottom">
+      </div>
+      <div class="row">
+        <div class="col-md-6 margin-bottom">
+          <multi-item-select
+            model="elCtrl.filterCriteria.projects"
+            placeholder="projects"
+            provider="elCtrl.provideProjects(request)"
+          >
+          </multi-item-select>
+        </div>
+        <div class="col-md-6 margin-bottom">
           <input
             type="text"
             class="form-control"
@@ -28,16 +38,6 @@
             placeholder="email"
             ng-model="elCtrl.filterCriteria.email"
           />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4 margin-bottom">
-          <multi-item-select
-            model="elCtrl.filterCriteria.projects"
-            placeholder="projects"
-            provider="elCtrl.provideProjects(request)"
-          >
-          </multi-item-select>
         </div>
       </div>
       <div class="row">
@@ -88,7 +88,11 @@
           <td>{{ employee.surname }}</td>
           <td>{{ employee.email }}</td>
           <td>{{ employee.supervisorFullname }}</td>
-          <td td-ul list="employee.projects"></td>
+          <td
+            td-ul
+            list="employee.projects"
+            on-item-click="elCtrl.showProjectDetails(item)"
+          ></td>
           <td class="text-center">
             <span
               ng-click="elCtrl.openEmployeeModal(employee.id)"
