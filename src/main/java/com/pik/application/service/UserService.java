@@ -205,4 +205,11 @@ public class UserService {
         userRepository.save(user); // update user
         return getEmployeeById(user.getId());
     }
+
+    public ResponseEntity checkIfUsernameUnique(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isEmpty())
+            return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    }
 }

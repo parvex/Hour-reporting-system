@@ -102,4 +102,10 @@ public class UserRestController {
 	public ResponseEntity<IdUserNameSurEmailProjectsSupervisorRoles> updateUser(@RequestBody IdUserNameSurEmailProjectsSupervisorRoles body) {
 		return userService.updateEmployee(body);
 	}
+
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+	@GetMapping(value = "/unique-username")
+	public ResponseEntity getEmployeeByID(@RequestParam String username){
+		return userService.checkIfUsernameUnique(username);
+	}
 }
