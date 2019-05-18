@@ -67,6 +67,8 @@ angular
 
       element.context.innerText = event.title;
 
+      element.addClass("calendar-event");
+
       return element;
     }
 
