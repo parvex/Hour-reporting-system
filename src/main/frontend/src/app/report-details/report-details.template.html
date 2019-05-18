@@ -1,11 +1,17 @@
 <section>
   <div class="modal-header">
-    <h3 class="modal-title" ng-show="!rdCtrl.reportId">New work report</h3>
-    <h3 class="modal-title" ng-show="rdCtrl.reportId">Work preview</h3>
+    <h3 class="modal-title" ng-if="!rdCtrl.reportId">
+      <small><i class="glyphicon glyphicon-briefcase"></i></small
+      ><span> New work report</span>
+    </h3>
+    <h3 class="modal-title" ng-if="rdCtrl.reportId">
+      <small><i class="glyphicon glyphicon-briefcase"></i></small
+      ><span> Work report edition</span>
+    </h3>
   </div>
   <div class="modal-body">
     <form name="reportForm">
-      <div class="panel panel-default" ng-show="!edCtrl.employeeId">
+      <div class="panel panel-default" ng-if="!rdCtrl.reportId">
         <div class="panel-body">
           <label>
             <input type="checkbox" ng-model="rdCtrl.report.period" />
@@ -15,9 +21,9 @@
             class="form-group"
             ng-class="{'has-error': reportForm.startDate.$invalid && (reportForm.startDate.$touched || reportForm.$submitted)}"
           >
-            <label for="date" ng-show="rdCtrl.report.period">Start date</label>
-            <label for="date" ng-show="!rdCtrl.report.period">Date</label>
-            <p class="input-group" ng-show="!rdCtrl.reportId">
+            <label for="date" ng-if="rdCtrl.report.period">Start date</label>
+            <label for="date" ng-if="!rdCtrl.report.period">Date</label>
+            <p class="input-group" ng-if="!rdCtrl.reportId">
               <input
                 type="text"
                 class="form-control"
@@ -42,18 +48,17 @@
             </p>
             <span
               class="help-block"
-              ng-show=" reportForm.startDate.$invalid && (reportForm.startDate.$touched || reportForm.$submitted)"
+              ng-if=" reportForm.startDate.$invalid && (reportForm.startDate.$touched || reportForm.$submitted)"
               >Report date is required.</span
             >
-            <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.startDate }}</p>
           </div>
           <div
             class="form-group"
             ng-class="{'has-error':  reportForm.endDate.$invalid && (reportForm.endDate.$touched || reportForm.$submitted)}"
-            ng-show="rdCtrl.report.period"
+            ng-if="rdCtrl.report.period"
           >
             <label for="endDate">End date</label>
-            <p class="input-group" ng-show="!rdCtrl.reportId">
+            <p class="input-group" ng-if="!rdCtrl.reportId">
               <input
                 type="text"
                 class="form-control"
@@ -79,19 +84,26 @@
             </p>
             <span
               class="help-block"
-              ng-show=" reportForm.endDate.$invalid && (reportForm.endDate.$touched || reportForm.$submitted)"
+              ng-if=" reportForm.endDate.$invalid && (reportForm.endDate.$touched || reportForm.$submitted)"
               >Report end date is required.</span
             >
-            <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.endDate }}</p>
+            <p ng-if="rdCtrl.reportId">{{ rdCtrl.report.endDate }}</p>
           </div>
         </div>
+      </div>
+      <div ng-if="rdCtrl.reportId">
+        <label>Date</label>
+        <p>{{ rdCtrl.report.date | date }}</p>
       </div>
       <div
         class="form-group"
         ng-class="{'has-error':  reportForm.hoursNumber.$invalid && (reportForm.hoursNumber.$touched || reportForm.$submitted)}"
       >
         <label for="hoursNumber">Hours number</label>
-        <div class="input-group" ng-show="!rdCtrl.reportId">
+        <div
+          class="input-group"
+          ng-if="!rdCtrl.reportId || (rdCtrl.reportId && rdCtrl.report.editable)"
+        >
           <input
             type="number"
             class="form-control"
@@ -106,11 +118,13 @@
         </div>
         <span
           class="help-block"
-          ng-show=" reportForm.hoursNumber.$invalid && (reportForm.hoursNumber.$touched || reportForm.$submitted)"
+          ng-if=" reportForm.hoursNumber.$invalid && (reportForm.hoursNumber.$touched || reportForm.$submitted)"
           >Number of hours is required and needs to be a number between 0 and
           8.</span
         >
-        <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.hoursNumber }}</p>
+        <p ng-if="rdCtrl.reportId && !rdCtrl.report.editable">
+          {{ rdCtrl.report.hoursNumber }}
+        </p>
       </div>
       <div
         class="form-group"
@@ -122,21 +136,22 @@
           model-id="rdCtrl.report.projectId"
           placeholder="project"
           provider="rdCtrl.provideProjects(request)"
-          disabled="rdCtrl.reportId"
+          ng-if="!rdCtrl.reportId"
           name="project"
           required="true"
         >
         </item-select>
+        <p ng-if="rdCtrl.reportId">{{ rdCtrl.report.projectName }}</p>
         <span
           class="help-block"
-          ng-show=" reportForm.project.$invalid && (reportForm.project.$touched || reportForm.$submitted)"
+          ng-if=" reportForm.project.$invalid && (reportForm.project.$touched || reportForm.$submitted)"
           >Project is required.</span
         >
       </div>
-      <div class="form-group" ng-show="rdCtrl.reportId">
+      <div class="form-group" ng-if="rdCtrl.reportId">
         <label>Employee</label>
         <p>
-          {{ rdCtrl.report.employeeName + " " + rdCtrl.report.employeeSurname }}
+          {{ rdCtrl.report.userName + " " + rdCtrl.report.employeeSurname }}
         </p>
       </div>
       <div
@@ -148,20 +163,19 @@
           class="form-control"
           rows="3"
           name="comment"
-          placeholder="describe what have you done"
-          ng-show="!rdCtrl.reportId"
-          ng-model="rdCtrl.report.comment"
+          placeholder="describe what have you done..."
+          ng-model="rdCtrl.report.coment"
+          ng-disabled="rdCtrl.reportId && !rdCtrl.report.editable"
           required
         ></textarea>
         <span
           class="help-block"
-          ng-show=" reportForm.comment.$invalid && (reportForm.comment.$touched || reportForm.$submitted)"
+          ng-if=" reportForm.comment.$invalid && (reportForm.comment.$touched || reportForm.$submitted)"
           >Comment is required.</span
         >
       </div>
-      <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.comment }}</p>
-      <label ng-show="rdCtrl.reportId">
-        <input type="checkbox" ng-model="rdCtrl.report.accepted" />
+      <label ng-if="rdCtrl.reportId">
+        <input type="checkbox" ng-model="rdCtrl.report.accepted" disabled />
         Accepted
       </label>
     </form>
@@ -171,7 +185,7 @@
       class="btn btn-primary"
       type="submit"
       ng-click="rdCtrl.save(reportForm)"
-      ng-show="!rdCtrl.reportId"
+      ng-if="!rdCtrl.reportId || (rdCtrl.reportId && rdCtrl.report.editable)"
       ng-disabled="reportForm.$submitted && reportForm.$invalid"
     >
       Save
