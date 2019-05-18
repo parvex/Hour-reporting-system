@@ -77,6 +77,13 @@ public class WorkReportService {
         if(projectIds != null && projectIds.isEmpty()) projectIds.add(-1L);
 
         List<WRepDate> body = workReportRepository.findByDateBetweenOrderByDateAsc(dateFrom, dateTo, employeeIds, projectIds, loggedId);
+        for(WRepDate rep : body){
+            if(rep.getEmployeeId() == loggedId)
+                rep.setEditable(true);
+            else
+                rep.setEditable(false);
+        }
+
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 

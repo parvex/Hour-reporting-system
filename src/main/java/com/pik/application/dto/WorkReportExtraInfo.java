@@ -9,22 +9,22 @@ public class WorkReportExtraInfo {
     private int hours;
     private Long userId;
     private String userName;
-    private String userSurName;
+    private String userSurname;
     private Long projectId;
     private String projectName;
     private String comment;
     private Boolean accepted;
 
-    public WorkReportExtraInfo(Long workReportId, Date date, int hours, Long userId, String userName, String userSurName, Long projectId, String projectName, String coment, Boolean accepted) {
+    public WorkReportExtraInfo(Long workReportId, Date date, int hours, Long userId, String userName, String userSurname, Long projectId, String projectName, String comment, Boolean accepted) {
         this.workReportId = workReportId;
         this.date = date;
         this.hours = hours;
         this.userId = userId;
         this.userName = userName;
-        this.userSurName = userSurName;
+        this.userSurname = userSurname;
         this.projectId = projectId;
         this.projectName = projectName;
-        this.comment = coment;
+        this.comment = comment;
         this.accepted = accepted;
     }
 
@@ -44,11 +44,11 @@ public class WorkReportExtraInfo {
         this.date = date;
     }
 
-    public int getHours() {
+    public int getHoursNumber() {
         return hours;
     }
 
-    public void setHours(int hours) {
+    public void setHoursNumber(int hours) {
         this.hours = hours;
     }
 
@@ -68,12 +68,12 @@ public class WorkReportExtraInfo {
         this.userName = userName;
     }
 
-    public String getUserSurName() {
-        return userSurName;
+    public String getUserSurname() {
+        return userSurname;
     }
 
-    public void setUserSurName(String userSurName) {
-        this.userSurName = userSurName;
+    public void setUserSurname(String userSurName) {
+        this.userSurname = userSurName;
     }
 
     public Long getProjectId() {
@@ -92,11 +92,11 @@ public class WorkReportExtraInfo {
         this.projectName = projectName;
     }
 
-    public String getComent() {
+    public String getComment() {
         return comment;
     }
 
-    public void setComent(String coment) {
+    public void setComment(String coment) {
         this.comment = coment;
     }
 
