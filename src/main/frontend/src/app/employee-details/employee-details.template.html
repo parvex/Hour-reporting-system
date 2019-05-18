@@ -1,7 +1,15 @@
 <section>
   <div class="modal-header">
-    <h3 class="modal-title" ng-if="!edCtrl.employeeId">New employee</h3>
-    <h3 class="modal-title" ng-if="edCtrl.employeeId">Employee edition</h3>
+    <h3 class="modal-title" ng-if="!edCtrl.employeeId">
+      <small><i class="glyphicon glyphicon-user"></i></small
+      ><span> New employee</span>
+    </h3>
+    <h3 class="modal-title" ng-if="edCtrl.employeeId">
+      <small><i class="glyphicon glyphicon-user"></i></small
+      ><span>
+        Employee <strong>{{ edCtrl.employee.username }}</strong> edition
+      </span>
+    </h3>
   </div>
   <div class="modal-body">
     <form name="employeeForm">
@@ -19,13 +27,20 @@
           required
           ng-minlength="2"
           ng-maxlength="32"
-          ng-disabled="edCtrl.employeeId"
+          ng-if="!edCtrl.employeeId"
+          unique-username
         />
+        <p ng-if="edCtrl.employeeId">{{ edCtrl.employee.username }}</p>
         <span
           class="help-block"
-          ng-if="employeeForm.username.$invalid && (employeeForm.username.$touched || employeeForm.$submitted)"
+          ng-if="employeeForm.username.$error.minlength && (employeeForm.username.$touched || employeeForm.$submitted)"
           >Username is required and needs to have between 2 and 32
           characters.</span
+        >
+        <span
+          class="help-block"
+          ng-if="employeeForm.username.$error.uniqueUsername && (employeeForm.username.$touched || employeeForm.$submitted)"
+          >Username needs to be unique.</span
         >
       </div>
       <div
@@ -83,12 +98,19 @@
           placeholder="email"
           ng-model="edCtrl.employee.email"
           required
-          disabled="edCtrl.employeeId"
+          ng-if="!edCtrl.employeeId"
+          unique-email
         />
+        <p ng-if="edCtrl.employeeId">{{ edCtrl.employee.email }}</p>
         <span
           class="help-block"
-          ng-if="employeeForm.email.$invalid && (employeeForm.email.$touched || employeeForm.$submitted)"
+          ng-if="employeeForm.email.$error.email && (employeeForm.email.$touched || employeeForm.$submitted)"
           >Email is required and needs to be a valid email address.</span
+        >
+        <span
+          class="help-block"
+          ng-if="employeeForm.email.$error.uniqueEmail && (employeeForm.email.$touched || employeeForm.$submitted)"
+          >Email needs to be unique.</span
         >
       </div>
       <div class="panel panel-default" ng-if="!edCtrl.employeeId">
