@@ -19,9 +19,10 @@
           required
           ng-minlength="2"
           ng-maxlength="32"
-          ng-disabled="edCtrl.employeeId"
+          ng-if="!edCtrl.employeeId"
           unique-username
         />
+        <p ng-if="edCtrl.employeeId">{{ edCtrl.employee.username }}</p>
         <span
           class="help-block"
           ng-if="employeeForm.username.$error.minlength && (employeeForm.username.$touched || employeeForm.$submitted)"
@@ -89,8 +90,9 @@
           placeholder="email"
           ng-model="edCtrl.employee.email"
           required
-          disabled="edCtrl.employeeId"
+          ng-if="!edCtrl.employeeId"
         />
+        <p ng-if="edCtrl.employeeId">{{ edCtrl.employee.email }}</p>
         <span
           class="help-block"
           ng-if="employeeForm.email.$invalid && (employeeForm.email.$touched || employeeForm.$submitted)"
