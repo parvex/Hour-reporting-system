@@ -17,7 +17,7 @@ angular
     rdCtrl.reportId = reportId;
 
     $scope.$watch("rdCtrl.report.startDate", function(startDate) {
-      rdCtrl.report.endDate = null;
+      if (rdCtrl.report) rdCtrl.report.endDate = null;
       rdCtrl.endDateOptions.minDate = startDate;
     });
 

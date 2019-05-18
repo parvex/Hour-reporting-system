@@ -5,7 +5,7 @@
   </div>
   <div class="modal-body">
     <form name="reportForm">
-      <div class="panel panel-default" ng-show="!edCtrl.employeeId">
+      <div class="panel panel-default" ng-if="!rdCtrl.reportId">
         <div class="panel-body">
           <label>
             <input type="checkbox" ng-model="rdCtrl.report.period" />
@@ -45,7 +45,6 @@
               ng-show=" reportForm.startDate.$invalid && (reportForm.startDate.$touched || reportForm.$submitted)"
               >Report date is required.</span
             >
-            <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.startDate }}</p>
           </div>
           <div
             class="form-group"
@@ -86,18 +85,22 @@
           </div>
         </div>
       </div>
+      <div ng-if="rdCtrl.reportId">
+        <label for="date" ng-show="!rdCtrl.report.period">Date</label>
+        <p>{{ rdCtrl.report.date | date }}</p>
+      </div>
       <div
         class="form-group"
         ng-class="{'has-error':  reportForm.hoursNumber.$invalid && (reportForm.hoursNumber.$touched || reportForm.$submitted)}"
       >
         <label for="hoursNumber">Hours number</label>
-        <div class="input-group" ng-show="!rdCtrl.reportId">
+        <div class="input-group">
           <input
             type="number"
             class="form-control"
             name="hoursNumber"
             placeholder="hours number"
-            ng-model="rdCtrl.report.hoursNumber"
+            ng-model="rdCtrl.report.hours"
             required
             min="0"
             max="8"
@@ -122,11 +125,12 @@
           model-id="rdCtrl.report.projectId"
           placeholder="project"
           provider="rdCtrl.provideProjects(request)"
-          disabled="rdCtrl.reportId"
+          ng-show="!rdCtrl.reportId"
           name="project"
           required="true"
         >
         </item-select>
+        <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.projectName }}</p>
         <span
           class="help-block"
           ng-show=" reportForm.project.$invalid && (reportForm.project.$touched || reportForm.$submitted)"
@@ -136,7 +140,7 @@
       <div class="form-group" ng-show="rdCtrl.reportId">
         <label>Employee</label>
         <p>
-          {{ rdCtrl.report.employeeName + " " + rdCtrl.report.employeeSurname }}
+          {{ rdCtrl.report.userName + " " + rdCtrl.report.userSurName }}
         </p>
       </div>
       <div
@@ -148,9 +152,8 @@
           class="form-control"
           rows="3"
           name="comment"
-          placeholder="describe what have you done"
-          ng-show="!rdCtrl.reportId"
-          ng-model="rdCtrl.report.comment"
+          placeholder="describe what have you done..."
+          ng-model="rdCtrl.report.coment"
           required
         ></textarea>
         <span
@@ -161,7 +164,7 @@
       </div>
       <p ng-show="rdCtrl.reportId">{{ rdCtrl.report.comment }}</p>
       <label ng-show="rdCtrl.reportId">
-        <input type="checkbox" ng-model="rdCtrl.report.accepted" />
+        <input type="checkbox" ng-model="rdCtrl.report.accepted" disabled />
         Accepted
       </label>
     </form>
