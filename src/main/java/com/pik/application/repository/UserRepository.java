@@ -55,4 +55,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT new com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles(u.id, u.username, u.name, u.surname, u.email, " +
             "u.supervisor.id, CONCAT(u.supervisor.name,' ',u.supervisor.surname)) FROM User u")
     List<IdUserNameSurEmailProjectsSupervisorRoles> findAllEmployees();
+
+    Optional<User> findByUsername(String username);
 }
