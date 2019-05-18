@@ -3,11 +3,10 @@ package com.pik.application.service;
 import com.pik.application.domain.Project;
 import com.pik.application.domain.User;
 import com.pik.application.domain.WorkReport;
+import com.pik.application.dto.WorkReportData.NewWorkReport;
 import com.pik.application.dto.PageOptions;
-import com.pik.application.dto.ProjectsData.IdNameDescription;
-import com.pik.application.dto.WRepDate;
 import com.pik.application.dto.WorkReportData.IdEmployeeNameDateHoursComment;
-import com.pik.application.dto.WorkReportExtraInfo;
+import com.pik.application.dto.WorkReportData.WorkReportExtraInfo;
 import com.pik.application.repository.WorkReportRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +15,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -71,14 +73,14 @@ public class WorkReportService {
         }
     }
 
-    public ResponseEntity<List<WRepDate>> getWorkReportByDate(Date dateFrom, Date dateTo, List<Long> employeeIds, List<Long> projectIds) {
+    public ResponseEntity<List<WorkReportExtraInfo>> getWorkReportByDate(Date dateFrom, Date dateTo, List<Long> employeeIds, List<Long> projectIds) {
         Long loggedId = userService.getLoggedUser().getId();
         if(employeeIds != null && employeeIds.isEmpty()) employeeIds.add(-1L);
         if(projectIds != null && projectIds.isEmpty()) projectIds.add(-1L);
 
-        List<WRepDate> body = workReportRepository.findByDateBetweenOrderByDateAsc(dateFrom, dateTo, employeeIds, projectIds, loggedId);
-        for(WRepDate rep : body){
-            if(rep.getEmployeeId() == loggedId)
+        List<WorkReportExtraInfo> body = workReportRepository.findByDateBetweenOrderByDateAsc(dateFrom, dateTo, employeeIds, projectIds, loggedId);
+        for(WorkReportExtraInfo rep : body){
+            if(rep.getEmployeeId().equals(loggedId))
                 rep.setEditable(true);
             else
                 rep.setEditable(false);
@@ -95,7 +97,7 @@ public class WorkReportService {
         }
         else{
             WorkReportExtraInfo rep = workReport.get();
-            if(rep.getEmployeeId() == loggedId)
+            if(rep.getEmployeeId().equals(loggedId))
                 rep.setEditable(true);
             else
                 rep.setEditable(false);
@@ -104,25 +106,48 @@ public class WorkReportService {
         }
     }
 
-    public ResponseEntity<WorkReport> addNewWorkReport(Date date, Integer hours, Long projectId, String projectName, String comment) {
+    public ResponseEntity<WorkReport> addNewWorkReport(NewWorkReport body){
         User loggedUser = userService.getLoggedUser();
         Date now = new Date();
-        Project project = projectService.findById(projectId);
-        WorkReport newWorkReport = new WorkReport(date, now, hours, true, loggedUser, project, comment);
-        return new ResponseEntity<>(workReportRepository.save(newWorkReport), HttpStatus.CREATED);
-    }
+        Project project = projectService.findById(body.getProjectId());
+        WorkReport workReport;
 
-//    public ResponseEntity<List<WorkReportExtraInfo>> getWorkReportsAccepted(Long id, Boolean accepted) {
-//
-//        Optional<List<WorkReportExtraInfo>> workReport = Optional.ofNullable(workReportRepository.findForProjectAccepted(id, accepted));
-//
-//        if(workReport.isEmpty()){
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
-//        else{
-//            return new ResponseEntity<>(workReport.get(), HttpStatus.OK);
-//        }
-//    }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Date startDate = null; Date endDate = null;
+        try {
+            startDate = sdf.parse(body.getStartDate());
+            endDate = sdf.parse(body.getEndDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(startDate.after(endDate))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Calendar start = Calendar.getInstance(); start.setTime(startDate);
+        Calendar end = Calendar.getInstance(); end.setTime(endDate);
+
+        if(body.getId() != null){ // update
+            Optional<WorkReport> findWorkReport = workReportRepository.findById(body.getId());
+            if(findWorkReport.isEmpty())
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            else{
+                workReport = findWorkReport.get();
+                if(start.get(Calendar.DAY_OF_YEAR) == end.get(Calendar.DAY_OF_YEAR)
+                        && start.get(Calendar.YEAR) == end.get(Calendar.YEAR)){
+                    workReport.setUser(loggedUser); workReport.setProject(project); workReport.setComment(body.getComment());
+                    workReport.setDate(startDate); workReport.setHours(body.getHoursNumber());
+                    workReportRepository.save(workReport);
+                    return new ResponseEntity<>(workReport, HttpStatus.OK);
+                }
+                else{ workReportRepository.delete(workReport); }
+            }
+        }
+        for(Date date = start.getTime(); !start.after(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
+            workReport = new WorkReport(date, now, body.getHoursNumber(), false, loggedUser, project, body.getComment());
+            workReportRepository.save(workReport);
+        }
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
     public ResponseEntity<List<IdEmployeeNameDateHoursComment>> getWorkReportsByState(Long projectId, PageOptions options, Boolean state, String order) {
         Long loggedId = userService.getLoggedUser().getId();
@@ -136,6 +161,5 @@ public class WorkReportService {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(reports, HttpStatus.OK);
-
     }
 }

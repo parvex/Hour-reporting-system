@@ -1,29 +1,47 @@
-package com.pik.application.dto;
-
-import java.util.Date;
+package com.pik.application.dto.WorkReportData;
 
 public class NewWorkReport {
 
-    private Date date;
+    private Long workReportId;
+    private String startDate;
+    private String endDate;
     private Integer hoursNumber;
     private Long projectId;
     private String projectName;
     private String comment;
 
-    public NewWorkReport(Date date, Integer hoursNumber, Long projectId, String projectName, String comment) {
-        this.date = date;
+    public NewWorkReport(Long workReportId, String startDate, String endDate, Integer hoursNumber, Long projectId, String projectName, String comment) {
+        this.workReportId = workReportId;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.hoursNumber = hoursNumber;
         this.projectId = projectId;
         this.projectName = projectName;
         this.comment = comment;
     }
 
-    public Date getDate() {
-        return date;
+    public Long getId() {
+        return workReportId;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setId(Long workReportId) {
+        this.workReportId = workReportId;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public Integer getHoursNumber() {
