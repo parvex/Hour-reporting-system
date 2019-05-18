@@ -126,8 +126,8 @@ angular
       const request = {
         dateFrom: lcCtrl.fliterCriteria.startDate,
         dateTo: lcCtrl.fliterCriteria.endDate,
-        employeesIds: getIdsList(lcCtrl.fliterCriteria.employees),
-        projectsIds: getIdsList(lcCtrl.fliterCriteria.projects)
+        employeeIds: getIdsList(lcCtrl.fliterCriteria.employees),
+        projectIds: getIdsList(lcCtrl.fliterCriteria.projects)
       };
 
       return request;

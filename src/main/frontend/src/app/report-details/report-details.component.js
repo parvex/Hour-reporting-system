@@ -101,9 +101,15 @@ angular
       if (form.$valid) {
         const request = generateRequest();
 
-        ReportsService.saveReport(request).then(function() {
-          $uibModalInstance.close();
-        });
+        if (reportId) {
+          ReportsService.updateReport(request).then(function() {
+            $uibModalInstance.close();
+          });
+        } else {
+          ReportsService.saveReport(request).then(function() {
+            $uibModalInstance.close();
+          });
+        }
       }
     }
 

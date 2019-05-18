@@ -4,9 +4,13 @@
       <small><i class="glyphicon glyphicon-briefcase"></i></small
       ><span> New work report</span>
     </h3>
-    <h3 class="modal-title" ng-if="rdCtrl.reportId">
+    <h3 class="modal-title" ng-if="rdCtrl.reportId && rdCtrl.report.editable">
       <small><i class="glyphicon glyphicon-briefcase"></i></small
       ><span> Work report edition</span>
+    </h3>
+    <h3 class="modal-title" ng-if="rdCtrl.reportId && !rdCtrl.report.editable">
+      <small><i class="glyphicon glyphicon-briefcase"></i></small
+      ><span> Work report preview</span>
     </h3>
   </div>
   <div class="modal-body">
@@ -164,7 +168,7 @@
           rows="3"
           name="comment"
           placeholder="describe what have you done..."
-          ng-model="rdCtrl.report.coment"
+          ng-model="rdCtrl.report.comment"
           ng-disabled="rdCtrl.reportId && !rdCtrl.report.editable"
           required
         ></textarea>
