@@ -24,17 +24,6 @@ angular
       pdCtrl.project = new Object();
     }
 
-    function generateLoadEmployeesRequest(params) {
-      return {
-        criteria: pdCtrl.filterCriteria.employees,
-        options: {
-          page: params.page() - 1,
-          count: params.count()
-        }
-      };
-    }
-
-
     function save() {
       if (projectId) {
         ProjectsService.updateProject(pdCtrl.project).then(function() {
@@ -54,5 +43,4 @@ angular
     function provideEmployees(request) {
       return EmployeesService.getEmployees(request);
     }
-
   });
