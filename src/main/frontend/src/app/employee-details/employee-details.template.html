@@ -20,12 +20,13 @@
           ng-minlength="2"
           ng-maxlength="32"
           ng-disabled="edCtrl.employeeId"
+          unique-username
         />
         <span
           class="help-block"
           ng-if="employeeForm.username.$invalid && (employeeForm.username.$touched || employeeForm.$submitted)"
-          >Username is required and needs to have between 2 and 32
-          characters.</span
+          >Username is required and needs to have between 2 and 32 characters
+          and needs to be unique.</span
         >
       </div>
       <div

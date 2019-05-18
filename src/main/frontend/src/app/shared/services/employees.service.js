@@ -10,6 +10,8 @@ angular
     service.getAvailableEmployees = getAvailableEmployees;
     service.getSupervisors = getSupervisors;
 
+    service.chceckUsernameUniqueness = chceckUsernameUniqueness;
+
     function getEmployee(employeeId) {
       return $http.get("/api/employees/" + employeeId).then(function(response) {
         return response.data;
@@ -50,6 +52,13 @@ angular
         .then(function(response) {
           return response.data;
         });
+    }
+
+    function chceckUsernameUniqueness(username) {
+      const params = {
+        username: username
+      };
+      return $http.get("/api/unique-username", { params: params });
     }
 
     return service;
