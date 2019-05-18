@@ -178,32 +178,60 @@ public class UserService {
 
     public ResponseEntity<IdUserNameSurEmailProjectsSupervisorRoles> updateEmployee(IdUserNameSurEmailProjectsSupervisorRoles body) {
 
-        Optional<User> findUser = userRepository.findById(body.getId());
-        if(findUser.isEmpty())
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-        User user = findUser.get();
-        if (!body.getUsername().equals(user.getUsername()))
-            user.setUsername(body.getUsername());
-        if (!body.getEmail().equals(user.getEmail()))
-            user.setEmail(body.getEmail());
-        if (!body.getName().equals(user.getName()))
+        if(body.getId()==null)
+        {
+            User user = new User();
             user.setName(body.getName());
-        if (!body.getSurname().equals(user.getSurname()))
             user.setSurname(body.getSurname());
-        if (!body.getSupervisorId().equals(user.getSupervisor().getId())) {
-            Optional<User> supervisor = userRepository.findById(body.getSupervisorId());
-            if(checkIfHasRole(supervisor.get().getId(), "SUPERVISOR")) // change only if selected user is a supervisor
-                user.setSupervisor(supervisor.get());
-        }
-        Set<Project> newProjects = new HashSet<>();
-        for (LongString project : body.getProjects()) {
-            newProjects.add(projectService.findById(project.getId())); // returns 500 if projects don't exist
-        }
-        user.setProjects(newProjects);
+            user.setUsername(body.getUsername());
+            user.setEmail(body.getEmail());
+            user.setPassword(body.getPassword());
 
-        userRepository.save(user); // update user
-        return getEmployeeById(user.getId());
+            Optional<User> supervisor = userRepository.findById(body.getSupervisorId());
+            if(supervisor.isEmpty() || !checkIfHasRole(supervisor.get().getId(), "SUPERVISOR")) // change only if selected user is a supervisor
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            else
+                user.setSupervisor(supervisor.get());
+
+            Set<Project> newProjects = new HashSet<>();
+            for (LongString project : body.getProjects()) {
+                newProjects.add(projectService.findById(project.getId())); // returns 500 if projects don't exist
+            }
+            user.setProjects(newProjects);
+
+            List<String> newRoles = new ArrayList<>();
+            for (LongString role : body.getRoles()) {
+                newRoles.add(role.getName()); // returns 500 if projects don't exist
+            }
+            user.setRoles(newRoles);
+            userRepository.save(user);
+            return getEmployeeById(user.getId());
+
+        } else
+            {
+                Optional<User> findUser = userRepository.findById(body.getId());
+                User user = findUser.get();
+                if (!body.getUsername().equals(user.getUsername()))
+                    user.setUsername(body.getUsername());
+                if (!body.getEmail().equals(user.getEmail()))
+                    user.setEmail(body.getEmail());
+                if (!body.getName().equals(user.getName()))
+                    user.setName(body.getName());
+                if (!body.getSurname().equals(user.getSurname()))
+                    user.setSurname(body.getSurname());
+                if (!body.getSupervisorId().equals(user.getSupervisor().getId())) {
+                    Optional<User> supervisor = userRepository.findById(body.getSupervisorId());
+                    if (checkIfHasRole(supervisor.get().getId(), "SUPERVISOR")) // change only if selected user is a supervisor
+                        user.setSupervisor(supervisor.get());
+                }
+                Set<Project> newProjects = new HashSet<>();
+                for (LongString project : body.getProjects()) {
+                    newProjects.add(projectService.findById(project.getId())); // returns 500 if projects don't exist
+                }
+                user.setProjects(newProjects);
+                userRepository.save(user); // update user
+                return getEmployeeById(user.getId());
+            }
     }
 
     public ResponseEntity checkIfUsernameUnique(String username) {
