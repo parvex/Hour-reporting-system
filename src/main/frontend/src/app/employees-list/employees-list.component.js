@@ -20,6 +20,8 @@ angular
     elCtrl.provideEmployees = provideEmployees;
     elCtrl.provideProjects = provideProjects;
 
+    elCtrl.showProjectDetails = showProjectDetails;
+
     elCtrl.employeesTable = new NgTableParams(
       {},
       {
@@ -30,8 +32,7 @@ angular
             response
           ) {
             const employeesList = response.list;
-
-            params.total(employeesList.totalCount);
+            params.total(response.totalCount);
             return employeesList;
           });
         }
@@ -92,5 +93,26 @@ angular
 
     function provideProjects(request) {
       return ProjectsService.getProjects(request);
+    }
+
+    function openProjectModal(projectId) {
+      const modalInstance = $uibModal.open({
+        templateUrl: "app/project-details/project-details.template.html",
+        controller: "ProjectDetailsCtrl",
+        controllerAs: "pdCtrl",
+        resolve: {
+          projectId: function() {
+            return projectId;
+          }
+        }
+      });
+
+      modalInstance.result.then(function() {
+        reloadEmployeesTable();
+      });
+    }
+
+    function showProjectDetails(project) {
+      openProjectModal(project.id);
     }
   });

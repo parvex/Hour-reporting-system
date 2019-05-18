@@ -18,6 +18,7 @@ angular.module("hourReportingSystem").directive("itemSelect", function() {
       scope.selectedItem = {};
 
       scope.$watch("chosenItem", function() {
+        scope.selectedItem.model = scope.chosenItem;
         loadItemsList();
       });
 
@@ -37,7 +38,7 @@ angular.module("hourReportingSystem").directive("itemSelect", function() {
             scope.chosenItemId &&
             !containsItem(scope.itemsList, scope.chosenItem)
           ) {
-            scope.itemsList.push({
+            scope.itemsList.unshift({
               id: scope.chosenItemId,
               name: scope.chosenItem
             });

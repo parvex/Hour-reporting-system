@@ -27,11 +27,12 @@ angular
         getData: function(params) {
           const request = generateLoadReportsRequest(params);
 
-          return ReportsService.getReportsByState(request)
-            .then(function(response) {
-              const reportsList = response;
-              params.total(reportsList.length);
-              return reportsList;
+          return ReportsService.getReportsByState(request).then(function(
+            response
+          ) {
+            const reportsList = response;
+            params.total(reportsList.length);
+            return reportsList;
           });
         }
       }
@@ -66,5 +67,4 @@ angular
       rlCtrl.reportsTable.page(1);
       rlCtrl.reportsTable.reload();
     }
-
   });
