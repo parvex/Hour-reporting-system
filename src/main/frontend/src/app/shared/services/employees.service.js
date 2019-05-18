@@ -55,14 +55,14 @@ angular
         });
     }
 
-    function chceckUsernameUniqueness(username) {
+    function checkUsernameUniqueness(username) {
       const params = {
         username: username
       };
       return $http.get("/api/unique-username", { params: params });
     }
 
-    function chceckEmailUniqueness(email) {
+    function checkEmailUniqueness(email) {
       const params = {
         email: email
       };
