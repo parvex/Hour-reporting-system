@@ -94,7 +94,6 @@ public class UserService {
     }
 
     public ResponseEntity<List<LongString>> getAvailableEmployees(String phrase, List<Long> chosenIds, Pageable page) {
-//        Pageable page = PageRequest.of(0, 10);
         Long loggedId = getLoggedUser().getId();
         if(chosenIds != null && chosenIds.isEmpty())
             chosenIds.add(-1L);
@@ -104,7 +103,6 @@ public class UserService {
 
     public ResponseEntity<ListIdNameSurEmailSupervisor_NameTotal> getEmployeesPage(EmailNameSurProjects employee, PageOptions pageOptions) {
         Pageable page = PageRequest.of(pageOptions.getPage(), pageOptions.getCount());
-        Pageable pageMax = PageRequest.of(pageOptions.getPage(), Integer.MAX_VALUE);
 
         if(employee.getProjects() != null && employee.getProjects().isEmpty())
             employee.getProjects().add(-1L);
@@ -115,7 +113,7 @@ public class UserService {
 
         // Again call query to get TOTAL COUNT
         List<IdNameSurEmailSupervisor_NameProjects> bodyMax = userRepository.findByIdNameSurEmailSupervisorPage(employee.getEmail(),
-                employee.getName(), employee.getSurname(), employee.getProjects(), loggedId);
+                employee.getName(), employee.getSurname(), employee.getProjects(), loggedId, null);
 
         // Add projects for every returned employee in {id, name} form
         for(IdNameSurEmailSupervisor_NameProjects user : body){
@@ -155,9 +153,9 @@ public class UserService {
             List<String> roles = findAllRolesForUser(employee.getId());
             List<LongString> rolesNum = new ArrayList<>();
             for (String r : roles) {
-                if(r.equals(SystemRole.ADMIN))
+                if(r.equals(SystemRole.ADMIN.toString()))
                     rolesNum.add(new LongString(0L, r));
-                else if(r.equals(SystemRole.SUPERVISOR))
+                else if(r.equals(SystemRole.SUPERVISOR.toString()))
                     rolesNum.add(new LongString(2L, r));
                 else
                     rolesNum.add(new LongString(1L, r));
@@ -173,9 +171,9 @@ public class UserService {
         return userRepository.findAllRolesForUser(id);
     }
 
-    public Boolean checlIfHasRole(Long id, String role){
+    public Boolean checkIfHasRole(Long id, String role){
         List<String> roles = findAllRolesForUser(id);
-        return roles.contains(role) ? true : false;
+        return roles.contains(role);
     }
 
     public ResponseEntity<IdUserNameSurEmailProjectsSupervisorRoles> updateEmployee(IdUserNameSurEmailProjectsSupervisorRoles body) {
@@ -195,12 +193,12 @@ public class UserService {
             user.setSurname(body.getSurname());
         if (!body.getSupervisorId().equals(user.getSupervisor().getId())) {
             Optional<User> supervisor = userRepository.findById(body.getSupervisorId());
-            if(checlIfHasRole(supervisor.get().getId(), "SUPERVISOR")) // change only if selected user is a supervisor
+            if(checkIfHasRole(supervisor.get().getId(), "SUPERVISOR")) // change only if selected user is a supervisor
                 user.setSupervisor(supervisor.get());
         }
         Set<Project> newProjects = new HashSet<>();
         for (LongString project : body.getProjects()) {
-            newProjects.add(projectService.findById(project.getId())); // return 500 if projects doesnt exist
+            newProjects.add(projectService.findById(project.getId())); // returns 500 if projects don't exist
         }
         user.setProjects(newProjects);
 

@@ -39,17 +39,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<LongString> findSupervisorsByUsernameLike(String phrase, Pageable pageable);
 
     @Query("SELECT DISTINCT new com.pik.application.dto.EmployeeData.IdNameSurEmailSupervisor_NameProjects(u.id, u.name, u.surname, u.email, CONCAT(u.supervisor.name,' ',u.supervisor.surname)) " +
-            "FROM User u LEFT JOIN u.projects p WHERE (:email IS NULL OR :email = '' OR u.email = :email) AND (:name IS NULL OR :name = '' OR u.name = :name) " +
-            "AND (:surname IS NULL OR :surname = '' OR u.surname = :surname) AND (p.id IN (:projects) OR (-1 IN (:projects)) OR COALESCE(:projects, NULL) IS NULL) " +
-            "AND (:loggedId = u.supervisor.id OR :loggedId = 1811)")
-    List<IdNameSurEmailSupervisor_NameProjects> findByIdNameSurEmailSupervisorPage(@Nullable String email, @Nullable String name, @Nullable String surname, @Nullable List<Long> projects, Long loggedId, Pageable page);
-
-    @Query("SELECT DISTINCT new com.pik.application.dto.EmployeeData.IdNameSurEmailSupervisor_NameProjects(u.id, u.name, u.surname, u.email, CONCAT(u.supervisor.name,' ',u.supervisor.surname)) " +
-            "FROM User u LEFT JOIN u.projects p WHERE (:email IS NULL OR :email = '' OR u.email = :email) AND (:name IS NULL OR :name = '' OR u.name = :name) " +
-            "AND (:surname IS NULL OR :surname = '' OR u.surname = :surname) AND (p.id IN (:projects) OR (-1 IN (:projects)) OR COALESCE(:projects, NULL) IS NULL) " +
-            "AND (:loggedId = u.supervisor.id OR :loggedId = 1811)")
-    List<IdNameSurEmailSupervisor_NameProjects> findByIdNameSurEmailSupervisorPage(@Nullable String email, @Nullable String name, @Nullable String surname, @Nullable List<Long> projects, Long loggedId);
-
+            "FROM User u LEFT JOIN u.projects p WHERE (:email IS NULL OR :email = '' OR upper(u.email) LIKE CONCAT('%',upper(:email),'%')) AND (:name IS NULL OR :name = '' " +
+            "OR upper(u.name) LIKE CONCAT('%',upper(:name),'%')) AND (:surname IS NULL OR :surname = '' OR upper(u.surname) LIKE CONCAT('%',upper(:surname),'%')) " +
+            "AND (p.id IN (:projects) OR (-1 IN (:projects)) OR COALESCE(:projects, NULL) IS NULL) AND (:loggedId = u.supervisor.id OR :loggedId = 1811)")
+    List<IdNameSurEmailSupervisor_NameProjects> findByIdNameSurEmailSupervisorPage(@Nullable String email, @Nullable String name,
+                                                                                   @Nullable String surname, @Nullable List<Long> projects, Long loggedId, Pageable page);
 
     @Query("SELECT new com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles(u.id, u.username, u.name, u.surname, u.email, " +
             "u.supervisor.id, CONCAT(u.supervisor.name,' ',u.supervisor.surname)) FROM User u WHERE (u.id = :id OR (-1 = :id)) AND (u.supervisor.id = :loggedId OR :loggedId = 1811)")
