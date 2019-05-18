@@ -118,6 +118,6 @@ public class UserRestController {
 	@PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
 	@GetMapping(value = "/unique-email")
 	public ResponseEntity getEmployeeEmail(@RequestParam String email){
-		return userService.checkIfUsernameUnique(email);
+		return userService.checkIfEmailUnique(email);
 	}
 }
