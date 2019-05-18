@@ -24,9 +24,14 @@
         />
         <span
           class="help-block"
-          ng-if="employeeForm.username.$invalid && (employeeForm.username.$touched || employeeForm.$submitted)"
-          >Username is required and needs to have between 2 and 32 characters
-          and needs to be unique.</span
+          ng-if="employeeForm.username.$error.minlength && (employeeForm.username.$touched || employeeForm.$submitted)"
+          >Username is required and needs to have between 2 and 32
+          characters.</span
+        >
+        <span
+          class="help-block"
+          ng-if="employeeForm.username.$error.uniqueUsername && (employeeForm.username.$touched || employeeForm.$submitted)"
+          >Username needs to be unique.</span
         >
       </div>
       <div
