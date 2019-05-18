@@ -3,7 +3,7 @@ package com.pik.application.restController;
 import com.pik.application.domain.WorkReport;
 import com.pik.application.dto.*;
 import com.pik.application.dto.WorkReportData.IdEmployeeNameDateHoursComment;
-import com.pik.application.dto.WorkReportData.ListIdsStateOrderPage;
+import com.pik.application.dto.WorkReportData.IdStateOrderPage;
 import com.pik.application.service.WorkReportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,14 +77,13 @@ public class WorkReportRestController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-//    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
-//    @PostMapping(value = "/work-reports-state")
-//    public ResponseEntity<List<IdEmployeeNameDateHoursComment>> getWorkReportsByState(@RequestBody(required = false) ListIdsStateOrderPage body){
-//        if(body != null) {
-//            return workReportService.getWorkReportsByState(body.getCriteria(), body.getOptions(), body.getState(), body.getOrder());
-//        }else
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
-
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+    @PostMapping(value = "/work-reports-state")
+    public ResponseEntity<List<IdEmployeeNameDateHoursComment>> getWorkReportsByState(@RequestBody(required = false) IdStateOrderPage body){
+        if(body != null) {
+            return workReportService.getWorkReportsByState(body.getCriteria(), body.getOptions(), body.getState(), body.getOrder());
+        }else
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }

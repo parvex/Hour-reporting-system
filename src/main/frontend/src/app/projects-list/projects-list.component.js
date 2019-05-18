@@ -80,7 +80,7 @@ angular
       });
     }
 
-    function openReportModal(projectId, accepted) {
+    function openReportModal(projectId, state) {
       const modalInstance = $uibModal.open({
         templateUrl: "app/reports-list/reports-list.template.html",
         controller: "ReportsListCtrl",
@@ -90,8 +90,8 @@ angular
           projectId: function() {
             return projectId;
           },
-          accepted: function() {
-            return accepted;
+          state: function() {
+            return state;
           }
         }
       });

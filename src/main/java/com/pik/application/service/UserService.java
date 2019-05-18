@@ -113,14 +113,15 @@ public class UserService {
         List<IdNameSurEmailSupervisor_NameProjects> body = userRepository.findByIdNameSurEmailSupervisorPage(employee.getEmail(),
                 employee.getName(), employee.getSurname(), employee.getProjects(), loggedId, page);
 
+        // Again call query to get TOTAL COUNT
+        List<IdNameSurEmailSupervisor_NameProjects> bodyMax = userRepository.findByIdNameSurEmailSupervisorPage(employee.getEmail(),
+                employee.getName(), employee.getSurname(), employee.getProjects(), loggedId);
+
         // Add projects for every returned employee in {id, name} form
         for(IdNameSurEmailSupervisor_NameProjects user : body){
             List<LongString> projects = projectService.findProjectsForUser(user.getId());
             user.setProjects(projects);
         }
-        // Again call query to get TOTAL COUNT
-        List<IdNameSurEmailSupervisor_NameProjects> bodyMax = userRepository.findByIdNameSurEmailSupervisorPage(employee.getEmail(),
-                employee.getName(), employee.getSurname(), employee.getProjects(), loggedId, pageMax);
 
         ListIdNameSurEmailSupervisor_NameTotal bodyTotal = new ListIdNameSurEmailSupervisor_NameTotal(body, bodyMax.size());
         return new ResponseEntity<>(bodyTotal, HttpStatus.OK);

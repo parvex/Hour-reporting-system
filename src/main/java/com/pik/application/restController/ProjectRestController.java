@@ -4,7 +4,7 @@ import com.pik.application.domain.Project;
 import com.pik.application.dto.LongString;
 import com.pik.application.dto.PhraseList;
 import com.pik.application.dto.ProjectsData.IdNameDescription;
-import com.pik.application.dto.ListIdsOrderPage;
+import com.pik.application.dto.ProjectsData.ListIdsOrderPage;
 import com.pik.application.service.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

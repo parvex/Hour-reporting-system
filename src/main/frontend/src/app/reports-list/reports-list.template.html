@@ -1,33 +1,19 @@
 <section>
   <div class="modal-header text-center">
-    <h3 class="modal-title" ng-show="rlCtrl.accepted">Accepted work reports</h3>
-    <h3 class="modal-title" ng-show="!rlCtrl.accepted">New work reports</h3>
+    <h3 class="modal-title" ng-show="rlCtrl.state">Accepted work reports</h3>
+    <h3 class="modal-title" ng-show="!rlCtrl.state">New work reports</h3>
   </div>
   <div class="modal-body">
     <form name="workReportsSearchForm" class="panel panel-default margin-top">
       <div class="panel-heading">
         <div class="row">
           <div class="col-sm-2 col-md-offset-1 margin-top ">
-            <span ng-click="plCtrl.filterCriteria.sorted = 'ASC'; plCtrl.reloadTable()" uib-tooltip="Order ASC">
+            <span ng-click="rlCtrl.filterCriteria.sorted = 'ASC'; rlCtrl.reloadTable()" uib-tooltip="Order ASC">
                 <i class="glyphicon glyphicon-triangle-bottom"></i>
             </span>
-            <span ng-click="plCtrl.filterCriteria.sorted = 'DESC'; plCtrl.reloadTable()" uib-tooltip="Order DESC">
+            <span ng-click="rlCtrl.filterCriteria.sorted = 'DESC'; rlCtrl.reloadTable()" uib-tooltip="Order DESC">
                 <i class="glyphicon glyphicon-triangle-top"></i>
             </span>
-          </div>
-          <div class="col-sm-5">
-            <multi-item-select
-              model="plCtrl.filterCriteria.projects"
-              placeholder="cosss"
-              provider="plCtrl.provideProjects(request)"
-            >
-            </multi-item-select>
-          </div>
-          <div class="btn-group" class="col-sm-3">
-            <button class="btn btn-primary" ng-click="plCtrl.search()">
-              <span>Search </span>
-              <small><i class="glyphicon glyphicon-search"></i></small>
-            </button>
           </div>
         </div>
       </div>
@@ -50,7 +36,7 @@
             <th>Reported at</th>
             <th>Hours</th>
             <th>Comment</th>
-            <th ng-show="!rlCtrl.accepted">Action</th>
+            <th ng-show="!rlCtrl.state">Action</th>
         </thead>
         <tbody ng-show="$data.length == 0">
           <tr>
@@ -64,15 +50,13 @@
             <td>
               {{ (params.page() - 1) * params.count() + $index + 1 }}
             </td>
-            <td>{{ report.userName + " " + report.userSurName }}</td>
-            <td>{{ report.date | date : "short" }}</td>
+            <td>{{ report.employeeName }}</td>
+            <td>{{ report.date | date : "dd/MM/y H:mm:ss" }}</td>
             <td>{{ report.hours }}</td>
-            <td class="text-left">{{ report.coment }}</td>
-            <td ng-show="!rlCtrl.accepted">
-              <input type = "checkbox"
-              model = "rlCtrl.accepted">
-
-
+            <td class="text-left">{{ report.comment }}</td>
+            <td ng-show="!rlCtrl.state">
+              <input type = "checkbox">
+<!--              model = "rlCtrl.state">-->
             </td>
          </tr>
         </tbody>
