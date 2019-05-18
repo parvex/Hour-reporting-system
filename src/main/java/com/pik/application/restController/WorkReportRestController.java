@@ -33,25 +33,25 @@ public class WorkReportRestController {
         return workReportService.findById(id);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @PostMapping(value = "/reports")
     public ResponseEntity<WorkReport> createWorkReport(@RequestBody WorkReport workReport){
         return workReportService.createWorkReport(workReport);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @PutMapping(value = "/reports")
     public WorkReport updateWorkReport(@RequestBody WorkReport workReport){
         return workReportService.updateWorkReport(workReport);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR', 'USER')")
     @DeleteMapping(value = "/reports/{id}")
     public ResponseEntity<WorkReport> deleteWorkReport(@PathVariable Long id){
         return workReportService.deleteWorkReport(id);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR', 'USER')")
     @PostMapping(value = "/work-reports")
     public ResponseEntity<List<WRepDate>> getWorkReportsByDate(@RequestBody(required = false) WRepDateReq body){
 
@@ -61,13 +61,13 @@ public class WorkReportRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR', 'USER')")
     @GetMapping(value = "/work-reports/{id}")
     public ResponseEntity<WorkReportExtraInfo> getWorkReportInfo(@PathVariable Long id){
         return workReportService.getWorkReportInfo(id);
     }
 
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @PostMapping(value = "/work-reports-new")
     public ResponseEntity<WorkReport> addNewWorkReport(@RequestBody(required = false) NewWorkReport body){
 
@@ -77,7 +77,7 @@ public class WorkReportRestController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR', 'USER')")
     @PostMapping(value = "/work-reports-state")
     public ResponseEntity<List<IdEmployeeNameDateHoursComment>> getWorkReportsByState(@RequestBody(required = false) IdStateOrderPage body){
         if(body != null) {
