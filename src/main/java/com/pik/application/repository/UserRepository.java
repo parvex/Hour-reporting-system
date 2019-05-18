@@ -57,4 +57,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<IdUserNameSurEmailProjectsSupervisorRoles> findAllEmployees();
 
     Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String email);
 }

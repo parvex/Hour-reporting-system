@@ -240,4 +240,11 @@ public class UserService {
             return new ResponseEntity(HttpStatus.OK);
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
+
+    public ResponseEntity checkIfEmailUnique(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isEmpty())
+            return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    }
 }
