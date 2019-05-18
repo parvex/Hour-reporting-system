@@ -5,6 +5,7 @@ import java.util.*;
 public class WRepDate {
 
     private Long id;
+    private Boolean editable;
     private Date date;
     private Integer hoursNumber;
     private Long employeeId;
@@ -106,5 +107,13 @@ public class WRepDate {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public Boolean getEditable() {
+        return editable;
+    }
+
+    public void setEditable(Boolean editable) {
+        this.editable = editable;
     }
 }
