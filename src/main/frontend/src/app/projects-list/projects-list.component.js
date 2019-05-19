@@ -11,7 +11,7 @@ angular
     $uibModal
   ) {
     const plCtrl = this;
-    plCtrl.filterCriteria = new Object();
+    plCtrl.filterCriteria = {};
     plCtrl.filterCriteria.sorted = "";
     plCtrl.search = search;
     plCtrl.openProjectModal = openProjectModal;
@@ -27,8 +27,8 @@ angular
 
           return ProjectsService.getProjectsChosen(request)
             .then(function(response) {
-              const projectsList = response;
-              params.total(projectsList.length);
+              const projectsList = response.list;
+              params.total(response.totalCount);
               return projectsList;
           });
         }

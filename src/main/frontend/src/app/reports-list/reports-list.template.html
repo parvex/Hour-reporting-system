@@ -4,20 +4,6 @@
     <h3 class="modal-title" ng-show="!rlCtrl.state">New work reports</h3>
   </div>
   <div class="modal-body">
-    <form name="workReportsSearchForm" class="panel panel-default margin-top">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-sm-2 col-md-offset-1 margin-top ">
-            <span ng-click="rlCtrl.filterCriteria.sorted = 'ASC'; rlCtrl.reloadTable()" uib-tooltip="Order ASC">
-                <i class="glyphicon glyphicon-triangle-bottom"></i>
-            </span>
-            <span ng-click="rlCtrl.filterCriteria.sorted = 'DESC'; rlCtrl.reloadTable()" uib-tooltip="Order DESC">
-                <i class="glyphicon glyphicon-triangle-top"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-    </form>
       <table ng-table="rlCtrl.reportsTable"
              class="table table-bordered table-striped"
              template-pagination="custom/pager"
@@ -25,15 +11,25 @@
       >
         <thead>
           <colgroup>
-            <col class="col-xs-1">
-            <col class="col-xs-2">
-            <col class="col-xs-2">
-            <col class="col-xs-1">
-            <col class="col-xs-5">
+            <col class="col-xs-1 col-sm-1">
+            <col class="col-xs-2 col-sm-2">
+            <col class="col-xs-2 col-sm-2">
+            <col class="col-xs-1 col-sm-1">
+            <col class="col-xs-5 col-sm-5">
           </colgroup>
             <th>#</th>
             <th>Name</th>
-            <th>Reported at</th>
+            <th>
+              <div class="row">
+                Date
+                <span ng-click="rlCtrl.filterCriteria.sorted = 'ASC'; rlCtrl.reloadTable()" uib-tooltip="Order ASC">
+                  <i class="glyphicon glyphicon-triangle-bottom"></i>
+                </span>
+                <span ng-click="rlCtrl.filterCriteria.sorted = 'DESC'; rlCtrl.reloadTable()" uib-tooltip="Order DESC">
+                  <i class="glyphicon glyphicon-triangle-top"></i>
+                </span>
+              </div>
+            </th>
             <th>Hours</th>
             <th>Comment</th>
             <th ng-show="!rlCtrl.state">Action</th>

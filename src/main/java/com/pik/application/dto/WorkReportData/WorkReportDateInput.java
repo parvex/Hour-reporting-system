@@ -1,16 +1,16 @@
-package com.pik.application.dto;
+package com.pik.application.dto.WorkReportData;
 
 import java.util.Date;
 import java.util.List;
 
-public class WRepDateReq {
+public class WorkReportDateInput {
 
     private Date dateFrom;
     private Date dateTo;
     private List<Long> employeeIds;
     private List<Long> projectIds;
 
-    public WRepDateReq(Date dateFrom, Date dateTo, List<Long> employeeIds, List<Long> projectIds) {
+    public WorkReportDateInput(Date dateFrom, Date dateTo, List<Long> employeeIds, List<Long> projectIds) {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.employeeIds = employeeIds;

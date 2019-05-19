@@ -4,6 +4,7 @@ import com.pik.application.domain.Project;
 import com.pik.application.dto.LongString;
 import com.pik.application.dto.PageOptions;
 import com.pik.application.dto.ProjectsData.IdNameDescription;
+import com.pik.application.dto.ProjectsData.ListIdNameDescriptionTotal;
 import com.pik.application.repository.ProjectRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
@@ -92,7 +93,7 @@ public class ProjectService {
         return project;
     }
 
-    public ResponseEntity<List<IdNameDescription>> getProjectsChosen(List<Long> chosenIds, String order, PageOptions options) {
+    public ResponseEntity<ListIdNameDescriptionTotal> getProjectsChosen(List<Long> chosenIds, String order, PageOptions options) {
         Long loggedId = userService.getLoggedUser().getId();
         if(chosenIds != null && chosenIds.isEmpty())
             chosenIds.add(-1L);
@@ -102,9 +103,12 @@ public class ProjectService {
                 : PageRequest.of(options.getPage(), options.getCount(), Sort.Direction.DESC, "name");
 
         List<IdNameDescription> projects =  projectRepository.findProjectsChosen(chosenIds, loggedId, page);
+        List<IdNameDescription> totalProjects =  projectRepository.findProjectsChosen(chosenIds, loggedId, null);
         if(projects.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
         }
-        return new ResponseEntity<>(projects, HttpStatus.OK);
+
+        ListIdNameDescriptionTotal bodyTotal = new ListIdNameDescriptionTotal(projects, totalProjects.size());
+        return new ResponseEntity<>(bodyTotal, HttpStatus.OK);
     }
 }
