@@ -167,13 +167,13 @@ angular
     }
 
     function calendarReportClick(report) {
-      openReportModal(report.id);
+      openReportModal(report.workReportId);
     }
 
     function generateCalendarReportEvents(reports) {
       return reports.map(function(report) {
         return {
-          id: report.id,
+          workReportId: report.workReportId,
           title: report.employeeName + " " + report.employeeSurname,
           start: new Date(report.date),
           end: new Date(report.date),
