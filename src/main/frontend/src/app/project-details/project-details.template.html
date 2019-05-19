@@ -1,7 +1,13 @@
 <section>
   <div class="modal-header">
-    <h3 class="modal-title" ng-show="!pdCtrl.projectId">New project</h3>
-    <h3 class="modal-title" ng-show="pdCtrl.projectId">Project edition</h3>
+    <h3 class="modal-title" ng-show="!pdCtrl.projectId">
+      <small><i class="glyphicon glyphicon-blackboard"></i></small
+      ><span> New project</span>
+    </h3>
+    <h3 class="modal-title" ng-show="pdCtrl.projectId">
+      <small><i class="glyphicon glyphicon-blackboard"></i></small
+      ><span> Project edition</span>
+    </h3>
   </div>
   <div class="modal-body">
     <form name="projectForm">
