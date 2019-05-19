@@ -101,15 +101,24 @@ angular
       if (form.$valid) {
         const request = generateRequest();
 
-        ReportsService.saveReport(request).then(function() {
-          $uibModalInstance.close();
-        });
+        if (reportId) {
+          ReportsService.updateReport(request).then(function() {
+            $uibModalInstance.close();
+          });
+        } else {
+          ReportsService.saveReport(request).then(function() {
+            $uibModalInstance.close();
+          });
+        }
       }
     }
 
     function generateRequest() {
       const reportRequest = angular.copy(rdCtrl.report);
-      if (!reportRequest.endDate) {
+      if (!reportRequest.startDate) {
+        reportRequest.endDate = reportRequest.date;
+        reportRequest.startDate = reportRequest.date;
+      } else if (!reportRequest.endDate) {
         reportRequest.endDate = reportRequest.startDate;
       }
 

@@ -65,9 +65,11 @@ angular
       element.context.innerHTML =
         '<div class="fc-content"><span class="fc-title">' +
         event.title +
-        "</span></div>";
+        " (" +
+        event.hoursNumber +
+        "h)</span></div>";
 
-      element.context.innerText = event.title;
+      element.context.innerText = event.title + " (" + event.hoursNumber + "h)";
 
       element.addClass("calendar-event");
 
@@ -126,8 +128,8 @@ angular
       const request = {
         dateFrom: lcCtrl.fliterCriteria.startDate,
         dateTo: lcCtrl.fliterCriteria.endDate,
-        employeesIds: getIdsList(lcCtrl.fliterCriteria.employees),
-        projectsIds: getIdsList(lcCtrl.fliterCriteria.projects)
+        employeeIds: getIdsList(lcCtrl.fliterCriteria.employees),
+        projectIds: getIdsList(lcCtrl.fliterCriteria.projects)
       };
 
       return request;
@@ -167,13 +169,14 @@ angular
     }
 
     function calendarReportClick(report) {
-      openReportModal(report.id);
+      openReportModal(report.workReportId);
     }
 
     function generateCalendarReportEvents(reports) {
       return reports.map(function(report) {
         return {
-          id: report.id,
+          workReportId: report.workReportId,
+          hoursNumber: report.hoursNumber,
           title: report.employeeName + " " + report.employeeSurname,
           start: new Date(report.date),
           end: new Date(report.date),
