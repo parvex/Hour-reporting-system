@@ -34,8 +34,7 @@
         ng-class="{'has-error': projectForm.description.$touched && projectForm.description.$invalid}"
       >
         <label for="description">Description</label>
-        <input
-          type="text"
+        <textarea
           class="form-control"
           name="description"
           id="description"
@@ -43,7 +42,9 @@
           ng-model="pdCtrl.project.description"
           required
           ng-minlength="5"
-        />
+          rows="3"
+        >
+        </textarea>
         <span
           class="help-block"
           ng-show="projectForm.description.$touched && projectForm.description.$invalid"
