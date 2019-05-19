@@ -3,7 +3,7 @@ package com.pik.application.restController;
 import com.pik.application.domain.Project;
 import com.pik.application.dto.LongString;
 import com.pik.application.dto.PhraseList;
-import com.pik.application.dto.ProjectsData.IdNameDescription;
+import com.pik.application.dto.ProjectsData.ListIdNameDescriptionTotal;
 import com.pik.application.dto.ProjectsData.ListIdsOrderPage;
 import com.pik.application.service.ProjectService;
 import org.springframework.http.HttpStatus;
@@ -63,7 +63,7 @@ public class ProjectRestController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
     @PostMapping(value = "/projects-chosen")
-    public ResponseEntity<List<IdNameDescription>> getProjectsChosen(@RequestBody(required = false) ListIdsOrderPage body){
+    public ResponseEntity<ListIdNameDescriptionTotal> getProjectsChosen(@RequestBody(required = false) ListIdsOrderPage body){
 
         if(body != null)
             return projectService.getProjectsChosen(body.getCriteria(), body.getOrder(), body.getOptions());

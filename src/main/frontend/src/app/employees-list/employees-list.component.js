@@ -12,14 +12,11 @@ angular
     $uibModal
   ) {
     const elCtrl = this;
-    elCtrl.filterCriteria = new Object();
-
+    elCtrl.filterCriteria = {};
     elCtrl.search = search;
     elCtrl.openEmployeeModal = openEmployeeModal;
-
     elCtrl.provideEmployees = provideEmployees;
     elCtrl.provideProjects = provideProjects;
-
     elCtrl.showProjectDetails = showProjectDetails;
 
     elCtrl.employeesTable = new NgTableParams(
@@ -28,12 +25,11 @@ angular
         getData: function(params) {
           const request = generateLoadEmployeesRequest(params);
 
-          return EmployeesService.getEmployees(request).then(function(
-            response
-          ) {
-            const employeesList = response.list;
-            params.total(response.totalCount);
-            return employeesList;
+          return EmployeesService.getEmployees(request)
+            .then(function(response) {
+              const employeesList = response.list;
+              params.total(response.totalCount);
+              return employeesList;
           });
         }
       }

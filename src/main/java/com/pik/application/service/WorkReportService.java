@@ -3,6 +3,7 @@ package com.pik.application.service;
 import com.pik.application.domain.Project;
 import com.pik.application.domain.User;
 import com.pik.application.domain.WorkReport;
+import com.pik.application.dto.WorkReportData.ListIdEmployeeNameDateHoursCommentTotal;
 import com.pik.application.dto.WorkReportData.NewWorkReport;
 import com.pik.application.dto.PageOptions;
 import com.pik.application.dto.WorkReportData.IdEmployeeNameDateHoursComment;
@@ -149,7 +150,7 @@ public class WorkReportService {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    public ResponseEntity<List<IdEmployeeNameDateHoursComment>> getWorkReportsByState(Long projectId, PageOptions options, Boolean state, String order) {
+    public ResponseEntity<ListIdEmployeeNameDateHoursCommentTotal> getWorkReportsByState(Long projectId, PageOptions options, Boolean state, String order) {
         Long loggedId = userService.getLoggedUser().getId();
 
         Pageable page = order.isBlank() ? PageRequest.of(options.getPage(), options.getCount())
@@ -157,9 +158,11 @@ public class WorkReportService {
                 : PageRequest.of(options.getPage(), options.getCount(), Sort.Direction.DESC, "date");
 
         List<IdEmployeeNameDateHoursComment> reports = workReportRepository.findWorkReportsByState(projectId, state, loggedId, page);
+        List<IdEmployeeNameDateHoursComment> totalReports = workReportRepository.findWorkReportsByState(projectId, state, loggedId, null);
         if(reports.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(reports, HttpStatus.OK);
+        ListIdEmployeeNameDateHoursCommentTotal bodyTotal = new ListIdEmployeeNameDateHoursCommentTotal(reports, totalReports.size());
+        return new ResponseEntity<>(bodyTotal, HttpStatus.OK);
     }
 }

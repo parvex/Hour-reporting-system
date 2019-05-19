@@ -35,4 +35,5 @@ public class IdNameDescription {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

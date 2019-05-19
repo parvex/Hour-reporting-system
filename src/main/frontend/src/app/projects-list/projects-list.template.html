@@ -1,16 +1,7 @@
 <section class="container">
   <form name="employeesSearchForm" class="panel panel-default">
     <div class="panel-heading">
-      <div class="row">
-        <div class="col-sm-1 col-md-offset-2 margin-top ">
-            <span ng-click="plCtrl.filterCriteria.sorted = 'ASC'; plCtrl.reloadTable()" uib-tooltip="Order ASC">
-                <i class="glyphicon glyphicon-triangle-top"></i>
-            </span>
-            <span ng-click="plCtrl.filterCriteria.sorted = 'DESC'; plCtrl.reloadTable()" uib-tooltip="Order DESC">
-                <i class="glyphicon glyphicon-triangle-bottom"></i>
-            </span>
-        </div>
-        <div class="col-sm-5 col-xs-6">
+        <div class="col-sm-5 col-sm-offset-3 col-xs-8">
             <multi-item-select
               model="plCtrl.filterCriteria.projects"
               placeholder="project name"
@@ -39,13 +30,23 @@
         >
         <thead>
           <colgroup>
-            <col class="col-sm-1 col-xs-1">
-            <col class="col-sm-3 col-xs-2">
-            <col class="col-sm-7 col-xs-6">
-            <col class="col-sm-1 col-xs-2">
+            <col class="col-xs-1">
+            <col class="col-xs-2">
+            <col class="col-xs-6">
+            <col class="col-xs-2">
           </colgroup>
           <th>#</th>
-          <th>Name</th>
+          <th>
+            <div class="row">
+              Name
+              <span ng-click="plCtrl.filterCriteria.sorted = 'ASC'; plCtrl.reloadTable()" uib-tooltip="Order ASC">
+                  <i class="glyphicon glyphicon-triangle-top"></i>
+              </span>
+                  <span ng-click="plCtrl.filterCriteria.sorted = 'DESC'; plCtrl.reloadTable()" uib-tooltip="Order DESC">
+                  <i class="glyphicon glyphicon-triangle-bottom"></i>
+              </span>
+            </div>
+          </th>
           <th>Description</th>
           <th>Actions</th>
         </thead>
