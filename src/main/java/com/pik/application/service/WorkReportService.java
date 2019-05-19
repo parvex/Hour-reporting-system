@@ -158,11 +158,38 @@ public class WorkReportService {
                 : PageRequest.of(options.getPage(), options.getCount(), Sort.Direction.DESC, "date");
 
         List<IdEmployeeNameDateHoursComment> reports = workReportRepository.findWorkReportsByState(projectId, state, loggedId, page);
-        List<IdEmployeeNameDateHoursComment> totalReports = workReportRepository.findWorkReportsByState(projectId, state, loggedId, null);
         if(reports.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+        List<IdEmployeeNameDateHoursComment> totalReports = workReportRepository.findWorkReportsByState(projectId, state, loggedId, null);
         ListIdEmployeeNameDateHoursCommentTotal bodyTotal = new ListIdEmployeeNameDateHoursCommentTotal(reports, totalReports.size());
         return new ResponseEntity<>(bodyTotal, HttpStatus.OK);
+    }
+
+    public ResponseEntity<WorkReport> setAccepted(Long id) {
+        Optional<WorkReport> workReport = workReportRepository.findById(id);
+        if(workReport.isEmpty() || workReport.get().isAccepted())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        workReport.get().setAccepted(true);
+        workReportRepository.save(workReport.get());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<WorkReport> removeReport(Long id) {
+        Optional<WorkReport> workReport = workReportRepository.findById(id);
+        if(workReport.isEmpty())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        workReportRepository.delete(workReport.get());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public boolean checkNewReports(Long id) {
+        Long loggedId = userService.getLoggedUser().getId();
+        Integer number = workReportRepository.checkNewReports(id, loggedId);
+        if(number == 0)
+            return false;
+        return true;
     }
 }

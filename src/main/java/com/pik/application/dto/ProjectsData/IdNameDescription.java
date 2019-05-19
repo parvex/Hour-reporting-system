@@ -5,6 +5,7 @@ public class IdNameDescription {
     private Long id;
     private String name;
     private String description;
+    private Boolean hasNewReports;
 
     public IdNameDescription(Long id, String name, String description) {
         this.id = id;
@@ -36,4 +37,11 @@ public class IdNameDescription {
         this.description = description;
     }
 
+    public Boolean getHasNewReports() {
+        return hasNewReports;
+    }
+
+    public void setHasNewReports(Boolean hasNewReports) {
+        this.hasNewReports = hasNewReports;
+    }
 }

@@ -16,6 +16,7 @@ angular
     plCtrl.search = search;
     plCtrl.openProjectModal = openProjectModal;
     plCtrl.openReportModal = openReportModal;
+    plCtrl.openEmployeesListModal = openEmployeesListModal;
     plCtrl.provideProjects = provideProjects;
     plCtrl.reloadTable = reloadProjectsTable;
 
@@ -69,13 +70,31 @@ angular
         controller: "ProjectDetailsCtrl",
         controllerAs: "pdCtrl",
         resolve: {
+          projectId: function () {
+            return projectId;
+          }
+        }
+      });
+      modalInstance.result.then(function() {
+      },function() {
+        reloadProjectsTable();
+      });
+    }
+
+    function openEmployeesListModal(projectId) {
+      const modalInstance = $uibModal.open({
+        templateUrl: "app/project-employees/project-employees.template.html",
+        controller: "ProjectEmployeesCtrl",
+        controllerAs: "peCtrl",
+        size: "lg",
+        resolve: {
           projectId: function() {
             return projectId;
           }
         }
       });
-
       modalInstance.result.then(function() {
+      },function() {
         reloadProjectsTable();
       });
     }
@@ -95,8 +114,8 @@ angular
           }
         }
       });
-
       modalInstance.result.then(function() {
+      },function() {
         reloadProjectsTable();
       });
     }

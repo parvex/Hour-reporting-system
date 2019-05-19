@@ -37,11 +37,10 @@ public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
             "AND (w.user.supervisor.id = :loggedId OR w.user.id = :loggedId OR :loggedId = 1811) ORDER BY w.date DESC")
     List<WorkReportExtraInfo> findByDateBetweenOrderByDateAsc(@Nullable Date dateFrom, @Nullable Date dateTo, @Nullable List<Long> employeeIds, @Nullable List<Long> projectIds, Long loggedId);
 
-//    @Query("SELECT new com.pik.application.dto.WorkReportData.WorkReportExtraInfo(w.id, w.date, w.hours, w.user.id, w.user.name, w.user.surname, w.project.id, w.project.name, w.comment, w.accepted)" +
-//            " FROM WorkReport w WHERE w.project.id = :projectId AND w.accepted = :accepted")
-//    List<WorkReportExtraInfo> findForProjectAccepted(Long projectId, Boolean accepted);
-
     @Query("SELECT new com.pik.application.dto.WorkReportData.IdEmployeeNameDateHoursComment(w.id, CONCAT(w.user.name,' ',w.user.surname), w.date, w.hours, w.comment) " +
             "FROM WorkReport w WHERE (w.project.id = :projectId) AND (w.accepted = :state) AND (w.user.supervisor.id = :loggedId OR :loggedId=1811)")
     List<IdEmployeeNameDateHoursComment> findWorkReportsByState(Long projectId, Boolean state, Long loggedId, Pageable page);
+
+    @Query("SELECT COUNT(w) FROM WorkReport w WHERE w.project.id = :id AND w.accepted = false AND (w.user.supervisor.id = :loggedId OR :loggedId = 1811)")
+    Integer checkNewReports(Long id, Long loggedId);
 }

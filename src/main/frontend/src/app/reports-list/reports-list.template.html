@@ -18,11 +18,12 @@
     >
       <thead>
         <colgroup>
-          <col class="col-xs-1 col-sm-1" />
-          <col class="col-xs-2 col-sm-2" />
-          <col class="col-xs-2 col-sm-2" />
-          <col class="col-xs-1 col-sm-1" />
-          <col class="col-xs-5 col-sm-5" />
+          <col class="col-xs-1" />
+          <col class="col-xs-2" />
+          <col class="col-xs-2" />
+          <col class="col-xs-1" />
+          <col class="col-xs-4" />
+          <col ng-class="{'col-xs-1': rlCtrl.state, 'col-xs-2': !rlCtrl.state}"/>
         </colgroup>
         <th>#</th>
         <th>Name</th>
@@ -45,11 +46,11 @@
         </th>
         <th>Hours</th>
         <th>Comment</th>
-        <th ng-show="!rlCtrl.state">Action</th>
+        <th>Action</th>
       </thead>
       <tbody ng-show="$data.length == 0">
         <tr>
-          <td colspan="5">No data available.</td>
+          <td colspan="6">No data available.</td>
         </tr>
       </tbody>
       <tbody>
@@ -66,8 +67,29 @@
           <td>{{ report.hours }}</td>
           <td class="text-left">{{ report.comment }}</td>
           <td ng-show="!rlCtrl.state">
-            <input type="checkbox" />
-            <!--              model = "rlCtrl.state">-->
+            <span
+              ng-click="rlCtrl.setReportAccepted(report.id)"
+              uib-tooltip="Accept report"
+              style="color: springgreen; font-size: 25px"
+            >
+              <i class="glyphicon glyphicon-ok"></i>
+            </span>
+            <span
+             ng-click="rlCtrl.removeReport(report.id)"
+             uib-tooltip="Reject report(removed)"
+             style="color: red; font-size: 25px"
+            >
+              <i class="glyphicon glyphicon-remove"></i>
+            </span>
+          </td>
+          <td ng-show="rlCtrl.state">
+            <span
+              ng-click="rlCtrl.removeReport(report.id)"
+              uib-tooltip="Remove report"
+              style="color: red; font-size: 25px"
+            >
+              <i class="glyphicon glyphicon-remove"></i>
+            </span>
           </td>
         </tr>
       </tbody>

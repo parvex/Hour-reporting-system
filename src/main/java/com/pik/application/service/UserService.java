@@ -3,16 +3,15 @@ package com.pik.application.service;
 import com.pik.application.domain.Project;
 import com.pik.application.domain.SystemRole;
 import com.pik.application.domain.User;
-import com.pik.application.dto.EmployeeData.EmailNameSurProjects;
-import com.pik.application.dto.EmployeeData.IdNameSurEmailSupervisor_NameProjects;
-import com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles;
-import com.pik.application.dto.EmployeeData.ListIdNameSurEmailSupervisor_NameTotal;
+import com.pik.application.dto.EmployeeData.*;
+import com.pik.application.dto.IdBoolOrderPage;
 import com.pik.application.dto.LongString;
 import com.pik.application.dto.PageOptions;
 import com.pik.application.repository.UserRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -218,7 +217,6 @@ public class UserService {
             newProjects.add(projectService.findById(project.getId())); // returns 500 if projects don't exist
         }
         user.setProjects(newProjects);
-
         userRepository.save(user); // update or save user
         return getEmployeeById(user.getId());
     }
@@ -235,5 +233,38 @@ public class UserService {
         if(user.isEmpty())
             return new ResponseEntity(HttpStatus.OK);
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    }
+
+    public User findById(Long employeeId) {
+        Optional<User> employee = userRepository.findById(employeeId);
+        if(employee.isEmpty())
+            throw new RuntimeException("Employee not found");
+        return employee.get();
+    }
+
+    public void updateEmployeeProjects(User employee) {
+        userRepository.save(employee);
+    }
+
+    public List<Long> findEmployeeIdsForProject(Long projectId){
+        Optional<List<Long>> employees = userRepository.findEmployeesForProject(projectId);
+        if(employees.isEmpty()) return null;
+        else return employees.get();
+    }
+
+    public ResponseEntity<ListIdNameSurUserEmailTotal> findEmployeesAssigned(Long projectId, PageOptions options, String order) {
+        Long loggedId = getLoggedUser().getId();
+
+        Pageable page = order.isBlank() ? PageRequest.of(options.getPage(), options.getCount())
+                : order.equals("ASC") ? PageRequest.of(options.getPage(), options.getCount(), Sort.Direction.ASC, "name")
+                : PageRequest.of(options.getPage(), options.getCount(), Sort.Direction.DESC, "name");
+
+        List<IdNameSurUserEmail> employees = userRepository.findEmployeesAssigned(projectId, loggedId, page);
+        if(employees.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        List<IdNameSurUserEmail> totalEmployees = userRepository.findEmployeesAssigned(projectId, loggedId, null);
+        ListIdNameSurUserEmailTotal bodyTotal = new ListIdNameSurUserEmailTotal(employees, totalEmployees.size());
+        return new ResponseEntity<>(bodyTotal, HttpStatus.OK);
     }
 }

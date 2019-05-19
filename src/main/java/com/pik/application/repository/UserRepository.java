@@ -2,6 +2,7 @@ package com.pik.application.repository;
 
 import com.pik.application.domain.User;
 import com.pik.application.dto.EmployeeData.IdNameSurEmailSupervisor_NameProjects;
+import com.pik.application.dto.EmployeeData.IdNameSurUserEmail;
 import com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles;
 import com.pik.application.dto.LongString;
 import org.springframework.data.domain.PageRequest;
@@ -58,4 +59,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
     Optional<User> findByEmail(String email);
+
+    @Query("SELECT u.id FROM User u, Project p WHERE (p MEMBER OF u.projects) AND p.id = :projectId")
+    Optional<List<Long>> findEmployeesForProject(Long projectId);
+
+    @Query("SELECT new com.pik.application.dto.EmployeeData.IdNameSurUserEmail(u.id, u.name, u.surname, u.username, u.email) FROM User u, Project p " +
+            "WHERE (p MEMBER OF u.projects) AND (p.id = :projectId) AND (u.supervisor.id = :loggedId OR :loggedId = 1811)")
+    List<IdNameSurUserEmail> findEmployeesAssigned(Long projectId, Long loggedId, Pageable page);
 }

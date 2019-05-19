@@ -4,8 +4,10 @@ import com.pik.application.domain.User;
 import com.pik.application.dto.EmployeeData.EmailNameSurProjectsPage;
 import com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles;
 import com.pik.application.dto.EmployeeData.ListIdNameSurEmailSupervisor_NameTotal;
+import com.pik.application.dto.EmployeeData.ListIdNameSurUserEmailTotal;
 import com.pik.application.dto.LongString;
 import com.pik.application.dto.PhraseList;
+import com.pik.application.dto.IdBoolOrderPage;
 import com.pik.application.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -119,5 +121,14 @@ public class UserRestController {
 	@GetMapping(value = "/unique-email")
 	public ResponseEntity getEmployeeEmail(@RequestParam String email){
 		return userService.checkIfEmailUnique(email);
+	}
+
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+	@PostMapping(value = "/employees-assigned")
+	public ResponseEntity<ListIdNameSurUserEmailTotal> getEmployeesAssigned(@RequestBody IdBoolOrderPage body) {
+		if(body != null) {
+			return userService.findEmployeesAssigned(body.getCriteria(), body.getOptions(), body.getOrder());
+		}else
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

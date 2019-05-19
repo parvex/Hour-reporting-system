@@ -20,6 +20,8 @@ angular
     rlCtrl.save = save;
     rlCtrl.cancel = cancel;
     rlCtrl.reloadTable = reloadProjectsTable;
+    rlCtrl.setReportAccepted = setReportAccepted;
+    rlCtrl.removeReport = removeReport;
 
     rlCtrl.reportsTable = new NgTableParams(
       {},
@@ -66,4 +68,21 @@ angular
       rlCtrl.reportsTable.page(1);
       rlCtrl.reportsTable.reload();
     }
+
+    function setReportAccepted(reportId){
+      if(confirm("Are you sure you want to accept the report?")) {
+        ReportsService.setReportAccepted(reportId).then(function(){
+         reloadProjectsTable();
+        });
+      }
+    }
+
+    function removeReport(reportId){
+      if(confirm("Are you sure you want to remove the report?")) {
+        ReportsService.removeReport(reportId).then(function () {
+          reloadProjectsTable();
+        });
+      }
+    }
+
   });

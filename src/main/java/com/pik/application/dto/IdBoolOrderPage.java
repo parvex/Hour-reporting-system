@@ -1,15 +1,13 @@
-package com.pik.application.dto.WorkReportData;
+package com.pik.application.dto;
 
-import com.pik.application.dto.PageOptions;
-
-public class IdStateOrderPage {
+public class IdBoolOrderPage {
 
     private Long criteria;
     private Boolean state;
     private String order;
     private PageOptions options;
 
-    public IdStateOrderPage(Long id, Boolean state, String order, PageOptions options) {
+    public IdBoolOrderPage(Long id, Boolean state, String order, PageOptions options) {
         this.criteria = id;
         this.state = state;
         this.order = order;

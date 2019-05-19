@@ -1,0 +1,64 @@
+<section>
+  <div class="modal-header">
+    <h3 class="modal-title">
+      <small><i class="glyphicon glyphicon-user"></i></small
+      ><span> Assigned employees</span>
+    </h3>
+  </div>
+  <div class="modal-body">
+    <table
+      ng-table="peCtrl.employeesTable"
+      class="table table-bordered table-striped"
+      template-pagination="custom/pager"
+      style="table-layout: fixed"
+    >
+      <thead>
+        <colgroup>
+          <col class="col-xs-1" />
+          <col class="col-xs-4" />
+          <col class="col-xs-3" />
+          <col class="col-xs-4" />
+        </colgroup>
+        <th>#</th>
+        <th>
+          <div class="row">
+            Name
+            <span
+              ng-click="peCtrl.filterCriteria.sorted = 'ASC'; peCtrl.reloadTable()"
+              uib-tooltip="Order ASC"
+            >
+                <i class="glyphicon glyphicon-triangle-bottom"></i>
+              </span>
+            <span
+              ng-click="peCtrl.filterCriteria.sorted = 'DESC'; peCtrl.reloadTable()"
+              uib-tooltip="Order DESC"
+            >
+                <i class="glyphicon glyphicon-triangle-top"></i>
+              </span>
+          </div>
+        </th>
+        <th>Username</th>
+        <th>E-mail</th>
+      </thead>
+      <tbody ng-show="$data.length == 0">
+        <tr>
+          <td colspan="5">No data available.</td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr
+          ng-repeat="employee in $data"
+          class="text-center"
+          style="word-wrap: break-word"
+        >
+          <td>
+            {{ (params.page() - 1) * params.count() + $index + 1 }}
+          </td>
+          <td>{{ employee.name + " " + employee.surname }}</td>
+          <td>{{ employee.username}}</td>
+          <td>{{ employee.email }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
