@@ -24,15 +24,18 @@ angular
       pdCtrl.project = new Object();
     }
 
-    function save() {
-      if (projectId) {
-        ProjectsService.updateProject(pdCtrl.project).then(function() {
-          cancel();
-        });
-      } else {
-        ProjectsService.saveProject(pdCtrl.project).then(function() {
-          cancel();
-        });
+    function save(form) {
+      form.$setSubmitted(true);
+      if (form.$valid && pdCtrl.project.employees.length > 0) {
+        if (projectId) {
+          ProjectsService.updateProject(pdCtrl.project).then(function() {
+            cancel();
+          });
+        } else {
+          ProjectsService.saveProject(pdCtrl.project).then(function() {
+            cancel();
+          });
+        }
       }
     }
 

@@ -13,7 +13,7 @@
     <form name="projectForm">
       <div
         class="form-group"
-        ng-class="{'has-error': projectForm.name.$touched && projectForm.name.$invalid}"
+        ng-class="{'has-error': projectForm.name.$invalid && (projectForm.name.$touched || projectForm.$submitted)}"
       >
         <label for="name">Name</label>
         <input
@@ -30,14 +30,14 @@
         />
         <span
           class="help-block"
-          ng-show="projectForm.name.$touched && projectForm.name.$invalid"
+          ng-show="projectForm.name.$invalid && (projectForm.name.$touched || projectForm.$submitted)"
           >Project name is required and needs to have between 2 and 32
           characters.</span
         >
       </div>
       <div
         class="form-group"
-        ng-class="{'has-error': projectForm.description.$touched && projectForm.description.$invalid}"
+        ng-class="{'has-error': projectForm.description.$invalid && (projectForm.description.$touched || projectForm.$submitted)}"
       >
         <label for="description">Description</label>
         <textarea
@@ -53,26 +53,27 @@
         </textarea>
         <span
           class="help-block"
-          ng-show="projectForm.description.$touched && projectForm.description.$invalid"
+          ng-show="projectForm.description.$invalid && (projectForm.description.$touched || projectForm.$submitted)"
           >Project description is required and needs to have at least 5
           characters.</span
         >
       </div>
       <div
         class="form-group"
-        ng-class="{'has-error': projectForm.name.$touched && projectForm.name.$invalid}"
+        ng-class="{'has-error': pdCtrl.project.employees.length == 0 && (projectForm.assignedEmployees.$touched || projectForm.$submitted)}"
       >
         <label>Assign employees</label>
         <multi-employees-select
-          model="pdCtrl.filterCriteria.project"
+          model="pdCtrl.project.employees"
           placeholder="employees"
           provider="pdCtrl.provideEmployees(request)"
+          name="assignedEmployees"
         >
         </multi-employees-select>
         <span
           class="help-block"
-          ng-show="projectForm.name.$touched && projectForm.name.$invalid"
-          >At least one employee has to be assigned.</span
+          ng-show="pdCtrl.project.employees.length == 0 && (projectForm.assignedEmployees.$touched || projectForm.$submitted)"
+          >At least one employee needs to be assigned.</span
         >
       </div>
     </form>
@@ -81,8 +82,8 @@
     <button
       class="btn btn-primary"
       type="button"
-      ng-click="pdCtrl.save()"
-      ng-disabled="projectForm.$invalid"
+      ng-click="pdCtrl.save(projectForm)"
+      ng-disabled="(projectForm.$invalid || pdCtrl.project.employees.length == 0) && projectForm.$submitted"
     >
       Save
     </button>
