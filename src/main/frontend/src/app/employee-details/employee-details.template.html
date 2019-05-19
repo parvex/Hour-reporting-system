@@ -214,7 +214,7 @@
       class="btn btn-primary"
       type="button"
       ng-click="edCtrl.save(employeeForm)"
-      ng-disabled="employeeForm.$submitted && employeeForm.$invalid"
+      ng-disabled="employeeForm.$submitted && (employeeForm.$invalid || edCtrl.employee.roles.length == 0)"
     >
       Save
     </button>

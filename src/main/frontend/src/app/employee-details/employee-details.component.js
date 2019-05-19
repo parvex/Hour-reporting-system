@@ -53,7 +53,7 @@ angular
 
     function save(form) {
       form.$setSubmitted(true);
-      if (form.$valid) {
+      if (form.$valid && edCtrl.employee.roles.length > 0) {
         if (employeeId) {
           EmployeesService.updateEmployee(edCtrl.employee).then(function() {
             cancel();
