@@ -38,4 +38,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
             "WHERE (p MEMBER OF u.projects) AND (p.id IN (:chosenIds) OR (-1 IN (:chosenIds)) OR COALESCE(:chosenIds, NULL) IS NULL) AND (u.supervisor.id = :loggedId OR :loggedId = 1811)")
     List<IdNameDescription> findProjectsChosen(@Nullable List<Long> chosenIds, Long loggedId, Pageable page);
 
+    Optional<Project> findByName(String name);
 }

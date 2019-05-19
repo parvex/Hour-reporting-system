@@ -126,6 +126,15 @@
             component: "projectDetails"
           }
         }
+      })
+      .state("project-employees", {
+        parent: "nav",
+        url: "/project-employees/{projectId}",
+        views: {
+          "content@": {
+            component: "projectEmployees"
+          }
+        }
       });
   }
 })();

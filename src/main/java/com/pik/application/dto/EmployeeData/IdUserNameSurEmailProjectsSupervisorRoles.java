@@ -22,10 +22,8 @@ public class IdUserNameSurEmailProjectsSupervisorRoles {
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.projects = projects;
         this.supervisorId = supervisorId;
         this.supervisorFullname = supervisorFullname;
-        this.roles = roles;
         this.password = password;
     }
 

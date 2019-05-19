@@ -26,7 +26,7 @@ angular
         edCtrl.employee = response;
       });
     } else {
-      edCtrl.employee = new Object();
+      edCtrl.employee = {};
     }
 
     function provideProjects(request) {

@@ -1,6 +1,7 @@
 package com.pik.application.restController;
 
 import com.pik.application.domain.WorkReport;
+import com.pik.application.dto.IdBoolOrderPage;
 import com.pik.application.dto.WorkReportData.*;
 import com.pik.application.service.WorkReportService;
 import org.springframework.http.HttpStatus;
@@ -82,10 +83,22 @@ public class WorkReportRestController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR', 'USER')")
     @PostMapping(value = "/work-reports-state")
-    public ResponseEntity<ListIdEmployeeNameDateHoursCommentTotal> getWorkReportsByState(@RequestBody(required = false) IdStateOrderPage body){
+    public ResponseEntity<ListIdEmployeeNameDateHoursCommentTotal> getWorkReportsByState(@RequestBody(required = false) IdBoolOrderPage body){
         if(body != null) {
             return workReportService.getWorkReportsByState(body.getCriteria(), body.getOptions(), body.getState(), body.getOrder());
         }else
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+    @PutMapping(value = "/work-reports-accept/{id}")
+    public ResponseEntity<WorkReport> setWorkReportAccepted(@PathVariable Long id){
+        return workReportService.setAccepted(id);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+    @DeleteMapping(value = "/work-reports-accept/{id}")
+    public ResponseEntity<WorkReport> updateWorkReport(@PathVariable Long id){
+        return workReportService.removeReport(id);
     }
 }

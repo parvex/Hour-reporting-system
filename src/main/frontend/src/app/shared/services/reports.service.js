@@ -6,8 +6,9 @@ angular
     service.getReports = getReports;
     service.saveReport = saveReport;
     service.updateReport = updateReport;
-
     service.getReportsByState = getReportsByState;
+    service.setReportAccepted = setReportAccepted;
+    service.removeReport = removeReport;
 
     function getReport(reportId) {
       return $http
@@ -42,6 +43,22 @@ angular
     function getReportsByState(request) {
       return $http
         .post("/api/work-reports-state", request)
+        .then(function(response) {
+          return response.data;
+        });
+    }
+
+    function setReportAccepted(reportId) {
+      return $http
+        .put("/api/work-reports-accept/" + reportId, true)
+        .then(function(response) {
+          return response.data;
+        });
+    }
+
+    function removeReport(reportId) {
+      return $http
+        .delete("/api/work-reports-accept/" + reportId)
         .then(function(response) {
           return response.data;
         });

@@ -41,7 +41,7 @@
           <col class="col-xs-1" />
           <col class="col-xs-2" />
           <col class="col-xs-6 col-md-7" />
-          <col class="col-xs-2 col-md-1" />
+          <col class="col-xs-3 col-md-1" />
         </colgroup>
         <th>#</th>
         <th>
@@ -71,7 +71,7 @@
       </tbody>
       <tbody>
         <tr
-          ng-repeat="project in $data | orderBy:'name'"
+          ng-repeat="project in $data"
           style="word-wrap: break-word"
           class="text-center"
         >
@@ -88,6 +88,12 @@
               <i class="glyphicon glyphicon-pencil"></i>
             </span>
             <span
+              ng-click="plCtrl.openEmployeesListModal(project.id)"
+              uib-tooltip="Assigned employees"
+            >
+              <i class="glyphicon glyphicon-user"></i>
+            </span>
+            <span
               ng-click="plCtrl.openReportModal(project.id, true)"
               uib-tooltip="Show accepted reports"
             >
@@ -97,7 +103,9 @@
               ng-click="plCtrl.openReportModal(project.id, false)"
               uib-tooltip="Show new reports"
             >
-              <i class="glyphicon glyphicon-align-right"></i>
+              <i class="glyphicon glyphicon-align-right"
+                  ng-style="{'color': project.hasNewReports ? 'lawngreen' : 'black'}">
+              </i>
             </span>
           </td>
         </tr>

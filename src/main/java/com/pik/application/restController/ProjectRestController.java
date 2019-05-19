@@ -5,6 +5,7 @@ import com.pik.application.dto.LongString;
 import com.pik.application.dto.PhraseList;
 import com.pik.application.dto.ProjectsData.ListIdNameDescriptionTotal;
 import com.pik.application.dto.ProjectsData.ListIdsOrderPage;
+import com.pik.application.dto.LongStringStringBooleanListLong;
 import com.pik.application.service.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,37 +22,36 @@ public class ProjectRestController {
         this.projectService = projectService;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
     @GetMapping(value = "/projects")
     public List<Project> projects(){
         return projectService.projects();
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
     @GetMapping(value = "/projects/{id}")
     public ResponseEntity<Project> projectByID(@PathVariable Long id){
         return projectService.projectByID(id);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
     @PostMapping(value = "/project")
     public ResponseEntity<Project> createProject(@RequestBody Project project){
        return projectService.createProject(project);
     }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
     @PutMapping(value = "/projects")
     public Project updateProject(@RequestBody Project project){
         return projectService.updateProject(project);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
     @DeleteMapping(value = "/projects/{id}")
     public ResponseEntity<Project> deleteProject(@PathVariable Long id){
         return projectService.deleteProject(id);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR','USER')")
     @PostMapping(value = "/projects")
     public ResponseEntity<List<LongString>> getProjectsByPhrase(@RequestBody(required = false) PhraseList body){
 
@@ -69,5 +69,22 @@ public class ProjectRestController {
             return projectService.getProjectsChosen(body.getCriteria(), body.getOrder(), body.getOptions());
         else
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+    @GetMapping(value = "/unique-project-name")
+    public ResponseEntity getProjectName(@RequestParam String name){
+        return projectService.checkIfNameUnique(name);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+    @PostMapping(value = "/project-employees")
+    public ResponseEntity<Project> createProjectWithEmployees(@RequestBody LongStringStringBooleanListLong project){
+        return projectService.createUpdateProject(project);
+    }
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+    @PutMapping(value = "/project-employees")
+    public ResponseEntity<Project> updateProjectWithEmployees(@RequestBody LongStringStringBooleanListLong project){
+        return createProjectWithEmployees(project);
     }
 }
