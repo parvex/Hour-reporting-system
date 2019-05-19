@@ -62,7 +62,7 @@
   <div class="row">
     <table
       ng-table="elCtrl.employeesTable"
-      class="table table-striped margin-top margin-bottom"
+      class="table table-bordered table-striped margin-top margin-bottom"
       template-pagination="custom/pager"
     >
       <thead>
@@ -80,7 +80,9 @@
         </tr>
       </tbody>
       <tbody>
-        <tr ng-repeat="employee in $data">
+        <tr ng-repeat="employee in $data"
+            style="word-wrap: break-word"
+            class="text-center">
           <td class="text-center">
             {{ (params.page() - 1) * params.count() + $index + 1 }}
           </td>
