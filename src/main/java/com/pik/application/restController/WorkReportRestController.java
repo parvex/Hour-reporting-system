@@ -75,14 +75,14 @@ public class WorkReportRestController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @PutMapping(value = "/work-reports-new")
     public ResponseEntity<WorkReport> updateWorkReport(@RequestBody(required = false) NewWorkReport body){
-        if(body == null || (body != null && body.getId() == null))
+        if(body == null || body.getId() == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return addNewWorkReport(body);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR', 'USER')")
     @PostMapping(value = "/work-reports-state")
-    public ResponseEntity<List<IdEmployeeNameDateHoursComment>> getWorkReportsByState(@RequestBody(required = false) IdStateOrderPage body){
+    public ResponseEntity<ListIdEmployeeNameDateHoursCommentTotal> getWorkReportsByState(@RequestBody(required = false) IdStateOrderPage body){
         if(body != null) {
             return workReportService.getWorkReportsByState(body.getCriteria(), body.getOptions(), body.getState(), body.getOrder());
         }else

@@ -5,11 +5,9 @@ angular
     service.getEmployee = getEmployee;
     service.saveEmployee = saveEmployee;
     service.updateEmployee = updateEmployee;
-
     service.getEmployees = getEmployees;
     service.getAvailableEmployees = getAvailableEmployees;
     service.getSupervisors = getSupervisors;
-
     service.checkUsernameUniqueness = checkUsernameUniqueness;
     service.checkEmailUniqueness = checkEmailUniqueness;
 
