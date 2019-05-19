@@ -115,7 +115,10 @@ angular
 
     function generateRequest() {
       const reportRequest = angular.copy(rdCtrl.report);
-      if (!reportRequest.endDate) {
+      if (!reportRequest.startDate) {
+        reportRequest.endDate = reportRequest.date;
+        reportRequest.startDate = reportRequest.date;
+      } else if (!reportRequest.endDate) {
         reportRequest.endDate = reportRequest.startDate;
       }
 

@@ -65,9 +65,11 @@ angular
       element.context.innerHTML =
         '<div class="fc-content"><span class="fc-title">' +
         event.title +
-        "</span></div>";
+        " (" +
+        event.hoursNumber +
+        "h)</span></div>";
 
-      element.context.innerText = event.title;
+      element.context.innerText = event.title + " (" + event.hoursNumber + "h)";
 
       element.addClass("calendar-event");
 
@@ -174,6 +176,7 @@ angular
       return reports.map(function(report) {
         return {
           workReportId: report.workReportId,
+          hoursNumber: report.hoursNumber,
           title: report.employeeName + " " + report.employeeSurname,
           start: new Date(report.date),
           end: new Date(report.date),

@@ -32,9 +32,11 @@ angular
     }
 
     function updateReport(request) {
-      return $http.put("/api/work-reports", request).then(function(response) {
-        return response.data;
-      });
+      return $http
+        .put("/api/work-reports-new", request)
+        .then(function(response) {
+          return response.data;
+        });
     }
 
     function getReportsByState(request) {
