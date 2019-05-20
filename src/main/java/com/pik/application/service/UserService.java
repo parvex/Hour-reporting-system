@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -210,7 +211,8 @@ public class UserService {
         user.setSurname(body.getSurname());
         user.setUsername(body.getUsername());
         user.setEmail(body.getEmail());
-        user.setPassword(body.getPassword());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(passwordEncoder.encode(body.getPassword()));
 
         Set<Project> newProjects = new HashSet<>();
         for (LongString project : body.getProjects()) {
