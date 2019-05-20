@@ -73,6 +73,9 @@
       .state("employee", {
         parent: "nav",
         url: "/employees/{employeeId}",
+        data: {
+          roles: ["ADMIN" , "SUPERVISOR"]
+        },
         views: {
           "content@": {
             component: "employeeDetails"
@@ -82,6 +85,9 @@
       .state("projects", {
         parent: "nav",
         url: "/projects",
+        data: {
+          roles: ["ADMIN" , "SUPERVISOR"]
+        },
         views: {
           "content@": {
             component: "projectsList"
@@ -91,6 +97,9 @@
       .state("project", {
         parent: "nav",
         url: "/projects/{projectId}",
+        data: {
+          roles: ["ADMIN" , "SUPERVISOR"]
+        },
         views: {
           "content@": {
             component: "projectDetails"
@@ -100,6 +109,9 @@
       .state("project-employees", {
         parent: "nav",
         url: "/project-employees/{projectId}",
+        data: {
+          roles: ["ADMIN" , "SUPERVISOR"]
+        },
         views: {
           "content@": {
             component: "projectEmployees"

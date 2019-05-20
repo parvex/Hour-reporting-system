@@ -20,17 +20,19 @@
       uib-collapse="!isNavCollapsed"
     >
       <ul class="nav navbar-nav">
-        <li ng-show="AuthService.hasRole('ADMIN')">
+        <li ng-show="AuthService.hasRole('ADMIN') || AuthService.hasRole('SUPERVISOR')">
           <a ui-sref="employees">Employees</a>
         </li>
-        <li ng-show="AuthService.hasRole('SUPERVISOR')"><a ui-sref="projects">Projects</a></li>
+        <li ng-show="AuthService.hasRole('ADMIN') || AuthService.hasRole('SUPERVISOR')">
+          <a ui-sref="projects">Projects</a>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li ng-show="user.username">
           <a>
             <span class="user">Hi, {{ user.name }}</span>
-            <span ng-click="logout()" href="" class="logout">Logout</span></a
-          >
+            <span ng-click="logout()" href="" class="logout">Logout</span>
+          </a>
         </li>
       </ul>
     </div>
