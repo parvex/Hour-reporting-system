@@ -17,8 +17,17 @@
           return transition.router.stateService.target("login");
         }
       } else {
-        if (transition.to().data && transition.to().data.role && !AuthService.hasRole(transition.to().data.role) ) {
-            return transition.router.stateService.target('access-denied');
+        if (transition.to().data && transition.to().data.roles) {
+          let hasAuthority = false;
+          let roles = transition.to().data.roles;
+          for(let i = 0; i < roles.length; ++i) {
+            if(AuthService.hasRole(roles[i])){
+              hasAuthority = true;
+            }
+          }
+            if(!hasAuthority){
+              return transition.router.stateService.target('access-denied');
+            }
         }
       }
     });
