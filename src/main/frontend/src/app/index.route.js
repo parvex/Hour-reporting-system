@@ -29,29 +29,6 @@
           }
         }
       })
-      .state("users", {
-        parent: "nav",
-        url: "/users",
-        data: {
-          role: "ADMIN"
-        },
-        views: {
-          "content@": {
-            templateUrl: "app/users/users.html",
-            controller: "UsersController"
-          }
-        }
-      })
-      .state("home", {
-        parent: "nav",
-        url: "/",
-        views: {
-          "content@": {
-            templateUrl: "app/home/home.html",
-            controller: "HomeController"
-          }
-        }
-      })
       .state("page-not-found", {
         parent: "nav",
         url: "/page-not-found",
@@ -72,16 +49,6 @@
           }
         }
       })
-      .state("register", {
-        parent: "nav",
-        url: "/register",
-        views: {
-          "content@": {
-            templateUrl: "app/register/register.html",
-            controller: "RegisterController"
-          }
-        }
-      })
       .state("calendar", {
         parent: "nav",
         url: "/calendar",
@@ -95,7 +62,7 @@
         parent: "nav",
         url: "/employees",
         data: {
-          role: "ADMIN"
+          roles: ["ADMIN" , "SUPERVISOR"]
         },
         views: {
           "content@": {
