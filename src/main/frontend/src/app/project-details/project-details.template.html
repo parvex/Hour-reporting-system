@@ -26,15 +26,21 @@
           required
           ng-minlength="2"
           ng-maxlength="32"
-          ng-disabled="pdCtrl.projectId"
+          ng-if="!pdCtrl.projectId"
           unique-project-name
-        />
+          />
+        <p ng-if="pdCtrl.projectId">{{ pdCtrl.project.name }}</p>
         <span
           class="help-block"
-          ng-show="projectForm.name.$invalid && (projectForm.name.$touched || projectForm.$submitted)"
+          ng-show="projectForm.name.$error.minlength && (projectForm.name.$touched || projectForm.$submitted)"
           >Project name invalid! Needs to have between 2 and 32
-          characters and be unique.</span
-        >
+          characters.
+        </span>
+        <span
+          class="help-block"
+          ng-if="projectForm.name.$error.uniqueProjectName && (projectForm.name.$touched || projectForm.$submitted)"
+        >Project name needs to be unique.
+        </span>
       </div>
       <div class="form-group"
         ng-class="{'has-error': projectForm.description.$invalid && (projectForm.description.$touched || projectForm.$submitted)}"
