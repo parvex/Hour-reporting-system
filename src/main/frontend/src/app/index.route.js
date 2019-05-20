@@ -94,6 +94,9 @@
       .state("employees", {
         parent: "nav",
         url: "/employees",
+        data: {
+          role: "ADMIN"
+        },
         views: {
           "content@": {
             component: "employeesList"

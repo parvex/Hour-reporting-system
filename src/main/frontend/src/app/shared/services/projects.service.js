@@ -44,7 +44,7 @@ angular
     }
 
     function updateProjectWithEmployees(request) {
-      return $http.put("/api/project-employees", {}).then(function(response) {
+      return $http.put("/api/project-employees", request).then(function(response) {
         return response.data;
       });
     }

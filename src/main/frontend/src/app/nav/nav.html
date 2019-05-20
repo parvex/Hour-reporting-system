@@ -23,7 +23,7 @@
         <li ng-show="AuthService.hasRole('ADMIN')">
           <a ui-sref="employees">Employees</a>
         </li>
-        <li ng-show="user.username"><a ui-sref="projects">Projects</a></li>
+        <li ng-show="AuthService.hasRole('SUPERVISOR')"><a ui-sref="projects">Projects</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li ng-show="user.username">

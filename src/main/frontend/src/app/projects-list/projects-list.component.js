@@ -76,7 +76,8 @@ angular
         }
       });
       modalInstance.result.then(function() {
-      },function() {
+        reloadProjectsTable();
+        },function() {
         reloadProjectsTable();
       });
     }
