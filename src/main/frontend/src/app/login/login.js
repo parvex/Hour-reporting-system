@@ -20,18 +20,16 @@ angular
           $scope.password = null;
           if (res.data.token) {
             $scope.message = "";
-            $http.defaults.headers.common["Authorization"] =
-              "Bearer " + res.data.token;
 
-            AuthService.setUser(res.data.user);
+            AuthService.setUser(res.data);
             $rootScope.$broadcast("LoginSuccessful");
-            $state.go("home");
+            $state.go("calendar");
           } else {
-            $scope.message = "Authetication Failed !";
+            $scope.message = "Authetication Failed!";
           }
         },
         function(error) {
-          $scope.message = "Authetication Failed !";
+          $scope.message = "Authetication Failed!";
         }
       );
     };

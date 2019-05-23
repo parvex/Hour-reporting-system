@@ -1,3 +1,11 @@
-<ul>
-  <li ng-repeat="item in list">{{ item.value }}</li>
-</ul>
+<div>
+  <div ng-repeat="item in list">
+    <button
+      type="button"
+      class="btn btn-link"
+      ng-click="onItemClick({item: item})"
+    >
+      {{ item.name }}
+    </button>
+  </div>
+</div>

@@ -1,75 +1,134 @@
 package com.pik.application.restController;
 
 import com.pik.application.domain.User;
-import com.pik.application.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pik.application.dto.EmployeeData.EmailNameSurProjectsPage;
+import com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles;
+import com.pik.application.dto.EmployeeData.ListIdNameSurEmailSupervisor_NameTotal;
+import com.pik.application.dto.EmployeeData.ListIdNameSurUserEmailTotal;
+import com.pik.application.dto.LongString;
+import com.pik.application.dto.PhraseList;
+import com.pik.application.dto.IdBoolOrderPage;
+import com.pik.application.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 
 @RestController
 @RequestMapping("/api")
 public class UserRestController {
-	@Autowired
-	private UserRepository userRepository;
+
+	private final UserService userService;
+
+	public UserRestController(UserService userService) {
+		this.userService = userService;
+	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
-	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+	@GetMapping(value = "/users")
+	public List<User> users() {
+		return userService.findAll();
+	}
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@GetMapping(value = "/users/{id}")
 	public ResponseEntity<User> userById(@PathVariable Long id) {
-		Optional<User> user = userRepository.findById(id);
-		if (user.isEmpty()) {
-			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-		} else {
-			return new ResponseEntity<User>(user.get(), HttpStatus.OK);
-		}
+		return userService.userById(id);
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
-	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<User> deleteUser(@PathVariable Long id) {
-		Optional<User> user = userRepository.findById(id);
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String loggedUsername = auth.getName();
-		if (user.isEmpty()) {
-			return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-		} else if (user.get().getUsername().equalsIgnoreCase(loggedUsername)) {
-			throw new RuntimeException("You cannot delete your account");
-		} else {
-			userRepository.delete(user.get());
-			return new ResponseEntity<User>(user.get(), HttpStatus.OK);
-		}
-
-	}
-
-	@PreAuthorize("hasAuthority('ADMIN')")
-	@RequestMapping(value = "/users", method = RequestMethod.POST)
+	@PostMapping(value = "/users")
 	public ResponseEntity<User> createUser(@RequestBody User user) {
-
-		if (userRepository.findOneByUsername(user.getUsername()) != null) {
-			throw new RuntimeException("Username already exist");
-		}
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		return new ResponseEntity<User>(userRepository.save(user), HttpStatus.CREATED);
+		return userService.createUser(user);
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
-	@RequestMapping(value = "/users", method = RequestMethod.PUT)
-	public User updateUser(@RequestBody User user) {
-		if (userRepository.findOneByUsername(user.getUsername()) != null
-				&& userRepository.findOneByUsername(user.getUsername()).getId() != user.getId()) {
-			throw new RuntimeException("Username already exist");
-		}
-		return userRepository.save(user);
+	@DeleteMapping(value = "/users/{id}")
+	public ResponseEntity<User> deleteUser(@PathVariable Long id) {
+		return userService.deleteUser(id);
+	}
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@PutMapping(value = "/users")
+	public User updateEmployee(@RequestBody User user) {
+		return userService.updateUser(user);
+	}
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@GetMapping(value="/supervisors")
+	public List<User> getSupervisors(){
+		return userService.findByRoles("Supervisor");
+	}
+
+//	@PreAuthorize("hasAuthority('ADMIN')")
+	@GetMapping(value="/findsupervisors")
+	public List<LongString> getSupervisors(String phrase){
+		return userService.findSupervisorsByPhrase(phrase);
+	}
+
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+	@PostMapping(value = "/available-employees")
+	public ResponseEntity<List<LongString>> getAvailableEmployees(@RequestBody(required = false) PhraseList body){
+
+		if(body != null)
+			return userService.getAvailableEmployees(body.getPhrase(), body.getChosenIds(), body.getPage());
+		else
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+	@PostMapping(value = "/employees-list")
+	public ResponseEntity<ListIdNameSurEmailSupervisor_NameTotal> getEmployeesPage(@RequestBody(required = false) EmailNameSurProjectsPage body){
+
+		if(body != null)
+			return userService.getEmployeesPage(body.getEmailNameSurProjects(), body.getPageOptions());
+		else
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+	@GetMapping(value = "/employees/{id}")
+	public ResponseEntity<IdUserNameSurEmailProjectsSupervisorRoles> getEmployeeByID(@PathVariable Long id){
+		return userService.getEmployeeById(id);
+	}
+
+	@PreAuthorize("hasAnyAuthority('ADMIN')")
+	@GetMapping(value = "/employees")
+	public ResponseEntity<List<IdUserNameSurEmailProjectsSupervisorRoles>> getAllEmployees(){
+		return userService.findAllEmployees();
+	}
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@PutMapping(value = "/employees")
+	public ResponseEntity<IdUserNameSurEmailProjectsSupervisorRoles> updateEmployee(@RequestBody IdUserNameSurEmailProjectsSupervisorRoles body) {
+		return userService.addNewEmployee(body);
+	}
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@PostMapping(value = "/employees")
+	public ResponseEntity<IdUserNameSurEmailProjectsSupervisorRoles> newEmployee(@RequestBody IdUserNameSurEmailProjectsSupervisorRoles body) {
+		return userService.addNewEmployee(body);
+	}
+
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+	@GetMapping(value = "/unique-username")
+	public ResponseEntity getEmployeeUsername(@RequestParam String username){
+		return userService.checkIfUsernameUnique(username);
+	}
+
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+	@GetMapping(value = "/unique-email")
+	public ResponseEntity getEmployeeEmail(@RequestParam String email){
+		return userService.checkIfEmailUnique(email);
+	}
+
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
+	@PostMapping(value = "/employees-assigned")
+	public ResponseEntity<ListIdNameSurUserEmailTotal> getEmployeesAssigned(@RequestBody IdBoolOrderPage body) {
+		if(body != null) {
+			return userService.findEmployeesAssigned(body.getCriteria(), body.getOptions(), body.getOrder());
+		}else
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

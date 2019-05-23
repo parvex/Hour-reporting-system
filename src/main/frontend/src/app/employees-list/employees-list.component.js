@@ -8,84 +8,107 @@ angular
   .controller("EmployeesListCtrl", function(
     EmployeesService,
     NgTableParams,
-    ProjectsService
+    ProjectsService,
+    $uibModal
   ) {
     const elCtrl = this;
+    elCtrl.filterCriteria = {};
     elCtrl.search = search;
     elCtrl.openEmployeeModal = openEmployeeModal;
-
-    elCtrl.provideManagers = provideManagers;
+    elCtrl.provideEmployees = provideEmployees;
     elCtrl.provideProjects = provideProjects;
+    elCtrl.showProjectDetails = showProjectDetails;
 
     elCtrl.employeesTable = new NgTableParams(
       {},
       {
         getData: function(params) {
-          const request = generateLoadEmploeesRequest(params);
+          const request = generateLoadEmployeesRequest(params);
 
-          return EmployeesService.getEmployees(request).then(function(
-            response
-          ) {
-            const employeesList = response.list;
-
-            params.total(employeesList.length);
-            return employeesList;
+          return EmployeesService.getEmployees(request)
+            .then(function(response) {
+              const employeesList = response.list;
+              params.total(response.totalCount);
+              return employeesList;
           });
         }
       }
     );
 
-    function generateLoadEmploeesRequest(params) {
-      const criteria = {};
-
-      let projects = [];
-      if (angular.isArray(elCtrl.projectsFilter)) {
-        projects = elCtrl.projectsFilter.map(function(project) {
-          return { id: project.id };
-        });
-      }
-
-      if (projects.length > 0) {
-        criteria.projects = projects;
-      }
-
-      if (elCtrl.employeesNameFilter) {
-        criteria.name = elCtrl.employeesNameFilter;
-      }
-
-      if (elCtrl.employeesSurnameFilter) {
-        criteria.surname = elCtrl.employeesSurnameFilter;
-      }
-
-      if (elCtrl.employeesEmailFilter) {
-        criteria.email = elCtrl.employeesEmailFilter;
-      }
-
-      if (elCtrl.employeesManagerIdFilter) {
-        criteria.manager = elCtrl.employeesManagerIdFilter;
-      }
+    function generateLoadEmployeesRequest(params) {
+      const criteria = angular.copy(elCtrl.filterCriteria);
+      criteria.projects = getIdsArray(criteria.projects);
 
       return {
-        page: params.page() - 1,
-        count: params.count(),
-        criteria: criteria
+        criteria: criteria,
+        options: {
+          page: params.page() - 1,
+          count: params.count()
+        }
       };
     }
 
-    function search() {
+    function getIdsArray(array) {
+      if (!angular.isArray(array) || array.length < 1) return [];
+      else {
+        return array.map(function(el) {
+          return el.id;
+        });
+      }
+    }
+
+    function reloadEmployeesTable() {
+      elCtrl.employeesTable.page(1);
       elCtrl.employeesTable.reload();
     }
 
-    function openEmployeeModal(employeeId) {
-      //TODO: open modal
-      //TODO: pass employeeId to modal
+    function search() {
+      reloadEmployeesTable();
     }
 
-    function provideManagers(request) {
-      return EmployeesService.getManagers(request);
+    function openEmployeeModal(employeeId) {
+      const modalInstance = $uibModal.open({
+        templateUrl: "app/employee-details/employee-details.template.html",
+        controller: "EmployeeDetailsCtrl",
+        controllerAs: "edCtrl",
+        resolve: {
+          employeeId: function() {
+            return employeeId;
+          }
+        }
+      });
+
+      modalInstance.result.then(function() {
+        reloadEmployeesTable();
+      });
+    }
+
+    function provideEmployees(request) {
+      return EmployeesService.getEmployees(request);
     }
 
     function provideProjects(request) {
       return ProjectsService.getProjects(request);
+    }
+
+    function openProjectModal(projectId) {
+      const modalInstance = $uibModal.open({
+        templateUrl: "app/project-details/project-details.template.html",
+        controller: "ProjectDetailsCtrl",
+        controllerAs: "pdCtrl",
+        resolve: {
+          projectId: function() {
+            return projectId;
+          }
+        }
+      });
+
+      modalInstance.result.then(function() {
+        reloadEmployeesTable();
+      });
+    }
+
+    function showProjectDetails(project) {
+      openProjectModal(project.id);
     }
   });

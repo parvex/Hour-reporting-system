@@ -29,16 +29,6 @@
           }
         }
       })
-      .state("home", {
-        parent: "nav",
-        url: "/",
-        views: {
-          "content@": {
-            templateUrl: "app/home/home.html",
-            controller: "HomeController"
-          }
-        }
-      })
       .state("page-not-found", {
         parent: "nav",
         url: "/page-not-found",
@@ -59,16 +49,12 @@
           }
         }
       })
-      .state("register", {
+      .state("calendar", {
         parent: "nav",
-        url: "/register",
-        data : {
-          role : 'ADMIN'
-        },
+        url: "/calendar",
         views: {
           "content@": {
-            templateUrl: "app/register/register.html",
-            controller: "RegisterController"
+            component: "logCalendar"
           }
         }
       })
@@ -85,6 +71,9 @@
       .state("employees", {
         parent: "nav",
         url: "/employees",
+        data: {
+          roles: ["ADMIN" , "SUPERVISOR"]
+        },
         views: {
           "content@": {
             component: "employeesList"
@@ -94,20 +83,50 @@
       .state("employee", {
         parent: "nav",
         url: "/employees/{employeeId}",
+        data: {
+          roles: ["ADMIN" , "SUPERVISOR"]
+        },
         views: {
           "content@": {
             component: "employeeDetails"
           }
         }
       })
-      .state("calendar", {
+      .state("projects", {
         parent: "nav",
-        url: "/calendar",
+        url: "/projects",
+        data: {
+          roles: ["ADMIN" , "SUPERVISOR"]
+        },
         views: {
           "content@": {
-            component: "logCalendar"
+            component: "projectsList"
           }
         }
       })
+      .state("project", {
+        parent: "nav",
+        url: "/projects/{projectId}",
+        data: {
+          roles: ["ADMIN" , "SUPERVISOR"]
+        },
+        views: {
+          "content@": {
+            component: "projectDetails"
+          }
+        }
+      })
+      .state("project-employees", {
+        parent: "nav",
+        url: "/project-employees/{projectId}",
+        data: {
+          roles: ["ADMIN" , "SUPERVISOR"]
+        },
+        views: {
+          "content@": {
+            component: "projectEmployees"
+          }
+        }
+      });
   }
 })();

@@ -1,1 +1,231 @@
-<h3>Employee details</h3>
+<section>
+  <div class="modal-header">
+    <h3 class="modal-title" ng-if="!edCtrl.employeeId">
+      <small><i class="glyphicon glyphicon-user"></i></small
+      ><span> New employee</span>
+    </h3>
+    <h3 class="modal-title" ng-if="edCtrl.employeeId">
+      <small><i class="glyphicon glyphicon-user"></i></small
+      ><span>
+        Employee <strong>{{ edCtrl.employee.username }}</strong> edition
+      </span>
+    </h3>
+  </div>
+  <div class="modal-body">
+    <form name="employeeForm">
+      <div
+        class="form-group"
+        ng-class="{'has-error': employeeForm.username.$invalid && (employeeForm.username.$touched || employeeForm.$submitted)}"
+      >
+        <label for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          class="form-control"
+          name="username"
+          placeholder="username"
+          ng-model="edCtrl.employee.username"
+          required
+          ng-minlength="2"
+          ng-maxlength="32"
+          ng-if="!edCtrl.employeeId"
+          unique-username
+        />
+        <p ng-if="edCtrl.employeeId">{{ edCtrl.employee.username }}</p>
+        <span
+          class="help-block"
+          ng-if="employeeForm.username.$error.minlength && (employeeForm.username.$touched || employeeForm.$submitted)"
+          >Username is required and needs to have between 2 and 32
+          characters.</span
+        >
+        <span
+          class="help-block"
+          ng-if="employeeForm.username.$error.uniqueUsername && (employeeForm.username.$touched || employeeForm.$submitted)"
+          >Username needs to be unique.</span
+        >
+      </div>
+      <div
+        class="form-group"
+        ng-class="{'has-error': employeeForm.name.$invalid && (employeeForm.name.$touched || employeeForm.$submitted)}"
+      >
+        <label for="name">Name</label>
+        <input
+          id="name"
+          type="text"
+          class="form-control"
+          name="name"
+          placeholder="name"
+          ng-model="edCtrl.employee.name"
+          required
+          ng-minlength="2"
+          ng-maxlength="32"
+        />
+        <span
+          class="help-block"
+          ng-if="employeeForm.name.$invalid && (employeeForm.name.$touched || employeeForm.$submitted)"
+          >Name is required and needs to have between 2 and 32 characters.</span
+        >
+      </div>
+      <div
+        class="form-group"
+        ng-class="{'has-error': employeeForm.surname.$invalid && (employeeForm.surname.$touched || employeeForm.$submitted)}"
+      >
+        <label for="surname">Surname</label>
+        <input
+          id="surname"
+          type="text"
+          class="form-control"
+          name="surname"
+          placeholder="surname"
+          ng-model="edCtrl.employee.surname"
+          required
+          ng-minlength="2"
+          ng-maxlength="32"
+        />
+        <span
+          class="help-block"
+          ng-if="employeeForm.surname.$invalid && (employeeForm.surname.$touched || employeeForm.$submitted)"
+          >Surname is required and needs to have between 2 and 32
+          characters.</span
+        >
+      </div>
+      <div
+        class="form-group"
+        ng-class="{'has-error': employeeForm.email.$invalid && (employeeForm.email.$touched || employeeForm.$submitted)}"
+      >
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          class="form-control"
+          name="email"
+          placeholder="email"
+          ng-model="edCtrl.employee.email"
+          required
+          ng-if="!edCtrl.employeeId"
+          unique-email
+        />
+        <p ng-if="edCtrl.employeeId">{{ edCtrl.employee.email }}</p>
+        <span
+          class="help-block"
+          ng-if="employeeForm.email.$error.email && (employeeForm.email.$touched || employeeForm.$submitted)"
+          >Email is required and needs to be a valid email address.</span
+        >
+        <span
+          class="help-block"
+          ng-if="employeeForm.email.$error.uniqueEmail && (employeeForm.email.$touched || employeeForm.$submitted)"
+          >Email needs to be unique.</span
+        >
+      </div>
+      <div class="panel panel-default" ng-if="!edCtrl.employeeId">
+        <div class="panel-body">
+          <div
+            class="form-group"
+            ng-class="{'has-error': employeeForm.password.$invalid && (employeeForm.password.$touched || employeeForm.$submitted)}"
+          >
+            <label for="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              class="form-control"
+              name="password"
+              placeholder="password"
+              ng-model="edCtrl.employee.password"
+              required
+              ng-minlength="8"
+              ng-maxlength="64"
+            />
+            <span
+              class="help-block"
+              ng-if="employeeForm.password.$invalid && (employeeForm.password.$touched || employeeForm.$submitted)"
+              >Password is required and needs to have between 8 and 64
+              characters.</span
+            >
+          </div>
+          <div
+            class="form-group"
+            ng-class="{'has-error': ((employeeForm.password.$touched && employeeForm.confirmPassword.$touched) || employeeForm.$submitted) && edCtrl.employee.password != edCtrl.confirmPassword}"
+          >
+            <label for="confirmPassword">Confirm password</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              class="form-control"
+              name="confirmPassword"
+              placeholder="confirm password"
+              ng-model="edCtrl.confirmPassword"
+              required
+            />
+            <span
+              class="help-block"
+              ng-if="((employeeForm.password.$touched && employeeForm.confirmPassword.$touched) || employeeForm.$submitted) && edCtrl.employee.password != edCtrl.confirmPassword"
+              >Passwords needs to be the same.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Projects</label>
+        <multi-item-select
+          model="edCtrl.employee.projects"
+          placeholder="projects"
+          provider="edCtrl.provideProjects(request)"
+          name="projects"
+        >
+        </multi-item-select>
+      </div>
+      <div
+        class="form-group"
+        ng-class="{'has-error': employeeForm.supervisor.$invalid && (employeeForm.supervisor.$touched || employeeForm.$submitted)}"
+      >
+        <label>Supervisor</label>
+        <item-select
+          model="edCtrl.employee.supervisorFullname"
+          model-id="edCtrl.employee.supervisorId"
+          placeholder="supervisor"
+          provider="edCtrl.provideSupervisors(request)"
+          name="supervisor"
+          required="true"
+        >
+        </item-select>
+        <span
+          class="help-block"
+          ng-if="employeeForm.supervisor.$invalid && (employeeForm.supervisor.$touched || employeeForm.$submitted)"
+          >Supervisor is required.</span
+        >
+      </div>
+      <div
+        class="form-group"
+        ng-class="{'has-error': edCtrl.employee.roles.length == 0  && (employeeForm.roles.$touched || employeeForm.$submitted)}"
+      >
+        <label>Roles</label>
+        <multi-item-select
+          model="edCtrl.employee.roles"
+          placeholder="roles"
+          provider="edCtrl.provideRoles(request)"
+          name="roles"
+          disabled="edCtrl.employeeId"
+        >
+        </multi-item-select>
+        <span
+          class="help-block"
+          ng-if="edCtrl.employee.roles.length == 0  && (employeeForm.roles.$touched || employeeForm.$submitted)"
+          >At least one role is required.</span
+        >
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      class="btn btn-primary"
+      type="button"
+      ng-click="edCtrl.save(employeeForm)"
+      ng-disabled="employeeForm.$submitted && (employeeForm.$invalid || edCtrl.employee.roles.length == 0)"
+    >
+      Save
+    </button>
+    <button class="btn btn-warning" type="button" ng-click="edCtrl.cancel()">
+      Cancel
+    </button>
+  </div>
+</section>

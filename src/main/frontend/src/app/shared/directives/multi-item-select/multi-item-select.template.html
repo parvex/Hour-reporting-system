@@ -5,9 +5,10 @@
   >
     <span>{{ item.name }} </span>
     <i
-      class="glyphicon glyphicon-remove"
+      class="glyphicon glyphicon-trash"
       ng-click="deleteItem($index, $model)"
       uib-tooltip="Delete item"
+      ng-show="!disabled"
     ></i>
   </div>
   <ui-select
@@ -16,6 +17,7 @@
     ng-disabled="disabled"
     on-select="onSelected($item, $model)"
     class="multi-item-select"
+    name="{{ name }}"
   >
     <ui-select-match placeholder="{{ placeholder }}">
       {{ $select.selected.name }}</ui-select-match

@@ -1,0 +1,108 @@
+<section>
+  <div class="modal-header">
+    <h3 class="modal-title" ng-show="!pdCtrl.projectId">
+      <small><i class="glyphicon glyphicon-blackboard"></i></small
+      ><span> New project</span>
+    </h3>
+    <h3 class="modal-title" ng-show="pdCtrl.projectId">
+      <small><i class="glyphicon glyphicon-blackboard"></i></small
+      ><span> Project edition</span>
+    </h3>
+  </div>
+  <div class="modal-body">
+    <form name="projectForm">
+      <div
+        class="form-group"
+        ng-class="{'has-error': projectForm.name.$invalid && (projectForm.name.$touched || projectForm.$submitted)}"
+      >
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          id="name"
+          placeholder="name"
+          ng-model="pdCtrl.project.name"
+          required
+          ng-minlength="2"
+          ng-maxlength="32"
+          ng-if="!pdCtrl.projectId"
+          unique-project-name
+          />
+        <p ng-if="pdCtrl.projectId">{{ pdCtrl.project.name }}</p>
+        <span
+          class="help-block"
+          ng-show="projectForm.name.$error.minlength && (projectForm.name.$touched || projectForm.$submitted)"
+          >Project name invalid! Needs to have between 2 and 32
+          characters.
+        </span>
+        <span
+          class="help-block"
+          ng-if="projectForm.name.$error.uniqueProjectName && (projectForm.name.$touched || projectForm.$submitted)"
+        >Project name needs to be unique.
+        </span>
+      </div>
+      <div class="form-group"
+        ng-class="{'has-error': projectForm.description.$invalid && (projectForm.description.$touched || projectForm.$submitted)}"
+      >
+        <label for="description">Description</label>
+        <textarea
+          class="form-control"
+          name="description"
+          id="description"
+          placeholder="description"
+          ng-model="pdCtrl.project.description"
+          required
+          ng-minlength="5"
+          rows="3"
+        >
+        </textarea>
+        <span
+          class="help-block"
+          ng-show="projectForm.description.$invalid && (projectForm.description.$touched || projectForm.$submitted)"
+          >Project description invalid! Needs to have at least 5
+          characters.</span
+        >
+      </div>
+      <div ng-show="pdCtrl.projectId" class="margin-bottom margin-top">
+        <label for="keepEmployees">Keep assigned employees:
+          <input type="checkbox"
+                 ng-model = "pdCtrl.project.keepEmployees"
+                 id="keepEmployees"
+          >
+        </label>
+      </div>
+      <div
+        class="form-group"
+        ng-class="{'has-error': !pdCtrl.project.keepEmployees && pdCtrl.employees.length == 0 && (projectForm.assignedEmployees.$touched || projectForm.$submitted)}"
+      >
+        <label>Assign employees</label>
+        <multi-employees-select
+          model="pdCtrl.employees"
+          placeholder="employees"
+          provider="pdCtrl.provideEmployees(request)"
+          name="assignedEmployees"
+        >
+        </multi-employees-select>
+        <span class="help-block"
+          ng-show="!pdCtrl.project.keepEmployees && pdCtrl.employees.length == 0 && (projectForm.assignedEmployees.$touched || projectForm.$submitted)"
+        >
+          At least one employee needs to be assigned.
+        </span>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      class="btn btn-primary"
+      type="button"
+      ng-click="pdCtrl.save(projectForm)"
+      ng-disabled="(projectForm.$invalid || (!pdCtrl.project.keepEmployees && pdCtrl.employees.length == 0)) && projectForm.$submitted"
+    >
+      Save
+    </button>
+    <button class="btn btn-warning" type="button" ng-click="pdCtrl.cancel()">
+      Cancel
+    </button>
+  </div>
+</section>

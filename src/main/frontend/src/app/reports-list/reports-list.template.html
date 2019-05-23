@@ -1,0 +1,98 @@
+<section>
+  <div class="modal-header">
+    <h3 class="modal-title" ng-show="rlCtrl.state">
+      <small><i class="glyphicon glyphicon-briefcase"></i></small
+      ><span> Accepted work reports</span>
+    </h3>
+    <h3 class="modal-title" ng-show="!rlCtrl.state">
+      <small><i class="glyphicon glyphicon-briefcase"></i></small
+      ><span> New work reports</span>
+    </h3>
+  </div>
+  <div class="modal-body">
+    <table
+      ng-table="rlCtrl.reportsTable"
+      class="table table-bordered table-striped"
+      template-pagination="custom/pager"
+      style="table-layout: fixed"
+    >
+      <thead>
+        <colgroup>
+          <col class="col-xs-1" />
+          <col class="col-xs-2" />
+          <col class="col-xs-2" />
+          <col class="col-xs-1" />
+          <col class="col-xs-4" />
+          <col ng-class="{'col-xs-1': rlCtrl.state, 'col-xs-2': !rlCtrl.state}"/>
+        </colgroup>
+        <th>#</th>
+        <th>Name</th>
+        <th>
+          <div class="row">
+            Date
+            <span
+              ng-click="rlCtrl.filterCriteria.sorted = 'ASC'; rlCtrl.reloadTable()"
+              uib-tooltip="Order ASC"
+            >
+              <i class="glyphicon glyphicon-triangle-bottom"></i>
+            </span>
+            <span
+              ng-click="rlCtrl.filterCriteria.sorted = 'DESC'; rlCtrl.reloadTable()"
+              uib-tooltip="Order DESC"
+            >
+              <i class="glyphicon glyphicon-triangle-top"></i>
+            </span>
+          </div>
+        </th>
+        <th>Hours</th>
+        <th>Comment</th>
+        <th>Action</th>
+      </thead>
+      <tbody ng-show="$data.length == 0">
+        <tr>
+          <td colspan="6">No data available.</td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr
+          ng-repeat="report in $data"
+          class="text-center"
+          style="word-wrap: break-word"
+        >
+          <td>
+            {{ (params.page() - 1) * params.count() + $index + 1 }}
+          </td>
+          <td>{{ report.employeeName }}</td>
+          <td>{{ report.date | date: "dd/MM/y H:mm:ss" }}</td>
+          <td>{{ report.hours }}</td>
+          <td class="text-left">{{ report.comment }}</td>
+          <td ng-show="!rlCtrl.state">
+            <span
+              ng-click="rlCtrl.setReportAccepted(report.id)"
+              uib-tooltip="Accept report"
+              style="color: springgreen; font-size: 25px"
+            >
+              <i class="glyphicon glyphicon-ok"></i>
+            </span>
+            <span
+             ng-click="rlCtrl.removeReport(report.id)"
+             uib-tooltip="Reject report(removed)"
+             style="color: red; font-size: 25px"
+            >
+              <i class="glyphicon glyphicon-remove"></i>
+            </span>
+          </td>
+          <td ng-show="rlCtrl.state">
+            <span
+              ng-click="rlCtrl.removeReport(report.id)"
+              uib-tooltip="Remove report"
+              style="color: red; font-size: 25px"
+            >
+              <i class="glyphicon glyphicon-remove"></i>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

@@ -2,8 +2,9 @@ angular.module("hourReportingSystem").directive("tdUl", function() {
   return {
     restrict: "A",
     scope: {
-      list: "="
+      list: "=",
+      onItemClick: "&"
     },
-    templateUrl: "shared/directives/td-ul/td-ul.template.html"
+    templateUrl: "app/shared/directives/td-ul/td-ul.template.html"
   };
 });

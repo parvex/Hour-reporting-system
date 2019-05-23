@@ -1,6 +1,7 @@
 package com.pik.application.config;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,12 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A generic filter for security. I will check token present in the header.
- * 
- * @author Sarath Muraleedharan
- *
- */
+
 public class JWTFilter extends GenericFilterBean {
 	private static final String AUTHORIZATION_HEADER = "Authorization";
 	private static final String AUTHORITIES_KEY = "roles";
@@ -46,8 +42,11 @@ public class JWTFilter extends GenericFilterBean {
 				filterChain.doFilter(req, res);
 			} catch (SignatureException e) {
 				((HttpServletResponse) res).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
-			}
-
+			} catch (ExpiredJwtException e){
+				final String expiredMsg = e.getMessage();
+				logger.warn(expiredMsg);
+				final String msg = (expiredMsg != null) ? expiredMsg : "Token expired";
+				((HttpServletResponse) res).sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);			}
 		}
 	}
 

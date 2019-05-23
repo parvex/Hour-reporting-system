@@ -7,17 +7,17 @@
             type="text"
             class="form-control"
             uib-datepicker-popup
-            ng-model="lcCtrl.fliterCriteria.dateFrom"
-            is-open="lcCtrl.dateFromPickerOpened"
-            datepicker-options="lcCtrl.dateOptions"
+            ng-model="lcCtrl.fliterCriteria.startDate"
+            is-open="lcCtrl.startDatePickerOpened"
+            datepicker-options="lcCtrl.startDateOptions"
             close-text="Close"
-            placeholder="date from"
+            placeholder="start date"
           />
           <span class="input-group-btn">
             <button
               type="button"
               class="btn btn-default"
-              ng-click="lcCtrl.openDateFromPickerModal()"
+              ng-click="lcCtrl.openStartDatePickerModal()"
             >
               <i class="glyphicon glyphicon-calendar"></i>
             </button>
@@ -30,17 +30,17 @@
             type="text"
             class="form-control"
             uib-datepicker-popup
-            ng-model="lcCtrl.fliterCriteria.dateTo"
-            is-open="lcCtrl.dateToPickerOpened"
-            datepicker-options="lcCtrl.dateOptions"
+            ng-model="lcCtrl.fliterCriteria.endDate"
+            is-open="lcCtrl.endDatePickerOpened"
+            datepicker-options="lcCtrl.endDateOptions"
             close-text="Close"
-            placeholder="date to"
+            placeholder="end date"
           />
           <span class="input-group-btn">
             <button
               type="button"
               class="btn btn-default"
-              ng-click="lcCtrl.openDateToPickerModal()"
+              ng-click="lcCtrl.openEndDatePickerModal()"
             >
               <i class="glyphicon glyphicon-calendar"></i>
             </button>
@@ -105,23 +105,52 @@
         </div>
       </div>
       <div
-        ui-calendar="uiConfig.calendar"
+        ui-calendar="lcCtrl.uiConfig.calendar"
         class="span8 calendar report-calendar"
-        ng-model="eventSources"
+        ng-model="lcCtrl.reportsEvents"
         ng-show="!lcCtrl.listViewActive"
       ></div>
       <div ng-show="lcCtrl.listViewActive">
-        <section>
+        <div
+          ng-repeat="report in lcCtrl.reportsList | limitTo : lcCtrl.listViewItemsPerPage : ((lcCtrl.listViewPage - 1) * lcCtrl.listViewItemsPerPage)"
+          class="panel panel-default margin-top report-list-item"
+        >
           <div
-            ng-repeat="report in lcCtrl.reportsList | limitTo : lcCtrl.listViewItemsPerPage : ((lcCtrl.listViewPage - 1) * lcCtrl.listViewItemsPerPage)"
-          ></div>
-          <div
-            ng-show="!lcCtrl.reportsList || lcCtrl.reportsList.length == 0"
-            class="alert alert-info margin-top"
+            class="panel-body"
+            ng-click="lcCtrl.openReportModal(report.workReportId)"
           >
-            No reports available.
+            <div class="col-sm-3 margin-top margin-bottom text-center">
+              <small><i class="glyphicon glyphicon-user"></i></small>
+              <span>
+                {{ report.employeeName + " " + report.employeeSurname }}
+              </span>
+            </div>
+            <div class="col-sm-3 margin-top margin-bottom text-center">
+              <small><i class="glyphicon glyphicon-time"></i></small>
+              <span>
+                {{ report.hoursNumber + " h" }}
+              </span>
+            </div>
+            <div class="col-sm-3 margin-top margin-bottom text-center">
+              <small><i class="glyphicon glyphicon-calendar"></i></small>
+              <span>
+                {{ report.date | date }}
+              </span>
+            </div>
+            <div class="col-sm-3 margin-top margin-bottom text-center">
+              <small><i class="glyphicon glyphicon-blackboard"></i></small>
+              <span>
+                {{ report.projectName }}
+              </span>
+            </div>
           </div>
-        </section>
+        </div>
+        <div
+          ng-show="!lcCtrl.reportsList || lcCtrl.reportsList.length == 0"
+          class="alert alert-info margin-top"
+        >
+          No reports available.
+        </div>
         <ul
           uib-pager
           total-items="lcCtrl.reportsList.length"

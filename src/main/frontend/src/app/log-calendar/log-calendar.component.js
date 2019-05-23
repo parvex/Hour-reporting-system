@@ -10,25 +10,81 @@ angular
     ProjectsService,
     $uibModal,
     $scope,
-    $timeout
+    $timeout,
+    $compile
   ) {
     const lcCtrl = this;
-    lcCtrl.fliterCriteria = new Object();
+    lcCtrl.fliterCriteria = {
+      startDate: getInitialStartDate()
+    };
     lcCtrl.listViewItemsPerPage = 6;
 
-    lcCtrl.openDateFromPickerModal = openDateFromPickerModal;
-    lcCtrl.openDateToPickerModal = openDateToPickerModal;
+    lcCtrl.openStartDatePickerModal = openStartDatePickerModal;
+    lcCtrl.openEndDatePickerModal = openEndDatePickerModal;
 
     lcCtrl.openReportModal = openReportModal;
     lcCtrl.toggleListViewActive = toggleListViewActive;
 
     lcCtrl.provideProjects = provideProjects;
 
-    lcCtrl.dateOptions = {
-      dateDisabled: disabled,
-      minDate: getMinDate(),
+    lcCtrl.startDateOptions = {
       startingDay: 1
     };
+
+    lcCtrl.endDateOptions = {
+      startingDay: 1
+    };
+
+    lcCtrl.uiConfig = {
+      calendar: {
+        editable: false,
+        header: {
+          left: "title",
+          center: "",
+          right: "today prev,next"
+        },
+        eventClick: calendarReportClick,
+        eventRender: eventRender
+      }
+    };
+
+    lcCtrl.reportsEvents = [];
+
+    function eventRender(event, element, view) {
+      element = generateCalendarEventElement(element, event);
+
+      $compile(element)($scope);
+    }
+
+    function generateCalendarEventElement(element, event) {
+      element.attr({
+        "uib-tooltip": "show details",
+        "tooltip-append-to-body": true
+      });
+
+      element.context.innerHTML =
+        '<div class="fc-content"><span class="fc-title">' +
+        event.title +
+        " (" +
+        event.hoursNumber +
+        "h)</span></div>";
+
+      element.context.innerText = event.title + " (" + event.hoursNumber + "h)";
+
+      element.addClass("calendar-event");
+
+      return element;
+    }
+
+    function getInitialStartDate() {
+      const today = new Date();
+      const lastWeek = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate() - 7
+      );
+      return lastWeek;
+    }
 
     $scope.$watch(
       "lcCtrl.fliterCriteria",
@@ -44,43 +100,47 @@ angular
       true
     );
 
-    function openDateFromPickerModal() {
-      lcCtrl.dateFromPickerOpened = true;
+    $scope.$watch("lcCtrl.fliterCriteria.startDate", function(minDate) {
+      if (lcCtrl.fliterCriteria.endDate) lcCtrl.fliterCriteria.endDate = null;
+      lcCtrl.endDateOptions.minDate = minDate;
+    });
+
+    function openStartDatePickerModal() {
+      lcCtrl.startDatePickerOpened = true;
     }
 
-    function openDateToPickerModal() {
-      lcCtrl.dateToPickerOpened = true;
-    }
-
-    // Disable weekend selection
-    function disabled(data) {
-      var date = data.date,
-        mode = data.mode;
-      return mode === "day" && (date.getDay() === 0 || date.getDay() === 6);
-    }
-
-    function getMinDate() {
-      //TODO: return min date
-      return new Date();
+    function openEndDatePickerModal() {
+      lcCtrl.endDatePickerOpened = true;
     }
 
     function loadReports() {
       const request = generateRequest();
 
       ReportsService.getReports(request).then(function(response) {
-        lcCtrl.reportsList = response.list;
+        lcCtrl.reportsList = response;
+        lcCtrl.reportsEvents[0] = generateCalendarReportEvents(
+          lcCtrl.reportsList
+        );
       });
     }
 
     function generateRequest() {
       const request = {
-        dateFrom: lcCtrl.fliterCriteria.dateFrom,
-        dateTo: lcCtrl.fliterCriteria.dateTo,
-        employeesIds: lcCtrl.fliterCriteria.employees,
-        projectsIds: lcCtrl.fliterCriteria.projects
+        dateFrom: lcCtrl.fliterCriteria.startDate,
+        dateTo: lcCtrl.fliterCriteria.endDate,
+        employeeIds: getIdsList(lcCtrl.fliterCriteria.employees),
+        projectIds: getIdsList(lcCtrl.fliterCriteria.projects)
       };
 
       return request;
+    }
+
+    function getIdsList(list) {
+      if (angular.isArray(list) && list.length > 0) {
+        return list.map(function(element) {
+          return element.id;
+        });
+      } else return [];
     }
 
     function toggleListViewActive() {
@@ -105,6 +165,23 @@ angular
 
       modalInstance.result.then(function() {
         loadReports();
+      });
+    }
+
+    function calendarReportClick(report) {
+      openReportModal(report.workReportId);
+    }
+
+    function generateCalendarReportEvents(reports) {
+      return reports.map(function(report) {
+        return {
+          workReportId: report.workReportId,
+          hoursNumber: report.hoursNumber,
+          title: report.employeeName + " " + report.employeeSurname,
+          start: new Date(report.date),
+          end: new Date(report.date),
+          allDay: true
+        };
       });
     }
   });

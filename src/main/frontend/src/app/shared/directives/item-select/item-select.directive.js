@@ -6,7 +6,9 @@ angular.module("hourReportingSystem").directive("itemSelect", function() {
       chosenItemId: "=modelId",
       placeholder: "@",
       disabled: "=?",
-      provider: "&"
+      provider: "&",
+      name: "@",
+      required: "=?"
     },
     templateUrl: "app/shared/directives/item-select/item-select.template.html",
     link: function(scope) {
@@ -16,6 +18,7 @@ angular.module("hourReportingSystem").directive("itemSelect", function() {
       scope.selectedItem = {};
 
       scope.$watch("chosenItem", function() {
+        scope.selectedItem.model = scope.chosenItem;
         loadItemsList();
       });
 
@@ -29,10 +32,13 @@ angular.module("hourReportingSystem").directive("itemSelect", function() {
         };
 
         scope.provider({ request: request }).then(function(response) {
-          scope.itemsList = response.list;
+          scope.itemsList = response;
 
-          if (!containsItem(scope.itemsList, scope.chosenItem)) {
-            scope.itemsList.push({
+          if (
+            scope.chosenItemId &&
+            !containsItem(scope.itemsList, scope.chosenItem)
+          ) {
+            scope.itemsList.unshift({
               id: scope.chosenItemId,
               name: scope.chosenItem
             });
@@ -50,7 +56,7 @@ angular.module("hourReportingSystem").directive("itemSelect", function() {
 
       function onSelected(item) {
         scope.chosenItem = item.name;
-        scope.chosenItem = item.id;
+        scope.chosenItemId = item.id;
       }
     }
   };

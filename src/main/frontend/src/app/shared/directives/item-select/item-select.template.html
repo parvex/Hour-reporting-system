@@ -4,12 +4,14 @@
   ng-disabled="disabled"
   on-select="onSelected($item)"
   class="item-select"
+  name="{{ name }}"
+  ng-required="{{ required }}"
 >
   <ui-select-match placeholder="{{ placeholder }}">{{
     $select.selected.name
   }}</ui-select-match>
   <ui-select-choices
-    repeat="item in itemsList | filter: $select.search"
+    repeat="item.name as item in itemsList | filter: $select.search"
     refresh-delay="500"
     refresh="loadItemsList($select.search)"
   >
