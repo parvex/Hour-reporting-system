@@ -1,27 +1,18 @@
 angular
   .module("hourReportingSystem")
   .controller("EmpDataController", function (
-    $http,
     $scope,
-    AuthService
+    EmployeesService
   ) {
-    $scope.projects = [];
-    $scope.user = AuthService.getUser();
-    $scope.username = $scope.user.username;
+    const EmpDataController = this;
+
+    EmpDataController.projects = [];
     $scope.getProjects = function() {
-      $http({
-        url: "api/getProjects",
-        method: "GET",
-      params: {
-        username: AuthService.getUser().username
+      if($scope.user.id)
+      {
+        EmployeesService.getProjectsHours($scope.user.id).then(function (response) {
+            EmpDataController.projects = response;
+        });
       }
-      }).then(
-        function (res) {
-          $scope.projects = res.data;
-        },
-        function (error) {
-          console.log(error);
-        }
-      )
     }
   });

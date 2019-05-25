@@ -3,7 +3,7 @@
     <div class="panel-heading">My account</div>
     <div class="panel-body">
       <div class="col-md-12">
-        <table ng-controller="EmpDataController" ng-init="getProjects()" class="col-md-7">
+        <table ng-controller="EmpDataController" ng-init="getProjects(user.id)" class="col-md-7">
           <thead>
             <tr>
               <th>Project</th>
@@ -11,8 +11,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="project in projects">
-              <td>{{project.name}}</td>
+            <tr ng-repeat="project in EmpDataController.projects">
+              <td>{{project.projectName}}</td>
               <td>{{project.hours}}</td>
             </tr>
           </tbody>
