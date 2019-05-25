@@ -8,6 +8,7 @@ import com.pik.application.dto.PageOptions;
 import com.pik.application.dto.ProjectsData.IdNameDescription;
 import com.pik.application.dto.ProjectsData.ListIdNameDescriptionTotal;
 import com.pik.application.dto.LongStringStringBooleanListLong;
+import com.pik.application.dto.ProjectsData.ProjectHoursWorked;
 import com.pik.application.repository.ProjectRepository;
 import org.hibernate.jdbc.Work;
 import org.springframework.context.annotation.Lazy;
@@ -99,6 +100,44 @@ public class ProjectService {
         return project;
     }
 
+    public ResponseEntity<List<ProjectHoursWorked>> getProjectHoursByUserId(Long userId)
+    {
+        List<ProjectHoursWorked> result = new ArrayList<ProjectHoursWorked>();
+        List<WorkReport> reports = workReportService.getWorkReportsForUser(userId);
+
+        for(WorkReport report: reports)
+        {
+            if(result.isEmpty())
+            {
+                ProjectHoursWorked entry = new ProjectHoursWorked(report.getProject().getName(), report.getHours());
+                result.add(entry);
+            }
+            else {
+                for (ProjectHoursWorked phw : result)
+                {
+                    if (!phw.getProjectName().equals(report.getProject().getName()))
+                    {
+                        ProjectHoursWorked entry = new ProjectHoursWorked(report.getProject().getName(), report.getHours());
+                        result.add(entry);
+                    }
+                    else
+                    {
+                        result.get(result.size() - 1).addHours(report.getHours());
+                    }
+                }
+            }
+        }
+
+        if(result.isEmpty())
+        {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        else
+        {
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+    }
+
     public ResponseEntity<ListIdNameDescriptionTotal> getProjectsChosen(List<Long> chosenIds, String order, PageOptions options) {
         Long loggedId = userService.getLoggedUser().getId();
         if(chosenIds != null && chosenIds.isEmpty())
@@ -163,4 +202,6 @@ public class ProjectService {
             return new ResponseEntity(HttpStatus.OK);
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
+
+
 }

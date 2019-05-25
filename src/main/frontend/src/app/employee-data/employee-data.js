@@ -11,7 +11,7 @@ angular
     $scope.getProjects = function() {
       $http({
         url: "api/getProjects",
-        method: "POST",
+        method: "GET",
       params: {
         username: AuthService.getUser().username
       }

@@ -43,4 +43,8 @@ public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
 
     @Query("SELECT COUNT(w) FROM WorkReport w WHERE w.project.id = :id AND w.accepted = false AND (w.user.supervisor.id = :loggedId OR :loggedId = 1811)")
     Integer checkNewReports(Long id, Long loggedId);
+
+    @Query("select new com.pik.application.domain.WorkReport(w.date, w.reportedAt, w.hours, w.accepted, w.user, w.project, w.comment)" +
+            " from WorkReport w where w.user.id = :userId order by w.project.name desc")
+    List<WorkReport> findWorkReportsForUser(Long userId);
 }
