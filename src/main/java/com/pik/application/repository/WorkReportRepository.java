@@ -50,6 +50,6 @@ public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
     List<WorkReport> findWorkReportsForUser(Long userId);
 
     @Query("select new com.pik.application.domain.WorkReport(w.date, w.reportedAt, w.hours, w.accepted, w.user, w.project, w.comment)" +
-            "from WorkReport where w.user.id = :userId and w.project.name = '*Employee_Leave*'")
+            "from WorkReport w where w.user.id = :userId and w.project.name = '*Employee_Leave*'")
     List<WorkReport> findUsedLeaveForUser(Long userId);
 }
