@@ -9,6 +9,7 @@ import com.pik.application.dto.ProjectsData.IdNameDescription;
 import com.pik.application.dto.ProjectsData.ListIdNameDescriptionTotal;
 import com.pik.application.dto.LongStringStringBooleanListLong;
 import com.pik.application.dto.ProjectsData.ProjectHoursWorked;
+import com.pik.application.dto.ProjectsData.UsedLeave;
 import com.pik.application.repository.ProjectRepository;
 import org.hibernate.jdbc.Work;
 import org.springframework.context.annotation.Lazy;
@@ -99,6 +100,16 @@ public class ProjectService {
             return new ArrayList<>();
         }
         return project;
+    }
+
+    public ResponseEntity<UsedLeave> getUsedLeaveByUserId(Long userId)
+    {
+        List<WorkReport> reports = workReportService.getUsedLeaveForUser(userId);
+        UsedLeave result = new UsedLeave();
+
+        result.setDays(reports.size());
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     public ResponseEntity<List<ProjectHoursWorked>> getProjectHoursByUserId(Long userId)

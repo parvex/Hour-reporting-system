@@ -1,5 +1,6 @@
 package com.pik.application.repository;
 
+import com.pik.application.dto.ProjectsData.UsedLeave;
 import com.pik.application.dto.WorkReportData.IdEmployeeNameDateHoursComment;
 import com.pik.application.dto.WorkReportData.WorkReportExtraInfo;
 import com.pik.application.domain.WorkReport;
@@ -45,6 +46,10 @@ public interface WorkReportRepository extends JpaRepository<WorkReport, Long> {
     Integer checkNewReports(Long id, Long loggedId);
 
     @Query("select new com.pik.application.domain.WorkReport(w.date, w.reportedAt, w.hours, w.accepted, w.user, w.project, w.comment)" +
-            " from WorkReport w where w.user.id = :userId order by w.project.name desc")
+            " from WorkReport w where w.user.id = :userId and w.project.name <> '*Employee_Leave*' order by w.project.name desc")
     List<WorkReport> findWorkReportsForUser(Long userId);
+
+    @Query("select new com.pik.application.domain.WorkReport(w.date, w.reportedAt, w.hours, w.accepted, w.user, w.project, w.comment)" +
+            "from WorkReport where w.user.id = :userId and w.project.name = '*Employee_Leave*'")
+    List<WorkReport> findUsedLeaveForUser(Long userId);
 }
