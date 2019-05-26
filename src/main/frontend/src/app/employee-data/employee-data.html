@@ -3,17 +3,23 @@
     <div class="panel-heading">My account</div>
     <div class="panel-body">
       <div class="col-md-12">
-        <table ng-controller="EmpDataController" ng-init="getProjects()" class="col-md-7">
+        <table ng-controller="EmpDataController" ng-init="getProjects()"
+               class="table table-bordered table-striped" template-pagination="custom/pager"
+                style="...">
           <thead>
-            <tr>
+          <colgroup>
+            <col class="col-xs-1" />
+            <col class="col-xs-2" />
+          </colgroup>
+            <tr class="text-center">
               <th>Project</th>
-              <th>Time spent</th>
+              <th>Time logged</th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="project in EmpDataController.projects">
+            <tr class="text-center" style="..." ng-repeat="project in projects">
               <td>{{project.projectName}}</td>
-              <td>{{project.hours}}</td>
+              <td>{{project.hours}} h</td>
             </tr>
           </tbody>
         </table>

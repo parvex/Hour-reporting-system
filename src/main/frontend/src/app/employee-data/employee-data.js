@@ -3,17 +3,14 @@ angular
   .controller("EmpDataController", function (
     $scope,
     $cookies,
-    EmployeesService,
-    AuthService
+    EmployeesService
   ) {
-    const EmpDataController = this;
-
-    EmpDataController.projects = [];
+    $scope.projects = [];
     $scope.getProjects = function() {
       if($cookies.getObject("user").id)
       {
         EmployeesService.getProjectsHours($cookies.getObject("user").id).then(function (response) {
-            EmpDataController.projects = response;
+            $scope.projects = response;
         }, function(error) {
             console.log("Error receiving projects");
         });
