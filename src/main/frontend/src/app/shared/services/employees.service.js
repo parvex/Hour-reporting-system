@@ -19,6 +19,12 @@ angular
       })
     }
 
+    function getUsedLeave(employeeId){
+      return $http({url: "/api/usedLeave", method: "GET", params: {id: employeeId}}).then(function (response) {
+        return response.data;
+      })
+    }
+
     function getEmployee(employeeId) {
       return $http.get("/api/employees/" + employeeId).then(function(response) {
         return response.data;
