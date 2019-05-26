@@ -98,12 +98,14 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Project> projects = new HashSet<>();
 
     public Set<Project> getProjects() { return projects; }
 
     public void setProjects(Set<Project> projects) { this.projects = projects;}
+
+    public void addProject(Project project) { projects.add(project); }
 
     public User getSupervisor() { return supervisor; }
 

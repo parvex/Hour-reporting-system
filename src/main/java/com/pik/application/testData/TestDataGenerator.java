@@ -55,6 +55,20 @@ public class TestDataGenerator
             seedProject();
         if(projects1.isEmpty())
             seedUser();
+//        else
+//        {
+//            Project leave = new Project();
+//            leave.setName("*leave*");
+//            leave.setDescription("Dummy project for tracking employees' days off.");
+//            projectRepository.save(leave);
+//            List<User> usersTMP = userRepository.findAll();
+//
+//            for(User usr: usersTMP)
+//            {
+//                usr.getProjects().add(leave);
+//                userRepository.save(usr);
+//            }
+//        }
         if(wr.isEmpty())
             seedWorkReport();
     }
