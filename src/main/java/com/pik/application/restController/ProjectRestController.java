@@ -36,10 +36,10 @@ public class ProjectRestController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR', 'USER')")
-    @GetMapping(value = "/projectsHours/{id}")
-    public ResponseEntity<List<ProjectHoursWorked>> projectsAndHoursById(@PathVariable Long id)
+    @GetMapping(value = "/projectsHours")
+    public ResponseEntity<List<ProjectHoursWorked>> projectsAndHoursById(@RequestParam String id)
     {
-        return projectService.getProjectHoursByUserId(id);
+        return projectService.getProjectHoursByUserId(Long.parseLong(id));
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")

@@ -2,16 +2,20 @@ angular
   .module("hourReportingSystem")
   .controller("EmpDataController", function (
     $scope,
-    EmployeesService
+    $cookies,
+    EmployeesService,
+    AuthService
   ) {
     const EmpDataController = this;
 
     EmpDataController.projects = [];
     $scope.getProjects = function() {
-      if($scope.user.id)
+      if($cookies.getObject("user").id)
       {
-        EmployeesService.getProjectsHours($scope.user.id).then(function (response) {
+        EmployeesService.getProjectsHours($cookies.getObject("user").id).then(function (response) {
             EmpDataController.projects = response;
+        }, function(error) {
+            console.log("Error receiving projects");
         });
       }
     }

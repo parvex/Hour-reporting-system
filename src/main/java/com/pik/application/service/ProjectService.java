@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -102,29 +103,19 @@ public class ProjectService {
 
     public ResponseEntity<List<ProjectHoursWorked>> getProjectHoursByUserId(Long userId)
     {
-        List<ProjectHoursWorked> result = new ArrayList<ProjectHoursWorked>();
         List<WorkReport> reports = workReportService.getWorkReportsForUser(userId);
+        HashMap<Long, ProjectHoursWorked> result = new HashMap<>();
 
         for(WorkReport report: reports)
         {
-            if(result.isEmpty())
+            Long projectId = report.getProject().getId();
+            if(result.containsKey(projectId))
             {
-                ProjectHoursWorked entry = new ProjectHoursWorked(report.getProject().getName(), report.getHours());
-                result.add(entry);
+                result.get(projectId).addHours(report.getHours());
             }
-            else {
-                for (ProjectHoursWorked phw : result)
-                {
-                    if (!phw.getProjectName().equals(report.getProject().getName()))
-                    {
-                        ProjectHoursWorked entry = new ProjectHoursWorked(report.getProject().getName(), report.getHours());
-                        result.add(entry);
-                    }
-                    else
-                    {
-                        result.get(result.size() - 1).addHours(report.getHours());
-                    }
-                }
+            else
+            {
+                result.put(projectId, new ProjectHoursWorked(report.getProject().getName(), report.getHours()));
             }
         }
 
@@ -134,7 +125,7 @@ public class ProjectService {
         }
         else
         {
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(new ArrayList<>(result.values()), HttpStatus.OK);
         }
     }
 

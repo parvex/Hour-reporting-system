@@ -14,7 +14,7 @@ angular
     service.getAssignedEmployees = getAssignedEmployees;
 
     function getProjectsHours(employeeId){
-      return $http.get("/api/projectHours/" + employeeId).then(function (response) {
+      return $http({url: "/api/projectsHours", method: "GET", params: {id: employeeId}}).then(function (response) {
         return response.data;
       })
     }
