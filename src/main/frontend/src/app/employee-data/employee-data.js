@@ -6,7 +6,7 @@ angular
     EmployeesService
   ) {
     $scope.projects = [];
-    $scope.usedLeave = {};
+    $scope.usedLeave;
     $scope.getProjects = function() {
       if($cookies.getObject("user").id)
       {

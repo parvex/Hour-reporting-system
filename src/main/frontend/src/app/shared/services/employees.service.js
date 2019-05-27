@@ -12,6 +12,7 @@ angular
     service.checkUsernameUniqueness = checkUsernameUniqueness;
     service.checkEmailUniqueness = checkEmailUniqueness;
     service.getAssignedEmployees = getAssignedEmployees;
+    service.getUsedLeave = getUsedLeave;
 
     function getProjectsHours(employeeId){
       return $http({url: "/api/projectsHours", method: "GET", params: {id: employeeId}}).then(function (response) {

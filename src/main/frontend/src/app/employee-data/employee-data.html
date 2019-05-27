@@ -1,11 +1,11 @@
 <div class=" col-md-6 col-md-offset-3">
   <div class="panel panel-default">
-    <div class="panel-heading">My account</div>
+    <div class="panel-heading">My statistics</div>
     <div class="panel-body">
       <div class="col-md-12">
         <table ng-controller="EmpDataController" ng-init="getProjects()"
                class="table table-bordered table-striped" template-pagination="custom/pager"
-                style="...">
+                style="float: left">
           <thead>
           <colgroup>
             <col class="col-xs-1" />
@@ -20,6 +20,20 @@
             <tr class="text-center" style="..." ng-repeat="project in projects">
               <td>{{project.projectName}}</td>
               <td>{{project.hours}} h</td>
+            </tr>
+          </tbody>
+        </table>
+        <table ng-controller="EmpDataController" ng-init="getUsedLeave()"
+               class="table table-bordered table-striped" template-pagination="custom/pager"
+               style="float: left">
+          <thead>
+            <tr class="text-center">
+              <th>Days of leave used</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{usedLeave.days}}</td>
             </tr>
           </tbody>
         </table>
