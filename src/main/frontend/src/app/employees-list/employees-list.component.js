@@ -10,6 +10,7 @@ angular
     NgTableParams,
     ProjectsService,
     $state,
+    $rootScope,
     $uibModal
   ) {
     const elCtrl = this;
@@ -69,7 +70,8 @@ angular
     }
 
     function openEmployeeDataView(employeeId){
-      $state.go("employee-data", {userId: employeeId});
+      $rootScope.userSelectId = employeeId;
+      $state.go("employee-data");
     }
 
     function openEmployeeModal(employeeId) {

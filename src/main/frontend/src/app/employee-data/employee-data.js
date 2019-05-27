@@ -4,6 +4,7 @@ angular
     $scope,
     $cookies,
     $stateParams,
+    $rootScope,
     EmployeesService
   ) {
     $scope.projects = [];
@@ -11,14 +12,17 @@ angular
     var userId = null;
 
     $scope.getProjects = function() {
-      if($stateParams.employeeId === null) {
-        userId = $cookies.getObject("user").id;
+      console.log($rootScope.userSelectId);
+      console.log("check");
+
+      if($rootScope.userSelectId) {
+        userId = $rootScope.userSelectId;
       }
       else {
-        userId = $stateParams.employeeId;
+        userId = $cookies.getObject("user").id;
       }
 
-      if(userId)
+      if(userId != null)
       {
         EmployeesService.getProjectsHours(userId).then(function (response) {
             $scope.projects = response;
@@ -29,14 +33,15 @@ angular
     }
 
     $scope.getUsedLeave = function() {
-      if($stateParams.employeeId === null) {
-        userId = $cookies.getObject("user").id;
+      if($rootScope.userSelectId) {
+        userId = $rootScope.userSelectId.toString();
+        $rootScope.userSelectId = null;
       }
       else {
-        userId = $stateParams.employeeId;
+        userId = $cookies.getObject("user").id;
       }
 
-      if(userId)
+      if(userId != null)
       {
         EmployeesService.getUsedLeave(userId).then(function (response) {
           $scope.usedLeave = response;

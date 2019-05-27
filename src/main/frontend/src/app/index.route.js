@@ -61,9 +61,9 @@
       .state("employee-data", {
         parent: "nav",
         url: "/employee-data",
-        params: {
-          userId: null
-        },
+        // params: {
+        //   "userId": ''
+        // },
         views: {
           "content@": {
             templateUrl: "app/employee-data/employee-data.html",
