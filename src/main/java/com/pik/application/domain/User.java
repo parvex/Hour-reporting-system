@@ -105,6 +105,20 @@ public class User implements UserDetails {
 
     public void setProjects(Set<Project> projects) { this.projects = projects;}
 
+    public void removeProjectByName(String name){
+        Project tmp = null;
+
+        for(Project project: projects)
+        {
+            if(project.getName().equals(name))
+            {
+                tmp = project;
+            }
+        }
+
+        projects.remove(tmp);
+    }
+
     public void addProject(Project project) { projects.add(project); }
 
     public User getSupervisor() { return supervisor; }

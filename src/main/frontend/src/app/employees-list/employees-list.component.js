@@ -9,6 +9,7 @@ angular
     EmployeesService,
     NgTableParams,
     ProjectsService,
+    $state,
     $uibModal
   ) {
     const elCtrl = this;
@@ -18,6 +19,7 @@ angular
     elCtrl.provideEmployees = provideEmployees;
     elCtrl.provideProjects = provideProjects;
     elCtrl.showProjectDetails = showProjectDetails;
+    elCtrl.openEmployeeDataView = openEmployeeDataView;
 
     elCtrl.employeesTable = new NgTableParams(
       {},
@@ -64,6 +66,10 @@ angular
 
     function search() {
       reloadEmployeesTable();
+    }
+
+    function openEmployeeDataView(employeeId){
+      $state.go("employee-data", {userId: employeeId});
     }
 
     function openEmployeeModal(employeeId) {

@@ -3,14 +3,24 @@ angular
   .controller("EmpDataController", function (
     $scope,
     $cookies,
+    $stateParams,
     EmployeesService
   ) {
     $scope.projects = [];
     $scope.usedLeave;
+    var userId = null;
+
     $scope.getProjects = function() {
-      if($cookies.getObject("user").id)
+      if($stateParams.employeeId === null) {
+        userId = $cookies.getObject("user").id;
+      }
+      else {
+        userId = $stateParams.employeeId;
+      }
+
+      if(userId)
       {
-        EmployeesService.getProjectsHours($cookies.getObject("user").id).then(function (response) {
+        EmployeesService.getProjectsHours(userId).then(function (response) {
             $scope.projects = response;
         }, function(error) {
             console.log("Error receiving projects");
@@ -19,9 +29,16 @@ angular
     }
 
     $scope.getUsedLeave = function() {
-      if($cookies.getObject("user").id)
+      if($stateParams.employeeId === null) {
+        userId = $cookies.getObject("user").id;
+      }
+      else {
+        userId = $stateParams.employeeId;
+      }
+
+      if(userId)
       {
-        EmployeesService.getUsedLeave($cookies.getObject("user").id).then(function (response) {
+        EmployeesService.getUsedLeave(userId).then(function (response) {
           $scope.usedLeave = response;
         }, function (error) {
           console.log("Error getting used leave");

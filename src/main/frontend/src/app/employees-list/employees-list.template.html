@@ -101,6 +101,11 @@
               uib-tooltip="Edit employee"
               ><i class="glyphicon glyphicon-pencil"></i
             ></span>
+            <span
+              ng-click="elCtrl.openEmployeeDataView(employee.id)"
+              uib-tooltip="View employee stats"
+            ><i class="glyphicon glyphicon-list-alt"></i
+            ></span>
           </td>
         </tr>
       </tbody>
