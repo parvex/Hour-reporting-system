@@ -1,25 +1,21 @@
 <nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button
-        ng-show="user.username"
-        type="button"
-        class="navbar-toggle"
-        ng-click="isNavCollapsed = !isNavCollapsed"
-      >
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button ng-show="user.username" type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
       <a class="navbar-brand" ui-sref="calendar">Hour reporting system</a>
     </div>
     <div
       ng-show="user.username"
       class="navbar-collapse collapse"
       uib-collapse="!isNavCollapsed"
-    >
-      <ul class="nav navbar-nav">
+    >      <ul class="nav navbar-nav">
+                <li ng-show="user.username"><a ui-sref="employee-data">My account</a></li>
         <li ng-show="AuthService.hasRole('ADMIN') || AuthService.hasRole('SUPERVISOR')">
           <a ui-sref="employees">Employees</a>
         </li>

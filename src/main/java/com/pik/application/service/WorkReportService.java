@@ -107,6 +107,16 @@ public class WorkReportService {
         }
     }
 
+    public List<WorkReport> getWorkReportsForUser(Long userId)
+    {
+        return workReportRepository.findWorkReportsForUser(userId);
+    }
+
+    public List<WorkReport> getUsedLeaveForUser(Long userId)
+    {
+        return workReportRepository.findUsedLeaveForUser(userId);
+    }
+
     public ResponseEntity<WorkReport> addNewWorkReport(NewWorkReport body){
         User loggedUser = userService.getLoggedUser();
         Date now = new Date();

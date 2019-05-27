@@ -2,6 +2,7 @@ angular
   .module("hourReportingSystem")
   .factory("EmployeesService", function($http) {
     const service = this;
+    service.getProjectsHours = getProjectsHours;
     service.getEmployee = getEmployee;
     service.saveEmployee = saveEmployee;
     service.updateEmployee = updateEmployee;
@@ -11,6 +12,19 @@ angular
     service.checkUsernameUniqueness = checkUsernameUniqueness;
     service.checkEmailUniqueness = checkEmailUniqueness;
     service.getAssignedEmployees = getAssignedEmployees;
+    service.getUsedLeave = getUsedLeave;
+
+    function getProjectsHours(employeeId){
+      return $http({url: "/api/projectsHours", method: "GET", params: {id: employeeId}}).then(function (response) {
+        return response.data;
+      })
+    }
+
+    function getUsedLeave(employeeId){
+      return $http({url: "/api/usedLeave", method: "GET", params: {id: employeeId}}).then(function (response) {
+        return response.data;
+      })
+    }
 
     function getEmployee(employeeId) {
       return $http.get("/api/employees/" + employeeId).then(function(response) {

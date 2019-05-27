@@ -6,6 +6,8 @@ import com.pik.application.dto.PhraseList;
 import com.pik.application.dto.ProjectsData.ListIdNameDescriptionTotal;
 import com.pik.application.dto.ProjectsData.ListIdsOrderPage;
 import com.pik.application.dto.LongStringStringBooleanListLong;
+import com.pik.application.dto.ProjectsData.ProjectHoursWorked;
+import com.pik.application.dto.ProjectsData.UsedLeave;
 import com.pik.application.service.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,20 @@ public class ProjectRestController {
     @GetMapping(value = "/projects/{id}")
     public ResponseEntity<Project> projectByID(@PathVariable Long id){
         return projectService.projectByID(id);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR', 'USER')")
+    @GetMapping(value = "/projectsHours")
+    public ResponseEntity<List<ProjectHoursWorked>> projectsAndHoursById(@RequestParam String id)
+    {
+        return projectService.getProjectHoursByUserId(Long.parseLong(id));
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR', 'USER')")
+    @GetMapping(value = "/usedLeave")
+    public ResponseEntity<UsedLeave> usedLeaveByUserId(@RequestParam String id)
+    {
+        return projectService.getUsedLeaveByUserId(Long.parseLong(id));
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERVISOR')")
@@ -87,4 +103,6 @@ public class ProjectRestController {
     public ResponseEntity<Project> updateProjectWithEmployees(@RequestBody LongStringStringBooleanListLong project){
         return createProjectWithEmployees(project);
     }
+
+
 }
