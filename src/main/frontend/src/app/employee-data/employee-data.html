@@ -3,7 +3,7 @@
     <div class="panel-heading">My statistics</div>
     <div class="panel-body">
       <div class="col-md-12">
-        <table ng-controller="EmpDataController" ng-init="getProjects()"
+        <table ng-controller="EmpDataController" ng-if="noReports" ng-init="getProjects()"
                class="table table-bordered table-striped" template-pagination="custom/pager"
                 style="float: left">
           <thead>

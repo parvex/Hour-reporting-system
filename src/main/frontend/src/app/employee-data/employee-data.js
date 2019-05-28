@@ -9,23 +9,22 @@ angular
   ) {
     $scope.projects = [];
     $scope.usedLeave;
-    var userId = null;
+    $scope.noReports = true;
+    var userId = $rootScope.userSelectId;
 
     $scope.getProjects = function() {
-      console.log($rootScope.userSelectId);
-      console.log("check");
-
-      if($rootScope.userSelectId) {
-        userId = $rootScope.userSelectId;
-      }
-      else {
+      if(userId === null) {
         userId = $cookies.getObject("user").id;
       }
 
       if(userId != null)
       {
         EmployeesService.getProjectsHours(userId).then(function (response) {
+          if(response) {
             $scope.projects = response;
+            $scope.noReports = false;
+            $rootScope.userSelectId = null;
+          }
         }, function(error) {
             console.log("Error receiving projects");
         });
@@ -33,11 +32,7 @@ angular
     }
 
     $scope.getUsedLeave = function() {
-      if($rootScope.userSelectId) {
-        userId = $rootScope.userSelectId.toString();
-        $rootScope.userSelectId = null;
-      }
-      else {
+      if(userId === null) {
         userId = $cookies.getObject("user").id;
       }
 
@@ -45,6 +40,7 @@ angular
       {
         EmployeesService.getUsedLeave(userId).then(function (response) {
           $scope.usedLeave = response;
+          $rootScope.userSelectId = null;
         }, function (error) {
           console.log("Error getting used leave");
         })
