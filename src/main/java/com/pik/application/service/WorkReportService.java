@@ -21,6 +21,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static java.lang.Math.abs;
+
 @Service
 public class WorkReportService {
 
@@ -136,7 +138,7 @@ public class WorkReportService {
 
         Calendar start = Calendar.getInstance(); start.setTime(startDate);
         Calendar end = Calendar.getInstance(); end.setTime(endDate);
-        if(end.get(Calendar.MONTH) - start.get(Calendar.MONTH) > 1) // don't add more than for one month
+        if(abs(end.get(Calendar.MONTH) - start.get(Calendar.MONTH)) > 1) // don't add more than for one month
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         if(body.getId() != null){ // update
