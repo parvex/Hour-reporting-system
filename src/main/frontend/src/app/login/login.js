@@ -23,6 +23,7 @@ angular
 
             AuthService.setUser(res.data);
             $rootScope.$broadcast("LoginSuccessful");
+            $rootScope.userSelectId = null;
             $state.go("calendar");
           } else {
             $scope.message = "Authetication Failed!";
