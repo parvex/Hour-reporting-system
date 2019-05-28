@@ -22,25 +22,29 @@ import java.util.*;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
+    @Column(name = "name")
     private String name;
 
     @NotBlank
-    @Column(unique = true)
+    @Column(name = "username", unique = true)
     private String username;
 
     @NotBlank
+    @Column(name = "surname")
     private String surname;
 
     @NotBlank
     @NaturalId
+    @Column(name = "email")
     private String email;
 
     @NotBlank
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(name = "password")
     private String password;
 
     @ElementCollection
@@ -49,9 +53,11 @@ public class User implements UserDetails {
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
+    @Column(name = "registered_at")
     private Date registeredAt;
 
     @OneToOne
+    @JoinColumn(name="supervisor_id")
     private User supervisor;
 
     @Override

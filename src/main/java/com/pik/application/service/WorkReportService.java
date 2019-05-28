@@ -136,6 +136,8 @@ public class WorkReportService {
 
         Calendar start = Calendar.getInstance(); start.setTime(startDate);
         Calendar end = Calendar.getInstance(); end.setTime(endDate);
+        if(end.get(Calendar.MONTH) - start.get(Calendar.MONTH) > 1) // don't add more than for one month
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         if(body.getId() != null){ // update
             Optional<WorkReport> findWorkReport = workReportRepository.findById(body.getId());
