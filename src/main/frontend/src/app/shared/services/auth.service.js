@@ -32,11 +32,6 @@ angular
         "Bearer " + data.token;
     }
 
-    function getId()
-    {
-      return id;
-    }
-
     function getUser() {
       return $cookies.getObject("user");
     }

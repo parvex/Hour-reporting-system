@@ -53,8 +53,10 @@ public class TestDataGenerator
 
         if(users1.isEmpty())
             seedProject();
-        if(projects1.isEmpty())
+        if(projects1.isEmpty()) {
             seedUser();
+            addLeave();
+        }
         if(wr.isEmpty())
             seedWorkReport();
     }
@@ -172,5 +174,20 @@ public class TestDataGenerator
         }
 
         log.info("Seeded Work Reports.");
+    }
+
+    private void addLeave()
+    {
+        Project leave = new Project();
+        leave.setName("*Employee_Leave*");
+        leave.setDescription("Dummy project for tracking employees' days off.");
+        projectRepository.save(leave);
+        List<User> usersTMP = userRepository.findAll();
+
+        for(User usr: usersTMP)
+        {
+            usr.getProjects().add(leave);
+            userRepository.save(usr);
+        }
     }
 }

@@ -35,7 +35,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<LongString> findProjectsForUser(Long id);
 
     @Query("SELECT DISTINCT new com.pik.application.dto.ProjectsData.IdNameDescription(p.id, p.name, p.description) FROM Project p, User u " +
-            "WHERE (p MEMBER OF u.projects) AND (p.id IN (:chosenIds) OR (-1 IN (:chosenIds)) OR COALESCE(:chosenIds, NULL) IS NULL) AND (u.supervisor.id = :loggedId OR :loggedId = 1811)")
+            "WHERE (p MEMBER OF u.projects) AND (p.id IN (:chosenIds) OR (-1 IN (:chosenIds)) OR COALESCE(:chosenIds, NULL) IS NULL) AND (u.supervisor.id = :loggedId OR :loggedId = 1811) AND p.name <> '*Employee_Leave*'")
     List<IdNameDescription> findProjectsChosen(@Nullable List<Long> chosenIds, Long loggedId, Pageable page);
 
     Optional<Project> findByName(String name);
