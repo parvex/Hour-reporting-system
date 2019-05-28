@@ -179,7 +179,7 @@ public class TestDataGenerator
     private void addLeave()
     {
         Project leave = new Project();
-        leave.setName("*Employee_Leave*");
+        leave.setName("Employee Leave");
         leave.setDescription("Dummy project for tracking employees' days off.");
         projectRepository.save(leave);
         List<User> usersTMP = userRepository.findAll();
