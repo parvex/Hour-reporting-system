@@ -6,7 +6,7 @@
     <span>{{ item.name }} </span>
     <i
       class="glyphicon glyphicon-trash"
-      ng-click="deleteItem($index, $model)"
+      ng-click="deleteItem(item)"
       uib-tooltip="Delete item"
       ng-show="!disabled"
     ></i>
