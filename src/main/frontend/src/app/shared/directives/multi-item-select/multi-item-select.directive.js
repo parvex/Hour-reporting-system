@@ -52,8 +52,14 @@ angular.module("hourReportingSystem").directive("multiItemSelect", function() {
         scope.selectedItem.model = null;
       }
 
-      function deleteItem(index) {
-        scope.chosenItems.splice(index, 1);
+      function deleteItem(item) {
+        const index = scope.chosenItems.findIndex(function(it) {
+          return it == item;
+        });
+
+        if (index >= 0) {
+          scope.chosenItems.splice(index, 1);
+        }
       }
     }
   };
