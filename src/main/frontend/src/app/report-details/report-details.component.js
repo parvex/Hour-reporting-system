@@ -19,6 +19,7 @@ angular
     $scope.$watch("rdCtrl.report.startDate", function(startDate) {
       if (rdCtrl.report) rdCtrl.report.endDate = null;
       rdCtrl.endDateOptions.minDate = startDate;
+      rdCtrl.endDateOptions.maxDate = getEndDateMaxDate();
     });
 
     rdCtrl.isProjectSelected = isProjectSelected;
@@ -65,6 +66,20 @@ angular
         today.getDate() - 7
       );
       return lastWeek;
+    }
+
+    function getEndDateMaxDate() {
+      let startDate = rdCtrl.report.startDate;
+      if (!startDate) {
+        startDate = new Date();
+      }
+
+      const maxDate = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth() + 1,
+        startDate.getDate()
+      );
+      return maxDate;
     }
 
     // Disable weekend selection

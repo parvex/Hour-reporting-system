@@ -54,8 +54,14 @@ angular
           scope.selectedEmployee.model = null;
         }
 
-        function deleteEmployee(index) {
-          scope.chosenEmployees.splice(index, 1);
+        function deleteEmployee(item) {
+          const index = scope.chosenEmployees.findIndex(function(it) {
+            return it == item;
+          });
+
+          if (index >= 0) {
+            scope.chosenEmployees.splice(index, 1);
+          }
         }
 
         function isEmployeeMe(employee) {
