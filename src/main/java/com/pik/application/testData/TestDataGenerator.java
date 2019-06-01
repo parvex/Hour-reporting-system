@@ -41,6 +41,8 @@ public class TestDataGenerator
         this.userRepository = userRepository;
         this.projectRepository = projectRepository;
         this.workReportRepository = workReportRepository;
+        this.employees = new ArrayList<User>();
+        this.projects = new ArrayList<Project>();
         passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -51,9 +53,9 @@ public class TestDataGenerator
         Optional<Project> projects1 = projectRepository.getFirst();
         Optional<WorkReport> wr = workReportRepository.getFirst();
 
-        if(users1.isEmpty())
+        if(projects1.isEmpty())
             seedProject();
-        if(projects1.isEmpty()) {
+        if(users1.isEmpty()) {
             seedUser();
             addLeave();
         }
@@ -85,7 +87,12 @@ public class TestDataGenerator
 
         User user;
 
-        for(int i = 0; i < 25; i++)
+        if(projects.isEmpty())
+        {
+            projects = projectRepository.findAll();
+        }
+
+        for(int i = 0; i < 17; i++)
         {
             ++index;
             user = new User();
@@ -110,7 +117,7 @@ public class TestDataGenerator
 
         employees = new LinkedList<User>();
 
-        for(int i = 0; i < 250; i++)
+        for(int i = 0; i < 100; i++)
         {
             ++index;
             user = new User();
@@ -140,11 +147,41 @@ public class TestDataGenerator
         DataFactory df = new DataFactory();
         projects = new LinkedList<Project>();
 
-        for(int i = 0; i < 50; i++)
+        List<String> names = new ArrayList<String>();
+
+        names.add("Project Alpha");
+        names.add("Project Bravo");
+        names.add("Project Charlie");
+        names.add("Project Delta");
+        names.add("Project Echo");
+        names.add("Project Foxtrot");
+        names.add("Project Golf");
+        names.add("Project Hotel");
+        names.add("Project India");
+        names.add("Project Juliett");
+        names.add("Project Kilo");
+        names.add("Project Lima");
+        names.add("Project Mike");
+        names.add("Project November");
+        names.add("Project Oscar");
+        names.add("Project Papa");
+        names.add("Project Quebec");
+        names.add("Project Romeo");
+        names.add("Project Sierra");
+        names.add("Project Tango");
+        names.add("Project Uniform");
+        names.add("Project Victor");
+        names.add("Project Whiskey");
+        names.add("Project X-ray");
+        names.add("Project Yankee");
+        names.add("Project Zulu");
+
+
+        for(String name: names)
         {
             Project project = new Project();
-            project.setName(df.getRandomWord());
-            project.setDescription(df.getRandomText(10, 100));
+            project.setName(name);
+            project.setDescription("This is a test project with a test description.");
 
             projects.add(project);
             projectRepository.save(project);
@@ -156,21 +193,24 @@ public class TestDataGenerator
     private void seedWorkReport()
     {
         DataFactory df = new DataFactory();
-        Date minDate = df.getDate(2017, 1, 1);
+        Date minDate = df.getDate(2019, 1, 1);
         Date maxDate = new Date();
 
         for(User emp: employees)
         {
-            WorkReport workReport = new WorkReport();
-            workReport.setDate(df.getDateBetween(minDate,maxDate));
-            workReport.setReportedAt(workReport.getDate());
-            workReport.setHours(df.getNumberUpTo(8));
-            workReport.setAccepted(true);
-            workReport.setUser(emp);
-            workReport.setComment(df.getRandomText(10, 100));
-            Project project = emp.getProjects().iterator().next();
-            workReport.setProject(project);
-            workReportRepository.save(workReport);
+            for(int i = 0; i < 5; i++)
+            {
+                WorkReport workReport = new WorkReport();
+                workReport.setDate(df.getDateBetween(minDate, maxDate));
+                workReport.setReportedAt(workReport.getDate());
+                workReport.setHours(df.getNumberUpTo(8));
+                workReport.setAccepted(true);
+                workReport.setUser(emp);
+                workReport.setComment(df.getRandomText(10, 100));
+                Project project = emp.getProjects().iterator().next();
+                workReport.setProject(project);
+                workReportRepository.save(workReport);
+            }
         }
 
         log.info("Seeded Work Reports.");
