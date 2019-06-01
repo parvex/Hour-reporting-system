@@ -32,7 +32,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByRoles(@Param("role") String role);
 
     @Query("SELECT new com.pik.application.dto.LongString(u.id, CONCAT(u.name,' ',u.surname)) FROM User u WHERE (CONCAT(upper(u.name),' ', u.surname) LIKE CONCAT('%',upper(:phrase),'%') " +
-            "OR :phrase IS NULL) AND ((COALESCE(:chosenIds, NULL) IS NULL) OR (u.id NOT IN (:chosenIds))) AND (u.supervisor.id = :loggedId OR :loggedId = 1811)")
+            "OR :phrase IS NULL) AND ((COALESCE(:chosenIds, NULL) IS NULL) OR (u.id NOT IN (:chosenIds))) AND (u.supervisor.id = :loggedId OR :loggedId = 5594)")
     List<LongString> findByUsernameLike(@Nullable String phrase, @Nullable List<Long> chosenIds, Long loggedId, Pageable pageable);
 
     @Query("SELECT new com.pik.application.dto.LongString(u.id, CONCAT(u.name,' ', u.surname, ' [', u.username, ']')) FROM User u WHERE CONCAT(upper(u.name), ' ' , upper(u.surname)) " +
@@ -42,12 +42,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT DISTINCT new com.pik.application.dto.EmployeeData.IdNameSurEmailSupervisor_NameProjects(u.id, u.name, u.surname, u.email, CONCAT(u.supervisor.name,' ',u.supervisor.surname)) " +
             "FROM User u LEFT JOIN u.projects p WHERE (:email IS NULL OR :email = '' OR upper(u.email) LIKE CONCAT('%',upper(:email),'%')) AND (:name IS NULL OR :name = '' " +
             "OR upper(u.name) LIKE CONCAT('%',upper(:name),'%')) AND (:surname IS NULL OR :surname = '' OR upper(u.surname) LIKE CONCAT('%',upper(:surname),'%')) " +
-            "AND (p.id IN (:projects) OR (-1 IN (:projects)) OR COALESCE(:projects, NULL) IS NULL) AND (:loggedId = u.supervisor.id OR :loggedId = 1811)")
+            "AND (p.id IN (:projects) OR (-1 IN (:projects)) OR COALESCE(:projects, NULL) IS NULL) AND (:loggedId = u.supervisor.id OR :loggedId = 5594)")
     List<IdNameSurEmailSupervisor_NameProjects> findByIdNameSurEmailSupervisorPage(@Nullable String email, @Nullable String name,
                                                                                    @Nullable String surname, @Nullable List<Long> projects, Long loggedId, Pageable page);
 
     @Query("SELECT new com.pik.application.dto.EmployeeData.IdUserNameSurEmailProjectsSupervisorRoles(u.id, u.username, u.name, u.surname, u.email, ''," +
-            "u.supervisor.id, CONCAT(u.supervisor.name,' ',u.supervisor.surname)) FROM User u WHERE (u.id = :id OR (-1 = :id)) AND (u.supervisor.id = :loggedId OR :loggedId = 1811)")
+            "u.supervisor.id, CONCAT(u.supervisor.name,' ',u.supervisor.surname)) FROM User u WHERE (u.id = :id OR (-1 = :id)) AND (u.supervisor.id = :loggedId OR :loggedId = 5594)")
     Optional<IdUserNameSurEmailProjectsSupervisorRoles> getEmployeeById(Long id, Long loggedId);
 
     @Query("SELECT r FROM User u JOIN u.roles r WHERE u.id = :id")
@@ -64,6 +64,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<List<Long>> findEmployeesForProject(Long projectId);
 
     @Query("SELECT new com.pik.application.dto.EmployeeData.IdNameSurUserEmail(u.id, u.name, u.surname, u.username, u.email) FROM User u, Project p " +
-            "WHERE (p MEMBER OF u.projects) AND (p.id = :projectId) AND (u.supervisor.id = :loggedId OR :loggedId = 1811)")
+            "WHERE (p MEMBER OF u.projects) AND (p.id = :projectId) AND (u.supervisor.id = :loggedId OR :loggedId = 5594)")
     List<IdNameSurUserEmail> findEmployeesAssigned(Long projectId, Long loggedId, Pageable page);
 }

@@ -216,7 +216,7 @@ public class UserService {
 
         Set<Project> newProjects = new HashSet<>();
         for (LongString project : body.getProjects()) {
-            newProjects.add(projectService.findById(project.getId())); // returns 500 if projects don't exist
+            newProjects.add(projectService.findById(project.getId()));
         }
         user.setProjects(newProjects);
         userRepository.save(user); // update or save user
