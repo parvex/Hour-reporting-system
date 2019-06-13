@@ -2,7 +2,7 @@
     <servers>
         <server>
             <id>packagecloud-travis</id>
-            <password>9db3ae166e953d55c8c1e53b0066e2feb556f6cff7c21e12</password>
+            <password>****</password>
         </server>
     </servers>
 </settings>
